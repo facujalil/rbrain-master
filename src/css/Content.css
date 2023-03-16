@@ -1,0 +1,265 @@
+/*Secci´ón Gral. - Content*/
+
+.content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 90vh;
+    width: 65%;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 15%;
+}
+
+h1 {
+    font-size: 4em;
+    text-transform: uppercase;
+    -webkit-text-stroke: 2px black;
+    color: white;
+}
+
+/*Login*/
+
+#login {
+    width: auto;
+}
+
+#login .content-principal {
+    height: 100%;
+    width: 80%;
+}
+
+#login form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    width: 80%;
+    height: 85%;
+}
+
+#login form label {
+    width: 100%;
+    font-size: 1.15em;
+    font-weight: 600;
+}
+
+#login form input {
+    width: 100%;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#login form input,
+.theme input {
+    font-family: 'Poppins';
+    border: none;
+    box-shadow: 0 0 0 2px black, 6px 6px 0 black;
+    border-radius: 5px;
+    color: black;
+    height: 3rem;
+    padding: 0 0.5rem;
+    font-size: 1.1em;
+    outline: 0 none;
+}
+
+#login form #submit {
+    margin: 1.5rem 0;
+    background-color: #AC9BCE;
+    color: white;
+    cursor: pointer;
+}
+
+.btn-fotgotten-password {
+    width: 100%;
+    font-style: italic;
+    color: #565656;
+    font-weight: 500;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+/*Login*/
+
+/*.night-mode {
+    height: 3.125rem;
+    width: 3.125rem;
+    background-color: black;
+    border-radius: 8px;
+}*/
+
+.content-principal-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 85%;
+}
+
+.content-principal {
+    box-shadow: 0 0 0 2px black, 10px 10px 0 black;
+    border-radius: 5px;
+    background-color: white;
+    height: 88%;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.content-principal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    box-shadow: 0 2px 0 black;
+    height: calc(20% - 2px);
+    margin-bottom: 2px;
+}
+
+.circle-and-title {
+    display: flex;
+    align-items: center;
+}
+
+.circle-and-title h4 {
+    font-size: 1.875rem;
+    font-weight: 600;
+}
+
+.circle {
+    height: 2.2rem;
+    width: 2.2rem;
+    border: 1px solid black;
+    border-radius: 50%;
+    margin-right: 0.625rem;
+}
+
+/*Flashcards*/
+
+.flashcards-container,
+.categories-container,
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80%;
+}
+
+#generate-flashcards .flashcards-container {
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0 2.5rem;
+    width: 100%;
+}
+
+.flashcards,
+.categories {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 1rem;
+    height: 100%;
+    width: 85%;
+}
+
+/*Scroll*/
+
+.flashcards::-webkit-scrollbar,
+.categories::-webkit-scrollbar {
+    width: 10px;
+}
+
+.flashcards::-webkit-scrollbar-thumb,
+.categories::-webkit-scrollbar-thumb {
+    background-color: #62B5FA;
+    border-radius: 24px;
+    box-shadow: inset 0 0 0 2px black;
+}
+
+.flashcards::-webkit-scrollbar-track,
+.categories::-webkit-scrollbar-track {
+    margin: 25px 50px;
+}
+
+/**/
+
+.flashcards {
+    grid-template-columns: 1fr 1fr;
+}
+
+.category {
+    font-size: 1.4em;
+    margin: 1.3rem;
+    background-color: #62B5FA;
+    width: 8rem;
+    height: 10rem;
+    box-shadow: 0 0 0 2px black, 8px 8px 0 0 white, 8px 8px 0 2px black;
+    color: white;
+}
+
+/*Sección Generate Flashcards*/
+
+.theme {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.theme p {
+    font-size: 1.4em;
+}
+
+.theme input {
+    width: 20%;
+    margin: 0 2rem;
+}
+
+.generate-flashcards-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.generate-flashcards-container input {
+    font-family: 'Poppins';
+    border: none;
+    box-shadow: 0 0 0 2px black, 6px 6px 0 black;
+    border-radius: 5px;
+    color: black;
+    height: 3rem;
+    width: 100%;
+    padding: 0 0.5rem;
+    font-size: 1.1em;
+    outline: 0 none;
+}
+
+.generate-flashcards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+@media screen and (min-width: 1600px) {
+
+    .flashcard,
+    .category {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+
+    #category .flashcards,
+    #generate-flashcards .flashcards {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}

@@ -1,0 +1,45 @@
+.flashcard {
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 1.3rem;
+    background-color: #FFFAED;
+    width: 14rem;
+    height: 7rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+    text-align: initial;
+}
+
+#generate-flashcards .flashcard {
+    height: 6rem;
+    justify-content: center;
+    margin: 0;
+    white-space: normal;
+}
+
+.flashcard-title {
+    font-size: 1em;
+    width: 100%;
+    overflow: hidden;
+    line-height: 1.25em;
+    text-overflow: ellipsis;
+}
+
+.flashcard-theme {
+    font-size: 0.85em;
+    text-align: right;
+    width: 100%;
+    font-style: italic;
+}
+
+@media screen and (min-width: 1600px) {
+    .flashcard {
+        width: 8rem;
+        white-space: normal;
+    }
+
+    #generate-flashcards .flashcard {
+        width: 75%;
+    }
+}

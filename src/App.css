@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;800&family=Plus+Jakarta+Sans:wght@600');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.App,
+button {
+    font-family: 'Poppins';
+}
+
+.App {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url(img/patron.jpg);
+    background-repeat: repeat;
+    background-position: center center;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    border: none;
+}
+
+a,
+button,
+.card,
+.flashcard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0 0 2px black, 6px 6px 0 black;
+    border-radius: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+.nav-container {
+    font-family: 'Plus Jakarta Sans';
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    padding: 1.4rem 1.8rem;
+    box-shadow: 0 0 0 2px black, 10px 10px 0 black;
+    border-radius: 5px;
+    background-color: white;
+    height: 90vh;
+    margin-right: 5rem;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    height: 65%;
+}
+
+.none {
+    display: none;
+}
+
+.nav a {
+    font-size: 1.15em;
+    height: 3rem;
+    width: 100%;
+}
+
+.selected {
+    background-color: #62B5FA;
+    color: white;
+}
+
+.circle-nav {
+    background-color: #62B5FA;
+    border-radius: 50%;
+    height: 11rem;
+    width: 11rem;
+    border: 2px solid black;
+    box-shadow: 2px 2px 0 black;
+}
