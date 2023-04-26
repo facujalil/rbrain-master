@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
-import { Login, Profile, Home, Category, GenerateFlashcards } from './pages';
+import { Register, Login, Profile, Category, GenerateFlashcards, Configuracion, MakeResume } from './pages';
 import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
@@ -15,13 +15,15 @@ function App() {
           <Navigation />
           <Routes>
 
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Profile />} />
             <Route path="/login" element={<Login />} />
+            <Route element={<Register />} path="/register" exact />
+            <Route element={<Configuracion />} path="/configuracion" exact />
             <Route element={<PrivateRoutes />}>
-              <Route element={<Register />} path="/register" exact />
               <Route element={<Profile />} path="/profile" exact />
               <Route element={<Category />} path="/profile/my-flashcards/:categoryId" exact />
               <Route element={<GenerateFlashcards />} path="/generate-flashcards" exact />
+              <Route element={<MakeResume />} path="/make-resume" exact />
             </Route>
 
 
@@ -51,8 +53,8 @@ function Navigation() {
           )*/}
 
             <Link className='nav-link' to="/profile">Profile</Link>
-            <Link className='nav-link' to="/generate-flashcards">Make flashcard</Link>
-            <Link className='nav-link' to="/">Make resume</Link>
+            <Link className='nav-link' to="/generate-flashcards">Generate flashcards</Link>
+            <Link className='nav-link' to="/make-resume">Make resume</Link>
 
           </section>
         </div>

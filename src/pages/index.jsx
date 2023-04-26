@@ -1,12 +1,169 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Content from "../componentes/Content";
 import Button from "../componentes/Button";
 import Flashcard from "../componentes/Flashcard";
+import { useForm } from "react-hook-form";
+
+export const Register = () => {
+
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
+  const [errorRegisterPassword, setErrorRegisterPassword] = useState(false)
+
+  let { loginUser } = useContext(AuthContext)
+
+  const refContent = useRef()
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "register"
+  }, [refContent])
+
+  const registerUser = (valor) => {
+    if (valor.registerPrimerPassword !== valor.registerSegundoPassword) {
+      setErrorRegisterPassword(true)
+    }
+    else {
+      console.log("OK")
+      setErrorRegisterPassword(false)
+    }
+  }
+
+  return (
+    <Content
+      refContent={refContent}
+      title="Register"
+      register={true}
+      upgrade={false}
+      contenido={
+        <form onSubmit={handleSubmit(registerUser)}>
+          <label htmlFor="email">Email</label>
+          <input className={errors.registerEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('registerEmail', {
+            required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+          })} />
+          {
+            errors.registerEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+          }
+          <label htmlFor="password">Contraseña</label>
+          <input className={errors.registerPrimerPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerPrimerPassword', { required: true })} />
+          {
+            errors.registerPrimerPassword && !errorRegisterPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+          }
+          <label htmlFor="password">Contraseña</label>
+          <input className={errors.registerSegundoPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerSegundoPassword', { required: true })} />
+          {
+            errors.registerSegundoPassword && !errorRegisterPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+          }
+          {
+            errorRegisterPassword ? <div className="contenedor-error"><p>Las contraseñas no coinciden</p></div> : null
+          }
+          <input id="submit" type="submit" value="Register" />
+        </form>
+      }
+    />
+  )
+};
+
+export const Login = () => {
+
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
+  let { loginUser, errorLoginApi } = useContext(AuthContext)
+
+  const refContent = useRef()
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "login"
+  }, [refContent])
+
+  return (
+    <Content
+      refContent={refContent}
+      title="Login"
+      upgrade={false}
+      contenido={
+        <form onSubmit={handleSubmit(loginUser)}>
+          <label htmlFor="email">Email</label>
+          <input className={errors.loginEmail || errorLoginApi ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('loginEmail', {
+            required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+          })} />
+          {
+            errors.loginEmail && !errorLoginApi ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+          }
+          <label htmlFor="password">Contraseña</label>
+          <input className={errors.loginPassword || errorLoginApi ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('loginPassword', { required: true })} />
+          {
+            errors.loginPassword && !errorLoginApi ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+          }
+          {
+            errorLoginApi ? <div className="contenedor-error"><p>El email y/o la contraseña son incorrectos</p></div> : null
+          }
+          <input id="submit" type="submit" value="Iniciar Sesión" />
+          <p className="opc-fotgotten-password">Olvidé mi contraseña</p>
+        </form>
+      }
+    />
+  )
+};
+
+export const Configuracion = () => {
+
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
+  let { loginUser } = useContext(AuthContext)
+
+  const refContent = useRef()
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "configuracion"
+  }, [refContent])
+
+  return (
+    <Content
+      refContent={refContent}
+      title="Configuracion"
+      configuracion={true}
+      flashcards={true}
+      add={false}
+      contenido={
+        <>
+          <form onSubmit={handleSubmit(loginUser)}>
+            <label htmlFor="email">Cambiar email</label>
+            <input className={errors.configuracionEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('configuracionEmail', {
+              required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            })} />
+            {
+              errors.configuracionEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+            }
+            <label htmlFor="password">Cambiar contraseña</label>
+            <input className={errors.configuracionPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('configuracionPassword', { required: true })} />
+            {
+              errors.configuracionPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+            }
+            <div className="contenedor-botones">
+              <button className="info-pago">Tu información de pago</button>
+              <button className="logout">Logout</button>
+            </div>
+          </form>
+          <p className="status">Status: free</p>
+        </>
+      }
+    />
+  )
+};
 
 export const Profile = () => {
+
+  const refContent = useRef()
+
+  const [modal, setModal] = useState(false)
+  const [inputModal, setInputModal] = useState(false)
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "profile"
+  }, [refContent])
 
   let [categories, setCategories] = useState([])
 
@@ -37,61 +194,44 @@ export const Profile = () => {
     }
   }
 
-  return (
-    <Content
-      id="profile"
-      title="My carpets"
-      add={true}
-      contenido={
-        <div className="categories">
-          {categories.map(category => (
-            <div key={category.id}>
-              <Link className="category" to={`http://localhost:3000/profile/my-flashcards/${category.id}`}>
-                {category.name}
-              </Link>
-            </div>
-          ))}
-        </div>
-      }
-    />
-  )
-}
+  const addCategory = () => {
+    setModal(true)
+  }
 
-export const Login = () => {
+  const getInputModal = (e) => {
+    setInputModal(e.target.value)
+  }
 
-  let { loginUser } = useContext(AuthContext)
+  const closeModal = () => {
+    setModal(false)
+  }
 
   return (
-    <div>
+
+    <>
+      {modal ? <> <div onClick={closeModal} className="modal"></div>
+        <input className="modal-input" onChange={getInputModal} />
+      </>
+        : null}
+
       <Content
-        id="login"
-        title="Login"
-        upgrade={false}
+        refContent={refContent}
+        title="My carpets"
+        add={true}
+        addCategory={addCategory}
         contenido={
-          <form onSubmit={loginUser}>
-            <label htmlFor="email">Email</label>
-            <input type="email" name="email" placeholder="example@example.com" />
-            <label htmlFor="password">Contraseña</label>
-            <input type="password" name="password" placeholder="••••••••••" />
-            <input id="submit" type="submit" value="Iniciar Sesión" />
-            <p className="btn-fotgotten-password">Olvidé mi contraseña</p>
-          </form>
+          <div className="categories">
+            {categories.map(category => (
+              <div key={category.id}>
+                <Link className="category" to={`/profile/my-flashcards/${category.id}`}>
+                  {category.name}
+                </Link>
+              </div>
+            ))}
+          </div>
         }
       />
-    </div>
-  )
-};
-
-export const Home = () => {
-
-  return (
-    <Content
-      id="home"
-      title="Categories"
-      flashcards={true}
-      add={true}
-      contenido={null}
-    />
+    </>
   )
 };
 
@@ -148,27 +288,27 @@ export const Category = () => {
   return (
     <>
       <Content
-        id="category"
         title={mostrarTitulo()}
         flashcards={true}
-        add={true}
         isLoading={isLoading}
         errorMsg={errorMsg}
         contenido={
           <div className="flashcards">
             {flashcards.map((flashcard) => (
               <Flashcard
+                category={true}
                 key={flashcard.title}
                 title={flashcard.title}
                 mostrarTheme={true}
                 theme={flashcard.theme}
+                info={flashcard.info}
               />
             ))}
           </div>
         }
       />
     </>
-  );
+  )
 };
 
 export const GenerateFlashcards = () => {
@@ -176,6 +316,12 @@ export const GenerateFlashcards = () => {
   const [subject, setSubject] = useState('');
   const [response, setResponse] = useState(null);
   const [category, setCategory] = useState('');
+
+  const refContent = useRef()
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "generate-flashcards"
+  }, [refContent])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -223,7 +369,7 @@ export const GenerateFlashcards = () => {
 
   return (
     <Content
-      id="generate-flashcards"
+      refContent={refContent}
       title={"Generate flashcards"}
       flashcards={true}
       contenido={
@@ -254,5 +400,24 @@ export const GenerateFlashcards = () => {
         </>
       }
     />
-  );
+  )
+};
+
+export const MakeResume = () => {
+
+  const refContent = useRef()
+
+  useEffect(() => {
+    refContent.current.parentNode.id = "make-resume"
+  }, [refContent])
+
+  return (
+    <Content
+      refContent={refContent}
+      title="Categories"
+      flashcards={true}
+      add={true}
+      contenido={null}
+    />
+  )
 };

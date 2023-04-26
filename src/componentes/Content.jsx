@@ -4,7 +4,7 @@ import "../css/Content.css";
 
 function Content(props) {
     return (
-        <section className="content" id={props.id}>
+        <section ref={props.refContent} className="content">
             <div className="content-header">
                 <h1>My robot brain</h1>
                 {/*<div className="night-mode"></div>*/}
@@ -16,7 +16,8 @@ function Content(props) {
                             <div className="circle"></div>
                             <h4>{props.title}</h4>
                         </div>
-                        {props.add ? (<Button href="#" clase="button-add" texto="+" />) : null}
+                        {props.register ? <p className="opc-log-in">Iniciar Sesión</p> : null}
+                        {props.add ? (<Button href="#" clase="button-add" texto="+" add={true} addCategory={props.addCategory} />) : null}
                     </div>
                     <div className={props.flashcards ? "flashcards-container" : props.categories ? "categories-container" : "login-container"}>
                         {props.isLoading ? (
@@ -32,6 +33,12 @@ function Content(props) {
                     <Button href="#" clase="button-upgrade" texto="Upgrade" />
                 )
                     : null}
+                {
+                    props.configuracion ?
+                        <Button href="#" clase="button-premium" texto="¡Hazte Premium!" />
+                        :
+                        null
+                }
             </article>
         </section>
     )

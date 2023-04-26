@@ -7,7 +7,8 @@
 }
 
 .App,
-button {
+button,
+textarea {
     font-family: 'Poppins';
 }
 
@@ -17,9 +18,27 @@ button {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-image: url(img/patron.jpg);
+    background-image: url(img/patron.png);
     background-repeat: repeat;
     background-position: center center;
+}
+
+#profile,
+#make-resume,
+#generate-flashcards {
+    background-color: white;
+}
+
+#configuracion {
+    background-color: #CDCDCD;
+}
+
+#register {
+    background-color: #E8FFA8;
+}
+
+#login {
+    background-color: #FFECA8;
 }
 
 a {
@@ -42,6 +61,7 @@ button,
     border-radius: 5px;
     color: black;
     cursor: pointer;
+    padding: 0 0.5rem;
 }
 
 .nav-container {

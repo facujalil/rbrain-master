@@ -36,3 +36,11 @@
     margin-top: 1rem;
     padding: 0 0.5rem;
 }
+
+.button-premium {
+    background-color: #B4FFA8;
+    color: black;
+    font-size: 1em;
+    height: 2.5rem;
+    padding: 0 0.5rem;
+}

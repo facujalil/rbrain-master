@@ -11,6 +11,11 @@
     text-align: initial;
 }
 
+.flashcard-container {
+    position: relative;
+    height: fit-content;
+}
+
 #generate-flashcards .flashcard {
     height: 6rem;
     justify-content: center;
@@ -31,6 +36,37 @@
     text-align: right;
     width: 100%;
     font-style: italic;
+}
+
+.flashcard-info {
+    text-overflow: initial;
+    white-space: normal;
+    height: auto;
+}
+
+.info {
+    height: auto;
+}
+
+.flashcard-textarea-title {
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.flashcard-textarea-info {
+    resize: none;
+    width: 100%;
+}
+
+.btn-change-flashcard {
+    background-color: #62B5FA;
+    height: 2rem;
+    color: white;
+    width: 5%;
+    position: absolute;
+    bottom: 0;
+    left: 7.9rem;
 }
 
 @media screen and (min-width: 1600px) {

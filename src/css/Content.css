@@ -8,6 +8,10 @@
     width: 65%;
 }
 
+#register .content {
+    height: 95vh;
+}
+
 .content-header {
     display: flex;
     justify-content: space-between;
@@ -22,39 +26,67 @@ h1 {
     color: white;
 }
 
-/*Login*/
+/*Login & Register*/
 
-#login {
+#login section,
+#register section {
     width: auto;
 }
 
-#login .content-principal {
+#login .content-principal,
+#register .content-principal {
     height: 100%;
     width: 80%;
 }
 
-#login form {
+#login form,
+#register form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 80%;
+}
+
+#configuracion form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
-    width: 80%;
-    height: 85%;
+    align-items: flex-start;
+    width: 55%;
+    height: 100%;
 }
 
-#login form label {
+#login form {
+    height: auto;
+    justify-content: flex-start;
+}
+
+#login form label,
+#register form label,
+#configuracion label {
     width: 100%;
     font-size: 1.15em;
     font-weight: 600;
 }
 
-#login form input {
+#login form input,
+#register form input {
     width: 100%;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
 }
 
+#configuracion form input {
+    width: 100%;
+    margin-top: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
 #login form input,
+#register form input,
+#configuracion form input,
 .theme input {
     font-family: 'Poppins';
     border: none;
@@ -67,20 +99,80 @@ h1 {
     outline: 0 none;
 }
 
-#login form #submit {
-    margin: 1.5rem 0;
+#register form .error,
+#login form .error,
+#configuracion form .error {
+    box-shadow: 0 0 0 2px red, 6px 6px 0 red;
+    margin-bottom: 0.5rem;
+}
+
+#register form .contenedor-error,
+#login form .contenedor-error,
+#configuracion form .contenedor-error {
+    color: red;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+#login form #submit,
+#register form #submit {
+    margin: 1.5rem 0 0 0;
     background-color: #AC9BCE;
     color: white;
     cursor: pointer;
 }
 
-.btn-fotgotten-password {
+#login form #submit {
+    margin: 1.5rem 0;
+}
+
+#configuracion .contenedor-botones {
+    display: flex;
     width: 100%;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+}
+
+#configuracion .contenedor-botones button {
+    font-family: 'Poppins';
+    border: none;
+    box-shadow: 0 0 0 2px black, 6px 6px 0 black;
+    border-radius: 5px;
+    color: white;
+    height: 3rem;
+    padding: 0 0.5rem;
+    font-size: 1.1em;
+    outline: 0 none;
+}
+
+#configuracion .info-pago {
+    background-color: #62B5FA;
+}
+
+#configuracion .logout {
+    background-color: #FA7D62;
+}
+
+.opc-fotgotten-password,
+.opc-log-in,
+.status {
     font-style: italic;
-    color: #565656;
     font-weight: 500;
     font-size: 1em;
     cursor: pointer;
+}
+
+.opc-fotgotten-password,
+.opc-log-in {
+    color: #565656;
+}
+
+.status {
+    color: black;
+}
+
+.opc-fotgotten-password {
+    width: 100%;
 }
 
 /*Login*/
@@ -91,6 +183,31 @@ h1 {
     background-color: black;
     border-radius: 8px;
 }*/
+
+/*Modal*/
+
+.modal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-input {
+    position: absolute;
+    font-family: 'Poppins';
+    border: none;
+    box-shadow: 0 0 0 2px black, 6px 6px 0 black;
+    border-radius: 5px;
+    color: black;
+    height: 3rem;
+    padding: 0 0.5rem;
+    font-size: 1.1em;
+    outline: 0 none;
+}
 
 .content-principal-container {
     display: flex;
@@ -117,6 +234,10 @@ h1 {
     box-shadow: 0 2px 0 black;
     height: calc(20% - 2px);
     margin-bottom: 2px;
+}
+
+#register .content-principal-header {
+    height: calc(15% - 2px);
 }
 
 .circle-and-title {
@@ -148,11 +269,21 @@ h1 {
     height: 80%;
 }
 
+#register .login-container {
+    height: 85%;
+}
+
 #generate-flashcards .flashcards-container {
     flex-direction: column;
     justify-content: flex-start;
     padding: 0 2.5rem;
     width: 100%;
+}
+
+#configuracion .flashcards-container {
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 1.25rem 2.5rem;
 }
 
 .flashcards,
