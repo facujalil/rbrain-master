@@ -1,5 +1,5 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Content from "../componentes/Content";
@@ -11,9 +11,28 @@ export const Register = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
+  const navigate = useNavigate()
+
   const [errorRegisterPassword, setErrorRegisterPassword] = useState(false)
 
   let { loginUser } = useContext(AuthContext)
+
+  const registerUser = async (email, contraseña) => {
+    console.log(email, contraseña)
+    let response = await fetch('https://rbrain.onrender.com/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 'email': email, 'password': contraseña })
+    })
+    let data = await response.json()
+    if (response.status === 201) {
+      navigate('/login')
+    } else {
+      console.log("Error")
+    }
+  }
 
   const refContent = useRef()
 
@@ -21,13 +40,13 @@ export const Register = () => {
     refContent.current.parentNode.id = "register"
   }, [refContent])
 
-  const registerUser = (valor) => {
+  const registerValidate = (valor) => {
     if (valor.registerPrimerPassword !== valor.registerSegundoPassword) {
       setErrorRegisterPassword(true)
     }
     else {
-      console.log("OK")
       setErrorRegisterPassword(false)
+      registerUser(valor.registerEmail, valor.registerPrimerPassword)
     }
   }
 
@@ -38,7 +57,7 @@ export const Register = () => {
       register={true}
       upgrade={false}
       contenido={
-        <form onSubmit={handleSubmit(registerUser)}>
+        <form onSubmit={handleSubmit(registerValidate)}>
           <label htmlFor="email">Email</label>
           <input className={errors.registerEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('registerEmail', {
             required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
@@ -206,11 +225,31 @@ export const Profile = () => {
     setModal(false)
   }
 
+  const addNewCategory = async () => {
+    setModal(false)
+    try {
+      const url = 'https://rbrain.onrender.com/create-category';
+      const body = inputModal
+      const headers = {
+        'Content-Type': 'text/plain',
+        Authorization: `Bearer ${authTokens.access_token}`
+      };
+      const response = await fetch(url, { method: 'POST', headers, body });
+
+      if (response.status === 201) {
+        setModal(false)
+        getCategories()
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
 
     <>
       {modal ? <> <div onClick={closeModal} className="modal"></div>
-        <input className="modal-input" onChange={getInputModal} />
+        <input className="modal-input" onChange={getInputModal} /><button className="modal-input" onClick={addNewCategory}>Add</button>
       </>
         : null}
 
@@ -385,6 +424,7 @@ export const GenerateFlashcards = () => {
                     <Flashcard
                       key={card.title}
                       title={card.title}
+                      info={card.info}
                       mostrarTheme={false}
                     />
                   ))}

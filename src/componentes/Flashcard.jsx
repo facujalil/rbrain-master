@@ -65,8 +65,12 @@ function Flashcard(props) {
                         <button className="btn-change-flashcard" onClick={changeFlashcard}></button>
                     </div>
                     :
-                    <div className="flashcard">
-                        <p className="flashcard-title" > {props.title}</p>
+                    <div onClick={mostrarInfo} className={estado ? "flashcard" : "flashcard info"}>
+                        {estado ?
+                            <p className="flashcard-title">{props.title}</p>
+                            :
+                            <p className="flashcard-info">{props.info}</p>
+                        }
                     </div>
             }
         </>
