@@ -261,7 +261,7 @@ export const Profile = () => {
         contenido={
           <div className="categories">
             {categories.map(category => (
-              <div key={category.id}>
+              <div key={category.id} className="category-container">
                 <Link className="category" to={`/profile/my-flashcards/${category.id}`}>
                   {category.name}
                 </Link>
