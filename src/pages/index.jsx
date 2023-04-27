@@ -355,6 +355,29 @@ export const GenerateFlashcards = () => {
   const [subject, setSubject] = useState('');
   const [response, setResponse] = useState(null);
   const [category, setCategory] = useState('');
+  const [nameCategories, setNameCategories] = useState("")
+
+  useEffect(() => {
+    getCategories()
+  }, [])
+
+  let getCategories = async () => {
+    let response = await fetch('https://rbrain.onrender.com/get-categories', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + authTokens.access_token
+
+      }
+    })
+
+    let data = await response.json()
+
+
+    if (response.status === 200) {
+      setNameCategories(data.categories.map(category => category.name))
+    }
+  }
 
   const refContent = useRef()
 
@@ -430,7 +453,7 @@ export const GenerateFlashcards = () => {
                   ))}
                 </div>
                 <form onSubmit={handleSave}>
-                  <input value={category} onChange={handleCategoryChange} />
+                  <select value={category} onChange={handleCategoryChange}> {nameCategories.map(category => <option>{category}</option>)} </select>
                   <Button href="#" clase="btn-save" texto="Save" type="submit" />
                 </form>
               </div>
