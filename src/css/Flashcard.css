@@ -1,8 +1,6 @@
 .flashcard {
     flex-direction: column;
     justify-content: space-between;
-    gap: 1rem;
-    margin: 1.3rem;
     background-color: #FFFAED;
     height: 7rem;
     padding: 0.5rem;
@@ -13,6 +11,7 @@
 .flashcard-container {
     position: relative;
     height: fit-content;
+    margin: 1.3rem;
 }
 
 #generate-flashcards .flashcard {
@@ -22,8 +21,9 @@
     white-space: normal;
 }
 
-.flashcard-title {
+.flashcard-title, .flashcard-info {
     height: auto;
+    width: 100%;
 }
 
 .flashcard-theme {
@@ -34,10 +34,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 0.15rem;
-}
-
-.flashcard-info {
-    height: auto;
 }
 
 .info {
@@ -57,10 +53,8 @@
 
 .btn-change-flashcard {
     background-color: #62B5FA;
-    height: 2rem;
+    height: 1rem;
     color: white;
-    width: 5%;
     position: absolute;
     bottom: 0;
-    left: 7.9rem;
 }

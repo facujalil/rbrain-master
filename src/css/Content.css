@@ -278,6 +278,7 @@ h1 {
     justify-content: flex-start;
     padding: 0 2.5rem;
     width: 100%;
+    margin: 1.3rem;
 }
 
 #configuracion .flashcards-container {
@@ -289,6 +290,7 @@ h1 {
 .flashcards,
 .categories {
     display: grid;
+    grid-template-rows: max-content;
     justify-content: center;
     overflow-y: scroll;
     overflow-x: hidden;
