@@ -22,7 +22,7 @@
 }
 
 #generate-flashcards .info {
-    overflow-y: scroll;
+    height: auto;
     padding: 0.5rem 0 0.5rem 0.5rem;
     justify-content: flex-start;
 }
