@@ -298,7 +298,7 @@ export const Category = () => {
 
         const data = await response.json();
         if (response.status === 200 && data.msg === 'ok') {
-
+          console.log(data.flashcards)
           setFlashcards(data.flashcards);
           setCurrentCategoryFlashcards(data.category)
         } else {

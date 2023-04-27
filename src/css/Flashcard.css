@@ -21,7 +21,14 @@
     white-space: normal;
 }
 
-.flashcard-title, .flashcard-info {
+#generate-flashcards .info {
+    overflow-y: scroll;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    justify-content: flex-start;
+}
+
+.flashcard-title,
+.flashcard-info {
     height: auto;
     width: 100%;
 }
