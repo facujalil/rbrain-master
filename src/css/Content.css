@@ -388,7 +388,7 @@ h1 {
 
 .generate-flashcards {
     display: grid;
-    gap: 1rem;
+    gap: 2rem;
     grid-template-columns: 35% 35%;
     width: 65%;
     height: auto;
