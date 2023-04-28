@@ -296,11 +296,20 @@ export const Category = () => {
         const response = await fetch(url, options);
 
         const data = await response.json();
+
         if (response.status === 200 && data.msg === 'ok') {
-          setFlashcards(data.flashcards);
           setCurrentCategoryFlashcards(data.category)
+          if (data.flashcards.length > 0) {
+            setFlashcards(data.flashcards);
+          }
+          else {
+            console.log(data)
+            const errorMsg = 'No se encontraron flashcards';
+            setErrorMsg(errorMsg);
+          }
         } else {
-          const errorMsg = data.error || 'No se encontraron flashcards';
+          console.log(data)
+          const errorMsg = 'No hay categorías existentes';
           setErrorMsg(errorMsg);
         }
       } catch (error) {
