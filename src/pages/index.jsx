@@ -18,7 +18,6 @@ export const Register = () => {
   let { loginUser } = useContext(AuthContext)
 
   const registerUser = async (email, contraseña) => {
-    console.log(email, contraseña)
     let response = await fetch('https://rbrain.onrender.com/signup', {
       method: 'POST',
       headers: {
@@ -298,7 +297,6 @@ export const Category = () => {
 
         const data = await response.json();
         if (response.status === 200 && data.msg === 'ok') {
-          console.log(data.flashcards)
           setFlashcards(data.flashcards);
           setCurrentCategoryFlashcards(data.category)
         } else {
@@ -453,7 +451,7 @@ export const GenerateFlashcards = () => {
                   ))}
                 </div>
                 <form onSubmit={handleSave}>
-                  <select value={category} onChange={handleCategoryChange}> {nameCategories.map(category => <option>{category}</option>)} </select>
+                  <select value={category} onChange={handleCategoryChange}> {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
                   <Button href="#" clase="btn-save" texto="Save" type="submit" />
                 </form>
               </div>
