@@ -402,8 +402,8 @@ h1 {
     display: grid;
     gap: 2rem;
     grid-template-columns: 35% 35%;
-    width: 65%;
+    width: 70%;
     height: 100%;
     align-items: flex-end;
-    padding: 2rem;
+    padding: 2rem 0;
 }
