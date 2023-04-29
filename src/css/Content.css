@@ -341,13 +341,6 @@ select {
     position: relative;
 }
 
-.btn-delete {
-    position: absolute;
-    right: 0;
-    background-color: red;
-    color: white;
-}
-
 /*Scroll*/
 
 .flashcards::-webkit-scrollbar,

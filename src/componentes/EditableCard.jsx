@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 function EditableCard(props) {
 
-    const [estado, setEstado] = useState(true)
+    const [state, setState] = useState(true)
     const [isEditable, setIsEditable] = useState(false)
     const [titleFlashcard, setTitleFlashcard] = useState(props.title)
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
@@ -26,11 +26,11 @@ function EditableCard(props) {
 
     const showInfo = () => {
         setIsEditable(false)
-        if (estado === true) {
-            return setEstado(false)
+        if (state === true) {
+            return setState(false)
         }
         else {
-            return setEstado(true)
+            return setState(true)
         }
     }
 
@@ -132,11 +132,11 @@ function EditableCard(props) {
             {
                 props.showFlashcards ?
                     <div className="flashcard-container">
-                        <button className="btn-delete" onClick={() => props.deleteFlashcard(props.flashcardId)}>X</button>
-                        <div onClick={!isEditable ? showInfo : null} className={estado ? "flashcard" : "flashcard info"}>
+                        <button className="btn-delete-flashcard" onClick={() => props.deleteFlashcard(props.flashcardId)}>X</button>
+                        <div onClick={!isEditable ? showInfo : null} className={state ? "flashcard" : "flashcard info"}>
 
                             {
-                                estado ?
+                                state ?
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeTitleFlashcard() }}>
                                         <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>OK</button>
                                     </form>
@@ -152,11 +152,12 @@ function EditableCard(props) {
 
                             <p className="flashcard-theme">{props.theme}</p>
                         </div >
-                        <button className="btn-change-flashcard" onClick={changeFlashcard}></button>
+                        <button className="btn-change-flashcard" onClick={() => setIsEditable(!isEditable)}></button>
                     </div>
                     :
                     props.showCategories ?
                         <>
+                            <button className="btn-delete-category" onClick={() => props.deleteCategory(props.categoryId)}>X</button>
                             {
                                 !isEditable ?
                                     <Link className="category" to={`/profile/my-flashcards/${props.categoryId}`}>
@@ -169,15 +170,14 @@ function EditableCard(props) {
                                         </form>
                                     </div>
                             }
-                            <button className="btn-delete" onClick={() => props.deleteCategory(props.categoryId)}>X</button>
-                            <button className="btn-change-flashcard" onClick={changeFlashcard}></button>
+                            <button className="btn-change-category" onClick={() => setIsEditable(!isEditable)}></button>
                         </>
                         :
-                        <div onClick={showInfo} className={estado ? "flashcard" : "flashcard info"}>
-                            {estado ?
-                                <p className="flashcard-title">{props.title}</p>
+                        <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                            {state ?
+                                <p className="category-title">{props.title}</p>
                                 :
-                                <p className="flashcard-info">{props.info}</p>
+                                <p className="category-info">{props.info}</p>
                             }
                         </div>
             }

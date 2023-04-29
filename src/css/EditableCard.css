@@ -1,6 +1,7 @@
 .flashcard {
     flex-direction: column;
     justify-content: space-between;
+    align-items: flex-start;
     background-color: #FFFAED;
     height: 7rem;
     padding: 0.5rem;
@@ -27,21 +28,14 @@
 }
 
 #generate-flashcards .info,
-.flashcard-title {
-    height: auto;
-    padding: 0.5rem;
-    justify-content: flex-start;
-}
-
+.flashcard-title,
 .category-title {
     height: auto;
-    width: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    padding: 0.5rem;
 }
 
-.flashcard-info {
+.flashcard-info,
+.category-info {
     height: auto;
     width: 100%;
 }
@@ -58,6 +52,14 @@
 
 .info {
     height: auto;
+    gap: 0.8rem;
+}
+
+.category-title {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .flashcard-textarea-title,
@@ -72,10 +74,19 @@
     width: 100%;
 }
 
-.btn-change-flashcard {
+.btn-change-flashcard,
+.btn-change-category {
     background-color: #62B5FA;
     height: 1rem;
     color: white;
     position: absolute;
     bottom: 0;
+}
+
+.btn-delete-flashcard,
+.btn-delete-category {
+    position: absolute;
+    right: 0;
+    background-color: red;
+    color: white;
 }
