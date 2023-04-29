@@ -49,7 +49,7 @@ h1 {
     width: 80%;
 }
 
-#configuracion form {
+#configuration form {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -73,7 +73,7 @@ h1 {
 
 #login form label,
 #register form label,
-#configuracion label {
+#configuration label {
     width: 100%;
     font-size: 1.15em;
     font-weight: 600;
@@ -86,7 +86,7 @@ h1 {
     margin-bottom: 1rem;
 }
 
-#configuracion form input {
+#configuration form input {
     width: 100%;
     margin-top: 0.75rem;
     margin-bottom: 1.5rem;
@@ -94,7 +94,7 @@ h1 {
 
 #login form input,
 #register form input,
-#configuracion form input,
+#configuration form input,
 .theme input {
     font-family: 'Poppins';
     border: none;
@@ -109,14 +109,14 @@ h1 {
 
 #register form .error,
 #login form .error,
-#configuracion form .error {
+#configuration form .error {
     box-shadow: 0 0 0 2px red, 6px 6px 0 red;
     margin-bottom: 0.5rem;
 }
 
 #register form .contenedor-error,
 #login form .contenedor-error,
-#configuracion form .contenedor-error {
+#configuration form .contenedor-error {
     color: red;
     width: 100%;
     justify-content: flex-start;
@@ -134,14 +134,14 @@ h1 {
     margin: 1.5rem 0;
 }
 
-#configuracion .contenedor-botones {
+#configuration .contenedor-botones {
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin-top: 0.75rem;
 }
 
-#configuracion .contenedor-botones button {
+#configuration .contenedor-botones button {
     font-family: 'Poppins';
     border: none;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
@@ -153,11 +153,11 @@ h1 {
     outline: 0 none;
 }
 
-#configuracion .info-pago {
+#configuration .info-pago {
     background-color: #62B5FA;
 }
 
-#configuracion .logout {
+#configuration .logout {
     background-color: #FA7D62;
 }
 
@@ -289,7 +289,7 @@ h1 {
     overflow: hidden;
 }
 
-#configuracion .flashcards-container {
+#configuration .flashcards-container {
     justify-content: space-between;
     align-items: flex-end;
     padding: 1.25rem 2.5rem;
@@ -298,13 +298,12 @@ h1 {
 .flashcards,
 .categories {
     display: grid;
-    grid-template-rows: max-content;
+    grid-auto-rows: max-content;
     justify-content: center;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 0 1rem;
     height: 100%;
-    width: 95%;
+    width: 85%;
 }
 
 .flashcards {

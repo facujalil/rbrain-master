@@ -14,6 +14,10 @@
     margin: 1.3rem;
 }
 
+.flashcard-container form {
+    display: flex;
+}
+
 #generate-flashcards .flashcard {
     height: 7rem;
     justify-content: center;

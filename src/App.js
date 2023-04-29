@@ -1,6 +1,6 @@
 import './App.css';
 import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
-import { Register, Login, Profile, Category, GenerateFlashcards, Configuracion, MakeResume } from './pages';
+import { Register, Login, Profile, Category, GenerateFlashcards, Configuration, MakeResume } from './pages';
 import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
@@ -18,7 +18,7 @@ function App() {
             <Route path="/" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route element={<Register />} path="/register" exact />
-            <Route element={<Configuracion />} path="/configuracion" exact />
+            <Route element={<Configuration />} path="/configuration" exact />
             <Route element={<PrivateRoutes />}>
               <Route element={<Profile />} path="/profile" exact />
               <Route element={<Category />} path="/profile/my-flashcards/:categoryId" exact />

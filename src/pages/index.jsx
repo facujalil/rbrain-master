@@ -126,7 +126,7 @@ export const Login = () => {
   )
 };
 
-export const Configuracion = () => {
+export const Configuration = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
@@ -135,30 +135,30 @@ export const Configuracion = () => {
   const refContent = useRef()
 
   useEffect(() => {
-    refContent.current.parentNode.id = "configuracion"
+    refContent.current.parentNode.id = "configuration"
   }, [refContent])
 
   return (
     <Content
       refContent={refContent}
-      title="Configuracion"
-      configuracion={true}
+      title="Configuration"
+      configuration={true}
       flashcards={true}
       add={false}
       contenido={
         <>
           <form onSubmit={handleSubmit(loginUser)}>
             <label htmlFor="email">Cambiar email</label>
-            <input className={errors.configuracionEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('configuracionEmail', {
+            <input className={errors.configurationEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('configurationEmail', {
               required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
             })} />
             {
-              errors.configuracionEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+              errors.configurationEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
             }
             <label htmlFor="password">Cambiar contraseña</label>
-            <input className={errors.configuracionPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('configuracionPassword', { required: true })} />
+            <input className={errors.configurationPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('configurationPassword', { required: true })} />
             {
-              errors.configuracionPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+              errors.configurationPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
             }
             <div className="contenedor-botones">
               <button className="info-pago">Tu información de pago</button>
@@ -303,12 +303,10 @@ export const Category = () => {
             setFlashcards(data.flashcards);
           }
           else {
-            console.log(data)
             const errorMsg = 'No se encontraron flashcards';
             setErrorMsg(errorMsg);
           }
         } else {
-          console.log(data)
           const errorMsg = 'No hay categorías existentes';
           setErrorMsg(errorMsg);
         }
@@ -324,17 +322,17 @@ export const Category = () => {
     getFlashcards();
   }, [categoryId, authTokens, logoutUser]);
 
-  const mostrarTitulo = () => {
+  const showTitle = () => {
     if (currentCategoryFlashcards.length > 0) {
-      const titulo = currentCategoryFlashcards[0].toUpperCase() + currentCategoryFlashcards.slice(1)
-      return `My carpet ${titulo}`
+      const title = currentCategoryFlashcards[0].toUpperCase() + currentCategoryFlashcards.slice(1)
+      return `My carpet ${title}`
     }
   }
 
   return (
     <>
       <Content
-        title={mostrarTitulo()}
+        title={showTitle()}
         flashcards={true}
         isLoading={isLoading}
         errorMsg={errorMsg}
@@ -343,9 +341,10 @@ export const Category = () => {
             {flashcards.map((flashcard) => (
               <Flashcard
                 category={true}
-                key={flashcard.title}
+                key={flashcard.id}
+                flashcardId={flashcard.id}
                 title={flashcard.title}
-                mostrarTheme={true}
+                showTheme={true}
                 theme={flashcard.theme}
                 info={flashcard.info}
               />
@@ -374,7 +373,6 @@ export const GenerateFlashcards = () => {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + authTokens.access_token
-
       }
     })
 
@@ -455,7 +453,7 @@ export const GenerateFlashcards = () => {
                       key={card.title}
                       title={card.title}
                       info={card.info}
-                      mostrarTheme={false}
+                      showTheme={false}
                     />
                   ))}
                 </div>
