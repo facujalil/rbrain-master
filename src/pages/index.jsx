@@ -203,7 +203,6 @@ export const Profile = () => {
 
     let data = await response.json()
 
-
     if (response.status === 200) {
       setCategories(data.categories)
     } else if (response.statusText === 'Unauthorized') {
@@ -236,7 +235,24 @@ export const Profile = () => {
       const response = await fetch(url, { method: 'POST', headers, body });
 
       if (response.status === 201) {
-        setModal(false)
+        getCategories()
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const deleteCategory = async (categoryId) => {
+    try {
+      const url = 'https://rbrain.onrender.com/delete-category';
+      const body = JSON.stringify(categoryId);
+      const headers = {
+        'Content-Type': 'text/plain',
+        Authorization: `Bearer ${authTokens.access_token}`
+      };
+      const response = await fetch(url, { method: 'DELETE', headers, body });
+
+      if (response.status === 200) {
         getCategories()
       }
     } catch (error) {
@@ -248,7 +264,9 @@ export const Profile = () => {
 
     <>
       {modal ? <> <div onClick={closeModal} className="modal"></div>
-        <input className="modal-input" onChange={getInputModal} /><button className="modal-input" onClick={addNewCategory}>Add</button>
+        <div className="container-modal-input">
+          <input className="modal-input" onChange={getInputModal} /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
+        </div>
       </>
         : null}
 
@@ -264,6 +282,7 @@ export const Profile = () => {
                 <Link className="category" to={`/profile/my-flashcards/${category.id}`}>
                   {category.name}
                 </Link>
+                <button className="btn-delete" onClick={() => deleteCategory(category.id)}>X</button>
               </div>
             ))}
           </div>
@@ -413,25 +432,30 @@ export const GenerateFlashcards = () => {
   };
 
   const handleCategoryChange = (e) => {
+    console.log(e.target.value)
     setCategory(e.target.value);
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      const url = 'https://rbrain.onrender.com/save-flashcards';
-      const body = JSON.stringify({ lista_flashcards: response.lista_flashcards, 'theme': subject, 'category': category });
+      if (category) {
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authTokens.access_token}`
-      };
-      const saveResponse = await fetch(url, { method: 'POST', headers, body });
-      const saveData = await saveResponse.json();
-      console.log(saveData);
+        const url = 'https://rbrain.onrender.com/save-flashcards';
+        const body = JSON.stringify({ lista_flashcards: response.lista_flashcards, 'theme': subject, 'category': category });
+
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authTokens.access_token}`
+        };
+        const saveResponse = await fetch(url, { method: 'POST', headers, body });
+        const saveData = await saveResponse.json();
+        console.log(saveData);
+      }
     } catch (error) {
       console.error(error);
     }
+
   };
 
   return (
@@ -458,7 +482,9 @@ export const GenerateFlashcards = () => {
                   ))}
                 </div>
                 <form onSubmit={handleSave}>
-                  <select value={category} onChange={handleCategoryChange}> {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
+                  <select onChange={handleCategoryChange}>
+                    <option selected disabled hidden>Select an option</option>
+                    {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
                   <Button href="#" clase="btn-save" texto="Save" type="submit" />
                 </form>
               </div>
