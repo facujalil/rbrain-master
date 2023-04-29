@@ -12,6 +12,7 @@
     position: relative;
     height: fit-content;
     margin: 1.3rem;
+    position: relative;
 }
 
 .flashcard-container form {
@@ -25,13 +26,21 @@
     white-space: normal;
 }
 
-#generate-flashcards .info {
+#generate-flashcards .info,
+.flashcard-title {
     height: auto;
-    padding: 0.5rem 0 0.5rem 0.5rem;
+    padding: 0.5rem;
     justify-content: flex-start;
 }
 
-.flashcard-title,
+.category-title {
+    height: auto;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .flashcard-info {
     height: auto;
     width: 100%;
@@ -51,7 +60,8 @@
     height: auto;
 }
 
-.flashcard-textarea-title {
+.flashcard-textarea-title,
+.category-textarea-title {
     resize: none;
     overflow: hidden;
     width: 100%;

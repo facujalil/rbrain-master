@@ -1,11 +1,11 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Content from "../componentes/Content";
 import Button from "../componentes/Button";
-import Flashcard from "../componentes/Flashcard";
 import { useForm } from "react-hook-form";
+import EditableCard from "../componentes/EditableCard";
 
 export const Register = () => {
 
@@ -197,7 +197,6 @@ export const Profile = () => {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + authTokens.access_token
-
       }
     })
 
@@ -206,7 +205,6 @@ export const Profile = () => {
     if (response.status === 200) {
       setCategories(data.categories)
     } else if (response.statusText === 'Unauthorized') {
-
       logoutUser()
     }
   }
@@ -224,21 +222,23 @@ export const Profile = () => {
   }
 
   const addNewCategory = async () => {
-    setModal(false)
-    try {
-      const url = 'https://rbrain.onrender.com/create-category';
-      const body = inputModal
-      const headers = {
-        'Content-Type': 'text/plain',
-        Authorization: `Bearer ${authTokens.access_token}`
-      };
-      const response = await fetch(url, { method: 'POST', headers, body });
+    if (inputModal.split(" ").length <= 4 && inputModal.length <= 20) {
+      setModal(false)
+      try {
+        const url = 'https://rbrain.onrender.com/create-category';
+        const body = inputModal
+        const headers = {
+          'Content-Type': 'text/plain',
+          Authorization: `Bearer ${authTokens.access_token}`
+        };
+        const response = await fetch(url, { method: 'POST', headers, body });
 
-      if (response.status === 201) {
-        getCategories()
+        if (response.status === 201) {
+          getCategories()
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
     }
   }
 
@@ -279,10 +279,12 @@ export const Profile = () => {
           <div className="categories">
             {categories.map(category => (
               <div key={category.id} className="category-container">
-                <Link className="category" to={`/profile/my-flashcards/${category.id}`}>
-                  {category.name}
-                </Link>
-                <button className="btn-delete" onClick={() => deleteCategory(category.id)}>X</button>
+                <EditableCard
+                  showCategories={true}
+                  categoryId={category.id}
+                  categoryName={category.name}
+                  deleteCategory={deleteCategory}
+                />
               </div>
             ))}
           </div>
@@ -301,50 +303,69 @@ export const Category = () => {
   const { authTokens, logoutUser } = useContext(AuthContext);
 
   useEffect(() => {
-    const getFlashcards = async () => {
-      try {
-        const url = `https://rbrain.onrender.com/get-flashcards-by-category?category=${parseInt(categoryId)}`;
-        const headers = {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authTokens.access_token}`,
-        };
-        const options = {
-          method: 'GET',
-          headers: headers,
-        };
-        const response = await fetch(url, options);
-
-        const data = await response.json();
-
-        if (response.status === 200 && data.msg === 'ok') {
-          setCurrentCategoryFlashcards(data.category)
-          if (data.flashcards.length > 0) {
-            setFlashcards(data.flashcards);
-          }
-          else {
-            const errorMsg = 'No se encontraron flashcards';
-            setErrorMsg(errorMsg);
-          }
-        } else {
-          const errorMsg = 'No hay categorías existentes';
-          setErrorMsg(errorMsg);
-        }
-      } catch (error) {
-        setErrorMsg(`Ha ocurrido un error al buscar flashcards: ${error}`);
-        if (error.response && error.response.status === 401) {
-          logoutUser();
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    };
     getFlashcards();
   }, [categoryId, authTokens, logoutUser]);
+
+  const getFlashcards = async () => {
+    try {
+      const url = `https://rbrain.onrender.com/get-flashcards-by-category?category=${parseInt(categoryId)}`;
+      const headers = {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authTokens.access_token}`,
+      };
+      const options = {
+        method: 'GET',
+        headers: headers,
+      };
+      const response = await fetch(url, options);
+
+      const data = await response.json();
+
+      if (response.status === 200 && data.msg === 'ok') {
+        setCurrentCategoryFlashcards(data.category)
+        if (data.flashcards.length > 0) {
+          setFlashcards(data.flashcards);
+        }
+        else {
+          const errorMsg = 'No se encontraron flashcards';
+          setErrorMsg(errorMsg);
+        }
+      } else {
+        const errorMsg = 'No hay categorías existentes';
+        setErrorMsg(errorMsg);
+      }
+    } catch (error) {
+      setErrorMsg(`Ha ocurrido un error al buscar flashcards: ${error}`);
+      if (error.response && error.response.status === 401) {
+        logoutUser();
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const showTitle = () => {
     if (currentCategoryFlashcards.length > 0) {
       const title = currentCategoryFlashcards[0].toUpperCase() + currentCategoryFlashcards.slice(1)
       return `My carpet ${title}`
+    }
+  }
+
+  const deleteFlashcard = async (flashcardId) => {
+    try {
+      const url = 'https://rbrain.onrender.com/delete-flashcard';
+      const body = JSON.stringify(flashcardId);
+      const headers = {
+        'Content-Type': 'text/plain',
+        Authorization: `Bearer ${authTokens.access_token}`
+      };
+      const response = await fetch(url, { method: 'DELETE', headers, body });
+
+      if (response.status === 200) {
+        getFlashcards()
+      }
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -358,14 +379,15 @@ export const Category = () => {
         contenido={
           <div className="flashcards">
             {flashcards.map((flashcard) => (
-              <Flashcard
-                category={true}
+              <EditableCard
+                showFlashcards={true}
                 key={flashcard.id}
                 flashcardId={flashcard.id}
                 title={flashcard.title}
                 showTheme={true}
                 theme={flashcard.theme}
                 info={flashcard.info}
+                deleteFlashcard={deleteFlashcard}
               />
             ))}
           </div>
@@ -432,7 +454,6 @@ export const GenerateFlashcards = () => {
   };
 
   const handleCategoryChange = (e) => {
-    console.log(e.target.value)
     setCategory(e.target.value);
   };
 
@@ -450,12 +471,10 @@ export const GenerateFlashcards = () => {
         };
         const saveResponse = await fetch(url, { method: 'POST', headers, body });
         const saveData = await saveResponse.json();
-        console.log(saveData);
       }
     } catch (error) {
       console.error(error);
     }
-
   };
 
   return (
@@ -473,7 +492,7 @@ export const GenerateFlashcards = () => {
               <div className="generate-flashcards-container">
                 <div className="generate-flashcards">
                   {response.lista_flashcards.map((card) => (
-                    <Flashcard
+                    <EditableCard
                       key={card.title}
                       title={card.title}
                       info={card.info}
@@ -482,8 +501,8 @@ export const GenerateFlashcards = () => {
                   ))}
                 </div>
                 <form onSubmit={handleSave}>
-                  <select onChange={handleCategoryChange}>
-                    <option selected disabled hidden>Select an option</option>
+                  <select defaultValue='DEFAULT' onChange={handleCategoryChange}>
+                    <option value="DEFAULT" disabled hidden>Select an option</option>
                     {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
                   <Button href="#" clase="btn-save" texto="Save" type="submit" />
                 </form>

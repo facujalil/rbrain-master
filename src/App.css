@@ -53,7 +53,8 @@ button {
 a,
 button,
 .card,
-.flashcard {
+.flashcard,
+.category {
     display: flex;
     align-items: center;
     justify-content: center;

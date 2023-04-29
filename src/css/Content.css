@@ -65,10 +65,16 @@ h1 {
 
 .generate-flashcards-container form {
     height: 100%;
+    max-width: 25%;
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+select {
+    width: 100%;
 }
 
 #login form label,
