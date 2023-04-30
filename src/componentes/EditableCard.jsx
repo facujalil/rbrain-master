@@ -34,10 +34,6 @@ function EditableCard(props) {
         }
     }
 
-    const changeFlashcard = () => {
-        setIsEditable(!isEditable)
-    }
-
     const autosize = () => {
         const resize = (textarea) => {
             textarea.style.height = 'auto';
@@ -56,7 +52,6 @@ function EditableCard(props) {
 
     const changeTitleFlashcard = async (e) => {
         if (newText) {
-            setIsEditable(false)
             try {
                 const url = 'https://rbrain.onrender.com/edit-flashcard-title';
                 const body = JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
@@ -76,11 +71,11 @@ function EditableCard(props) {
                 console.error(error);
             }
         }
+        setIsEditable(false)
     };
 
     const changeTitleCategory = async (e) => {
         if (newText && newText.split(" ").length <= 4 && newText.length <= 20) {
-            setIsEditable(false)
             try {
                 const url = 'https://rbrain.onrender.com/edit-category-name';
                 const body = JSON.stringify({ 'current_category_id': props.categoryId, 'new_name': newText })
@@ -100,11 +95,11 @@ function EditableCard(props) {
                 console.error(error);
             }
         }
+        setIsEditable(false)
     };
 
     const changeInfo = async (e) => {
         if (newText) {
-            setIsEditable(false)
             try {
                 const url = 'https://rbrain.onrender.com/edit-flashcard-info';
                 const body = JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
@@ -125,6 +120,7 @@ function EditableCard(props) {
                 console.error(error);
             }
         }
+        setIsEditable(false)
     };
 
     return (

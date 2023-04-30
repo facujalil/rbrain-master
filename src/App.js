@@ -27,7 +27,7 @@ function App() {
               <Route path="/generate-flashcards" element={<GenerateFlashcards />} />
               <Route path="/configuration" element={<Configuration />} />
               <Route path="/make-resume" element={<MakeResume />} />
-              <Route path='*' element={<Navigate to={"/"} />} />
+              <Route path='*' element={<Navigate to="/" />} />
 
             </Route>
 
@@ -52,7 +52,7 @@ function Navigation() {
 
           <section className='nav'>
 
-            <Link className='nav-link' to="/profile">Profile</Link>
+            <Link className='nav-link' to="/">Profile</Link>
             <Link className='nav-link' to="/generate-flashcards">Generate flashcards</Link>
             <Link className='nav-link' to="/configuration">Configuration</Link>
             <Link className='nav-link' onClick={logoutUser}>Logout</Link>
