@@ -2,9 +2,9 @@ import { useContext } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
-export const PrivateRoutes = () => {
+export const PublicRoutes = () => {
     let {authTokens} = useContext(AuthContext) 
     return (
-        authTokens ? <Outlet /> : <Navigate to="/login" />
+        authTokens === null ? <Outlet /> : <Navigate to="/" />
     )
 }

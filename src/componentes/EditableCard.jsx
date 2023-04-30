@@ -179,6 +179,7 @@ function EditableCard(props) {
                                 :
                                 <p className="category-info">{props.info}</p>
                             }
+                            <p className="flashcard-theme">{props.theme}</p>
                         </div>
             }
         </>

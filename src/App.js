@@ -1,9 +1,10 @@
 import './App.css';
-import { Routes, Route, BrowserRouter, Link } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Link, Navigate } from 'react-router-dom';
 import { Register, Login, Profile, Category, GenerateFlashcards, Configuration, MakeResume } from './pages';
 import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
+import { PublicRoutes } from './utils/PublicRoutes';
 
 
 function App() {
@@ -15,15 +16,19 @@ function App() {
           <Navigation />
           <Routes>
 
-            <Route path="/" element={<Profile />} />
-            <Route path="/login" element={<Login />} />
-            <Route element={<Register />} path="/register" exact />
-            <Route element={<Configuration />} path="/configuration" exact />
+            <Route element={<PublicRoutes />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
+
             <Route element={<PrivateRoutes />}>
-              <Route element={<Profile />} path="/profile" exact />
-              <Route element={<Category />} path="/profile/my-flashcards/:categoryId" exact />
-              <Route element={<GenerateFlashcards />} path="/generate-flashcards" exact />
-              <Route element={<MakeResume />} path="/make-resume" exact />
+              <Route path="/" element={<Profile />} />
+              <Route path="/profile/my-flashcards/:categoryId" element={<Category />} />
+              <Route path="/generate-flashcards" element={<GenerateFlashcards />} />
+              <Route path="/configuration" element={<Configuration />} />
+              <Route path="/make-resume" element={<MakeResume />} />
+              <Route path='*' element={<Navigate to={"/"} />} />
+
             </Route>
 
 
@@ -36,6 +41,7 @@ function App() {
 
 function Navigation() {
   let { user, logoutUser } = useContext(AuthContext)
+
   return (
     <>
       {user ? (
@@ -46,15 +52,10 @@ function Navigation() {
 
           <section className='nav'>
 
-            { /*user ? (
-            <p className='none' onClick={logoutUser}></p>
-          ) : (
-            <Link className='nav-link' to="/login">Login</Link>
-          )*/}
-
             <Link className='nav-link' to="/profile">Profile</Link>
             <Link className='nav-link' to="/generate-flashcards">Generate flashcards</Link>
-            <Link className='nav-link' to="/make-resume">Make resume</Link>
+            <Link className='nav-link' to="/configuration">Configuration</Link>
+            <Link className='nav-link' onClick={logoutUser}>Logout</Link>
 
           </section>
         </div>

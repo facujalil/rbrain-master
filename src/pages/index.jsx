@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 import Content from "../componentes/Content";
+import EditableCard from "../componentes/EditableCard";
 import Button from "../componentes/Button";
 import { useForm } from "react-hook-form";
-import EditableCard from "../componentes/EditableCard";
 
 export const Register = () => {
 
@@ -381,13 +381,12 @@ export const Category = () => {
             {flashcards.map((flashcard) => (
               <EditableCard
                 showFlashcards={true}
+                deleteFlashcard={deleteFlashcard}
                 key={flashcard.id}
                 flashcardId={flashcard.id}
                 title={flashcard.title}
-                showTheme={true}
-                theme={flashcard.theme}
                 info={flashcard.info}
-                deleteFlashcard={deleteFlashcard}
+                theme={flashcard.theme}
               />
             ))}
           </div>
@@ -444,6 +443,7 @@ export const GenerateFlashcards = () => {
 
       const data = await response.json();
       setResponse(data);
+      console.log(data)
     } catch (error) {
       console.error(error);
     }
@@ -496,7 +496,7 @@ export const GenerateFlashcards = () => {
                       key={card.title}
                       title={card.title}
                       info={card.info}
-                      showTheme={false}
+                      theme={response.theme}
                     />
                   ))}
                 </div>

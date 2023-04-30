@@ -6,7 +6,6 @@ const AuthContext = createContext()
 
 export default AuthContext;
 
-
 export const AuthProvider = ({ children }) => {
 
     const [errorLoginApi, setErrorLoginApi] = useState(false)
@@ -16,7 +15,6 @@ export const AuthProvider = ({ children }) => {
     let [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
-
 
     let loginUser = async (valor) => {
 
