@@ -4,12 +4,12 @@ import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import { PublicRoutes } from './utils/PublicRoutes';
-import { Register } from './componentes/Register';
-import { Login } from './componentes/Login';
-import { Profile } from './componentes/Profile';
-import { Category } from './componentes/Category';
-import { GenerateFlashcards } from './componentes/GenerateFlashcards';
-import { Configuration } from './componentes/Configuration';
+import { Register } from './components/Register';
+import { Login } from './components/Login';
+import { Profile } from './components/Profile';
+import { Category } from './components/Category';
+import { GenerateFlashcards } from './components/GenerateFlashcards';
+import { Configuration } from './components/Configuration';
 
 
 function App() {
