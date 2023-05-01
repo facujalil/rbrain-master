@@ -1,10 +1,15 @@
 import './App.css';
 import { Routes, Route, BrowserRouter, Link, Navigate } from 'react-router-dom';
-import { Register, Login, Profile, Category, GenerateFlashcards, Configuration, MakeResume } from './pages';
 import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import { PublicRoutes } from './utils/PublicRoutes';
+import { Register } from './componentes/Register';
+import { Login } from './componentes/Login';
+import { Profile } from './componentes/Profile';
+import { Category } from './componentes/Category';
+import { GenerateFlashcards } from './componentes/GenerateFlashcards';
+import { Configuration } from './componentes/Configuration';
 
 
 function App() {
@@ -26,7 +31,6 @@ function App() {
               <Route path="/profile/my-flashcards/:categoryId" element={<Category />} />
               <Route path="/generate-flashcards" element={<GenerateFlashcards />} />
               <Route path="/configuration" element={<Configuration />} />
-              <Route path="/make-resume" element={<MakeResume />} />
               <Route path='*' element={<Navigate to="/" />} />
 
             </Route>
