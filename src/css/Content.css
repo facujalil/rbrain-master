@@ -72,12 +72,6 @@ h1 {
     height: 100%;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
 #login form {
     height: auto;
     justify-content: flex-start;
