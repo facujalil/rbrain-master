@@ -1,8 +1,12 @@
 import React from "react";
 import Button from "./Button";
 import "../css/Content.css";
+import { useNavigate } from "react-router-dom";
 
 function Content(props) {
+
+    const navigate = useNavigate()
+
     return (
         <section ref={props.refContent} className="content">
             <div className="content-header">
@@ -16,7 +20,7 @@ function Content(props) {
                             <div className="circle"></div>
                             <h4>{props.title}</h4>
                         </div>
-                        {props.register ? <p className="opc-log-in">Iniciar Sesión</p> : null}
+                        {props.register ? <p className="opc-log-in" onClick={() => navigate("/login")}>Iniciar Sesión</p> : null}
                         {props.add ? (<Button href="#" clase="button-add" texto="+" add={true} addCategory={props.addCategory} />) : null}
                     </div>
                     <div className={props.flashcards ? "flashcards-container" : props.categories ? "categories-container" : "login-container"}>
@@ -25,7 +29,7 @@ function Content(props) {
                         ) : props.errorMsg ? (
                             <p>{props.errorMsg}</p>
                         ) : (
-                            props.contenido
+                            props.content
                         )}
                     </div>
                 </div>

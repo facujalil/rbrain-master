@@ -8,10 +8,6 @@
     width: 65%;
 }
 
-#register .content {
-    height: 95vh;
-}
-
 .content-header {
     display: flex;
     justify-content: space-between;
@@ -28,25 +24,63 @@ h1 {
 
 /*Login & Register*/
 
-#login section,
-#register section {
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#register .content,
+#login .content {
+    height: 95vh;
+    width: 100%;
+    align-items: center;
+}
+
+#register .content-header,
+#login .content-header {
+    justify-content: center;
+}
+
+#register .content-principal-container,
+#login .content-principal-container {
+    width: 60%;
+}
+
+#register section,
+#login section {
     width: auto;
 }
 
-#login .content-principal,
-#register .content-principal {
+#register .content-principal,
+#login .content-principal {
     height: 100%;
-    width: 80%;
 }
 
-#login form,
-#register form {
+#register .content-principal,
+#login .content-principal {
+    width: 55%;
+}
+
+#register form,
+#login form {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     height: auto;
     width: 80%;
+}
+
+#register .form-validate {
+    justify-content: flex-start;
+    padding-top: 4rem;
+    height: 100%;
+}
+
+#login form {
+    height: auto;
+    justify-content: flex-start;
 }
 
 #configuration form {
@@ -56,11 +90,6 @@ h1 {
     align-items: flex-start;
     width: 55%;
     height: 100%;
-}
-
-#login form {
-    height: auto;
-    justify-content: flex-start;
 }
 
 .generate-flashcards-container form {
@@ -77,16 +106,16 @@ select {
     width: 100%;
 }
 
-#login form label,
 #register form label,
+#login form label,
 #configuration label {
     width: 100%;
     font-size: 1.15em;
     font-weight: 600;
 }
 
-#login form input,
-#register form input {
+#register form input,
+#login form input {
     width: 100%;
     margin-top: 0.5rem;
     margin-bottom: 1rem;
@@ -98,8 +127,8 @@ select {
     margin-bottom: 1.5rem;
 }
 
-#login form input,
 #register form input,
+#login form input,
 #configuration form input,
 .theme input {
     font-family: 'Poppins';
@@ -120,16 +149,16 @@ select {
     margin-bottom: 0.5rem;
 }
 
-#register form .contenedor-error,
-#login form .contenedor-error,
-#configuration form .contenedor-error {
+#register form .container-error,
+#login form .container-error,
+#configuration form .container-error {
     color: red;
     width: 100%;
     justify-content: flex-start;
 }
 
-#login form #submit,
-#register form #submit {
+#register form #submit,
+#login form #submit {
     margin: 1.5rem 0 0 0;
     background-color: #AC9BCE;
     color: white;
@@ -140,14 +169,14 @@ select {
     margin: 1.5rem 0;
 }
 
-#configuration .contenedor-botones {
+#configuration .container-buttons {
     display: flex;
     width: 100%;
     justify-content: space-between;
     margin-top: 0.75rem;
 }
 
-#configuration .contenedor-botones button {
+#configuration .container-buttons button {
     font-family: 'Poppins';
     border: none;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
@@ -159,7 +188,7 @@ select {
     outline: 0 none;
 }
 
-#configuration .info-pago {
+#configuration .info-pay {
     background-color: #62B5FA;
 }
 
@@ -328,11 +357,11 @@ select {
 }
 
 .flashcards {
-    grid-template-columns: repeat(auto-fit, 16rem);
+    grid-template-columns: repeat(auto-fill, 16rem);
 }
 
 .categories {
-    grid-template-columns: repeat(auto-fit, 12rem);
+    grid-template-columns: repeat(auto-fill, 12rem);
 }
 
 .category-container {

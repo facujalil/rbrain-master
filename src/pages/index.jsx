@@ -11,11 +11,11 @@ export const Register = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
 
-  const navigate = useNavigate()
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [requestCode, setRequestCode] = useState(false)
 
   const [errorRegisterPassword, setErrorRegisterPassword] = useState(false)
-
-  let { loginUser } = useContext(AuthContext)
 
   const registerUser = async (email, contraseña) => {
     let response = await fetch('https://rbrain.onrender.com/signup', {
@@ -26,10 +26,10 @@ export const Register = () => {
       body: JSON.stringify({ 'email': email, 'password': contraseña })
     })
     let data = await response.json()
-    if (response.status === 201) {
-      navigate('/login')
+    if (response.status !== 201) {
+      setRequestCode(true)
     } else {
-      console.log("Error")
+      setErrorRegisterPassword('invalidPassword')
     }
   }
 
@@ -39,14 +39,20 @@ export const Register = () => {
     refContent.current.parentNode.id = "register"
   }, [refContent])
 
-  const registerValidate = (valor) => {
-    if (valor.registerPrimerPassword !== valor.registerSegundoPassword) {
-      setErrorRegisterPassword(true)
+  const registerValidate = (value) => {
+    if (value.registerFirstPassword !== value.registerSecondPassword) {
+      setErrorRegisterPassword('unequalPasswords')
     }
     else {
       setErrorRegisterPassword(false)
-      registerUser(valor.registerEmail, valor.registerPrimerPassword)
+      setEmail(value.registerEmail)
+      setPassword(value.registerFirstPassword)
+      registerUser(value.registerEmail, value.registerFirstPassword)
     }
+  }
+
+  const validateCode = (value) => {
+    console.log(email, password, value.code)
   }
 
   return (
@@ -55,30 +61,38 @@ export const Register = () => {
       title="Register"
       register={true}
       upgrade={false}
-      contenido={
-        <form onSubmit={handleSubmit(registerValidate)}>
-          <label htmlFor="email">Email</label>
-          <input className={errors.registerEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('registerEmail', {
-            required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-          })} />
-          {
-            errors.registerEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
-          }
-          <label htmlFor="password">Contraseña</label>
-          <input className={errors.registerPrimerPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerPrimerPassword', { required: true })} />
-          {
-            errors.registerPrimerPassword && !errorRegisterPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
-          }
-          <label htmlFor="password">Contraseña</label>
-          <input className={errors.registerSegundoPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerSegundoPassword', { required: true })} />
-          {
-            errors.registerSegundoPassword && !errorRegisterPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
-          }
-          {
-            errorRegisterPassword ? <div className="contenedor-error"><p>Las contraseñas no coinciden</p></div> : null
-          }
-          <input id="submit" type="submit" value="Register" />
-        </form>
+      content={
+        requestCode ?
+          <form className="form-validate" onSubmit={handleSubmit(validateCode)}>
+            <label htmlFor="validate">Te hemos enviado un código de verificación al email</label>
+            <input type="number" id="validate" placeholder="Ingrese el código" {...register('code', {
+              required: true
+            })} />
+          </form>
+          :
+          <form onSubmit={handleSubmit(registerValidate)}>
+            <label htmlFor="email">Email</label>
+            <input className={errors.registerEmail ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('registerEmail', {
+              required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+            })} />
+            {
+              errors.registerEmail ? <div className="container-error"><p>Ingresa un email</p></div> : null
+            }
+            <label htmlFor="password">Contraseña</label>
+            <input className={errors.registerFirstPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerFirstPassword', { required: true })} />
+            {
+              errors.registerFirstPassword && !errorRegisterPassword ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
+            }
+            <label htmlFor="password">Contraseña</label>
+            <input className={errors.registerSecondPassword || errorRegisterPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('registerSecondPassword', { required: true })} />
+            {
+              errors.registerSecondPassword && !errorRegisterPassword ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
+            }
+            {
+              errorRegisterPassword === 'invalidPassword' ? <div className="container-error"><p>La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, una minúscula y un dígito</p></div> : errorRegisterPassword === 'unequalPasswords' ? <div className="container-error"><p>Las contraseñas no coinciden</p></div> : null
+            }
+            <input id="submit" type="submit" value="Register" />
+          </form>
       }
     />
   )
@@ -101,22 +115,22 @@ export const Login = () => {
       refContent={refContent}
       title="Login"
       upgrade={false}
-      contenido={
+      content={
         <form onSubmit={handleSubmit(loginUser)}>
           <label htmlFor="email">Email</label>
           <input className={errors.loginEmail || errorLoginApi ? "error" : null} type="text" name="email" placeholder="example@example.com" {...register('loginEmail', {
             required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
           })} />
           {
-            errors.loginEmail && !errorLoginApi ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+            errors.loginEmail && !errorLoginApi ? <div className="container-error"><p>Ingresa un email</p></div> : null
           }
           <label htmlFor="password">Contraseña</label>
           <input className={errors.loginPassword || errorLoginApi ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('loginPassword', { required: true })} />
           {
-            errors.loginPassword && !errorLoginApi ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+            errors.loginPassword && !errorLoginApi ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
           }
           {
-            errorLoginApi ? <div className="contenedor-error"><p>El email y/o la contraseña son incorrectos</p></div> : null
+            errorLoginApi ? <div className="container-error"><p>El email y/o la contraseña son incorrectos</p></div> : null
           }
           <input id="submit" type="submit" value="Iniciar Sesión" />
           <p className="opc-fotgotten-password">Olvidé mi contraseña</p>
@@ -145,7 +159,7 @@ export const Configuration = () => {
       configuration={true}
       flashcards={true}
       add={false}
-      contenido={
+      content={
         <>
           <form onSubmit={handleSubmit(loginUser)}>
             <label htmlFor="email">Cambiar email</label>
@@ -153,15 +167,15 @@ export const Configuration = () => {
               required: true, pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
             })} />
             {
-              errors.configurationEmail ? <div className="contenedor-error"><p>Ingresa un email</p></div> : null
+              errors.configurationEmail ? <div className="container-error"><p>Ingresa un email</p></div> : null
             }
             <label htmlFor="password">Cambiar contraseña</label>
             <input className={errors.configurationPassword ? "error" : null} type="password" name="password" placeholder="••••••••••" {...register('configurationPassword', { required: true })} />
             {
-              errors.configurationPassword ? <div className="contenedor-error"><p>Ingresa una contraseña</p></div> : null
+              errors.configurationPassword ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
             }
-            <div className="contenedor-botones">
-              <button className="info-pago">Tu información de pago</button>
+            <div className="container-buttons">
+              <button className="info-pay">Tu información de pago</button>
               <button className="logout">Logout</button>
             </div>
           </form>
@@ -222,7 +236,7 @@ export const Profile = () => {
   }
 
   const addNewCategory = async () => {
-    if (inputModal.split(" ").length <= 4 && inputModal.length <= 20) {
+    if (inputModal.split(" ").length <= 4 && inputModal.length <= 30) {
       setModal(false)
       try {
         const url = 'https://rbrain.onrender.com/create-category';
@@ -275,7 +289,7 @@ export const Profile = () => {
         title="My carpets"
         add={true}
         addCategory={addCategory}
-        contenido={
+        content={
           <div className="categories">
             {categories.map(category => (
               <div key={category.id} className="category-container">
@@ -376,7 +390,7 @@ export const Category = () => {
         flashcards={true}
         isLoading={isLoading}
         errorMsg={errorMsg}
-        contenido={
+        content={
           <div className="flashcards">
             {flashcards.map((flashcard) => (
               <EditableCard
@@ -432,20 +446,22 @@ export const GenerateFlashcards = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const url = 'https://rbrain.onrender.com/generate-flashcards';
-      const body = JSON.stringify({ theme: subject });
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
-      };
-      const response = await fetch(url, { method: 'POST', headers, body });
+    if (subject.split(" ").length <= 4 && subject.length <= 30) {
+      try {
+        const url = 'https://rbrain.onrender.com/generate-flashcards';
+        const body = JSON.stringify({ theme: subject });
+        const headers = {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
+        };
+        const response = await fetch(url, { method: 'POST', headers, body });
 
-      const data = await response.json();
-      setResponse(data);
-      console.log(data)
-    } catch (error) {
-      console.error(error);
+        const data = await response.json();
+        setResponse(data);
+        console.log(data)
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -482,10 +498,10 @@ export const GenerateFlashcards = () => {
       refContent={refContent}
       title={"Generate flashcards"}
       flashcards={true}
-      contenido={
+      content={
         <>
           <form onSubmit={handleSubmit} className="theme">
-            <p>Theme:</p><input type="text" value={subject} onChange={handleChange} /><Button href="#" clase="btn-generate" texto="Generate" />
+            <p>Theme:</p><input type="text" value={subject} onChange={handleChange} placeholder="Ej: Descubrimientos de Einstein" /><Button href="#" clase="btn-generate" texto="Generate" />
           </form>
           {response && (
             <>
@@ -530,7 +546,7 @@ export const MakeResume = () => {
       title="Categories"
       flashcards={true}
       add={true}
-      contenido={null}
+      content={null}
     />
   )
 };
