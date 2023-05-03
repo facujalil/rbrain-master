@@ -1,9 +1,9 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Content from "./Content";
+import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import FormSendCodeValidation from "./FormSendCodeValidation";
-import FormChangeEmail from "./FormChangeEmail";
-import FormChangePassword from "./FormChangePassword";
+import FormSendCodeValidation from "../components/FormSendCodeValidation";
+import FormChangeEmail from "../components/FormChangeEmail";
+import FormChangePassword from "../components/FormChangePassword";
 
 export const Configuration = () => {
 

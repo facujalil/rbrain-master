@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Content from "./Content";
+import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import EditableCard from "./EditableCard";
+import EditableCard from "../components/EditableCard";
+import LoadingCategories from "../skeletonsLoading/LoadingCategories";
 
 export const Profile = () => {
 
@@ -9,6 +10,7 @@ export const Profile = () => {
 
     const [modal, setModal] = useState(false)
     const [inputModal, setInputModal] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         refContent.current.parentNode.id = "profile"
@@ -41,6 +43,9 @@ export const Profile = () => {
             }
         } catch (error) {
             console.error(error);
+        }
+        finally {
+            setIsLoading(false)
         }
     }
 
@@ -106,7 +111,6 @@ export const Profile = () => {
                 </div>
             </>
                 : null}
-
             <Content
                 refContent={refContent}
                 title="My carpets"
@@ -114,17 +118,20 @@ export const Profile = () => {
                 add={true}
                 addCategory={addCategory}
                 content={
-                    <div className="categories">
-                        {categories.map(category => (
-                            <div key={category.id} className="category-container">
-                                <EditableCard
-                                    showCategories={true}
-                                    categoryId={category.id}
-                                    categoryName={category.name}
-                                    deleteCategory={deleteCategory}
-                                />
-                            </div>
-                        ))}
+                    <div id={isLoading ? "categories-loading" : null} className="categories">
+                        {isLoading ?
+                            <LoadingCategories />
+                            :
+                            categories.map(category => (
+                                <div key={category.id} className="category-container">
+                                    <EditableCard
+                                        showCategories={true}
+                                        categoryId={category.id}
+                                        categoryName={category.name}
+                                        deleteCategory={deleteCategory}
+                                    />
+                                </div>
+                            ))}
                     </div>
                 }
             />

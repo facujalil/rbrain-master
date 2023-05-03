@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import Content from "./Content";
+import Content from "../components/Content";
 import { useNavigate } from "react-router-dom";
 
 export const Register = () => {

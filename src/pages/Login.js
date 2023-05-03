@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import Content from "./Content";
+import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 
 export const Login = () => {
@@ -19,6 +19,7 @@ export const Login = () => {
         <Content
             refContent={refContent}
             title="Login"
+            login={true}
             upgrade={false}
             content={
                 <form onSubmit={handleSubmit(loginUser)}>

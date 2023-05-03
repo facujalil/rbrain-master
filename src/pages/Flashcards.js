@@ -1,21 +1,23 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Content from "./Content";
+import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import EditableCard from "./EditableCard";
+import EditableCard from "../components/EditableCard";
 import { useParams } from "react-router-dom";
+import LoadingFlashcards from "../skeletonsLoading/LoadingFlashcards";
 
-export const MyCarpet = () => {
+export const Flashcards = () => {
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
     const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("")
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
+    const [gridColumns, setGridColumns] = useState('default')
 
     const refContent = useRef()
 
     useEffect(() => {
-        refContent.current.parentNode.id = "my-carpet"
+        refContent.current.parentNode.id = "flashcards"
     }, [refContent])
 
     useEffect(() => {
@@ -51,7 +53,6 @@ export const MyCarpet = () => {
                 setErrorMsg(errorMsg);
             }
         } catch (error) {
-            setErrorMsg(`Ha ocurrido un error al buscar flashcards: ${error}`);
             if (error.response && error.response.status === 401) {
                 logoutUser();
             }
@@ -91,21 +92,24 @@ export const MyCarpet = () => {
                 refContent={refContent}
                 title={showTitle()}
                 flashcards={true}
-                isLoading={isLoading}
-                errorMsg={errorMsg}
+                selectGridColumns={true}
+                setGridColumns={setGridColumns}
                 content={
-                    <div className="flashcards">
-                        {flashcards.map((flashcard) => (
-                            <EditableCard
-                                showFlashcards={true}
-                                deleteFlashcard={deleteFlashcard}
-                                key={flashcard.id}
-                                flashcardId={flashcard.id}
-                                title={flashcard.title}
-                                info={flashcard.info}
-                                theme={flashcard.theme}
-                            />
-                        ))}
+                    <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards"}>
+                        {isLoading ?
+                            <LoadingFlashcards />
+                            :
+                            flashcards.map((flashcard) => (
+                                <EditableCard
+                                    showFlashcards={true}
+                                    deleteFlashcard={deleteFlashcard}
+                                    key={flashcard.id}
+                                    flashcardId={flashcard.id}
+                                    title={flashcard.title}
+                                    info={flashcard.info}
+                                    theme={flashcard.theme}
+                                />
+                            ))}
                     </div>
                 }
             />

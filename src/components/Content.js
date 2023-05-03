@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/Content.css";
 import { useNavigate } from "react-router-dom";
 
@@ -19,17 +19,25 @@ function Content(props) {
                             <div className="circle"></div>
                             <h4>{props.title}</h4>
                         </div>
+                        {
+                            props.selectGridColumns ?
+                                <select className="select-grid-columns" onChange={(e) => props.setGridColumns(e.target.value)}>
+                                    <option>default</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                </select>
+                                :
+                                null
+                        }
                         {props.register ? <p className="opc-log-in" onClick={() => navigate("/login")}>Iniciar Sesión</p> : null}
                         {props.add ? (<button onClick={props.addCategory} className="btn-add">+</button>) : null}
                     </div>
-                    <div className={props.flashcards ? "flashcards-container" : props.categories ? "categories-container" : props.configuration ? "configuration-container" : "login-container"}>
-                        {props.isLoading ? (
-                            <p>Cargando...</p>
-                        ) : props.errorMsg ? (
-                            <p>{props.errorMsg}</p>
-                        ) : (
+                    <div className={props.register ? "register-container" : props.login ? "login-container" : props.categories ? "categories-container" : props.flashcards ? "flashcards-container" : props.makeResume ? "make-resume-container" : props.configuration ? "configuration-container" : null}>
+                        {
                             props.content
-                        )}
+                        }
                     </div>
                 </div>
                 {props.upgrade ? (

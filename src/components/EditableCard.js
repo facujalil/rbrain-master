@@ -145,15 +145,15 @@ function EditableCard(props) {
                                         <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
                                     </form>
                                         :
-                                        <p className="flashcard-title">{titleFlashcard}</p>
+                                        <div className="flashcard-title"><p>{titleFlashcard}</p></div>
                                     :
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeInfo() }}>
                                         <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
                                     </form>
                                         :
-                                        <p className="flashcard-info">{infoFlashcard}</p>
+                                        <div className="flashcard-info"><p>{infoFlashcard}</p></div>
                             }
-                            <p className="flashcard-theme">{props.theme}</p>
+                            <div className="flashcard-theme"><p>{props.theme}</p></div>
                         </div >
 
                     </div>
@@ -187,13 +187,15 @@ function EditableCard(props) {
                             }
                         </>
                         :
-                        <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
-                            {state ?
-                                <p className="category-title">{props.title}</p>
-                                :
-                                <p className="category-info">{props.info}</p>
-                            }
-                            <p className="flashcard-theme">{props.theme}</p>
+                        <div className="flashcard-container">
+                            <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                                {state ?
+                                    <div className="flashcard-title"><p>{props.title}</p></div>
+                                    :
+                                    <div className="flashcard-info"><p>{props.info}</p></div>
+                                }
+                                <div className="flashcard-theme"><p>{props.theme}</p></div>
+                            </div>
                         </div>
             }
         </>

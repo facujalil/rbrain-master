@@ -1,30 +1,33 @@
-.flashcard {
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    background-color: #FFFAED;
-    height: 7rem;
-    padding: 0.5rem;
-    cursor: pointer;
-    text-align: initial;
-}
-
-#my-carpet .flashcard {
-    padding: 0;
-}
-
-#generate-flashcards .flashcard {
-    height: 7rem;
-    justify-content: space-between;
-    margin: 0;
-    white-space: normal;
-}
-
 .flashcard-container {
     position: relative;
     height: fit-content;
     margin: 1.3rem;
     position: relative;
+}
+
+#generate-flashcards .flashcard-container {
+    margin: 0;
+}
+
+.flashcard {
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #FFFAED;
+    min-height: 7rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    text-align: initial;
+}
+
+#flashcards .flashcard {
+    padding: 0;
+}
+
+#generate-flashcards .flashcard {
+    justify-content: space-between;
+    margin: 0;
+    white-space: normal;
 }
 
 .flashcard-container form {
@@ -34,8 +37,8 @@
     gap: 0.25rem;
 }
 
-.flashcard-container form textarea,
-.category-container form textarea {
+.category-container form textarea,
+.flashcard-container form textarea {
     overflow: hidden;
     outline: none;
     padding: 0.1rem;
@@ -49,6 +52,18 @@
     font-size: 1em;
 }
 
+.flashcard-textarea-title,
+.category-textarea-title {
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+}
+
+.flashcard-textarea-info {
+    resize: none;
+    width: 100%;
+}
+
 .category-container form button,
 .flashcard-container form button {
     box-shadow: none;
@@ -59,48 +74,61 @@
     width: 100%;
 }
 
-#my-carpet form {
+#flashcards form {
     padding: 0.5rem 1.25rem 0 1.25rem;
 }
 
-#generate-flashcards .info,
+.category-title,
 .flashcard-title,
-.category-title {
+.info {
     height: auto;
 }
 
-#my-carpet .flashcard-title {
-    padding: 0.5rem 1.25rem 0 1.25rem;
+.flashcard-title {
+    max-width: 70%;
 }
 
-.flashcard-info,
-.category-info {
+.flashcard-title p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#flashcards .flashcard-title p {
+    margin: 0.5rem 0 0 1.25rem;
+}
+
+.flashcard-info {
     height: auto;
     width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#my-carpet .flashcard-info {
-    padding: 0.5rem 1.25rem 0 1.25rem;
+.flashcard-info p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#flashcards .flashcard-info p {
+    margin: 0.5rem 1.25rem 0 1.25rem;
 }
 
 .flashcard-theme {
-    font-size: 0.85em;
-    text-align: right;
     width: 100%;
-    font-style: italic;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 0.15rem;
+    display: flex;
+    justify-content: flex-end;
 }
 
-#my-carpet .flashcard-theme {
+.flashcard-theme p {
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+#flashcards .flashcard-theme p {
     font-size: 0.85em;
     text-align: right;
-    width: 100%;
     font-style: italic;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 0.5rem 0.5rem 0;
+    margin: 0 1.25rem 0.5rem 0;
 }
 
 .info {
@@ -113,18 +141,6 @@
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 1.4em;
-}
-
-.flashcard-textarea-title,
-.category-textarea-title {
-    resize: none;
-    overflow: hidden;
-    width: 100%;
-}
-
-.flashcard-textarea-info {
-    resize: none;
-    width: 100%;
 }
 
 .menu {
@@ -156,12 +172,4 @@
     position: absolute;
     top: 0.5rem;
     left: 0.5rem;
-}
-
-.btn-delete-flashcard,
-.btn-delete-category {
-    position: absolute;
-    right: 0;
-    background-color: red;
-    color: white;
 }

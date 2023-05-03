@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef, useState } from "react";
-import Content from "./Content";
+import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import EditableCard from "./EditableCard";
+import EditableCard from "../components/EditableCard";
+import LoadingGenerateFlashcards from "../skeletonsLoading/LoadingGenerateFlashcards";
 
 export const GenerateFlashcards = () => {
     const { authTokens } = useContext(AuthContext);
@@ -9,6 +10,7 @@ export const GenerateFlashcards = () => {
     const [response, setResponse] = useState(null);
     const [category, setCategory] = useState('');
     const [nameCategories, setNameCategories] = useState("")
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         getCategories()
@@ -44,6 +46,7 @@ export const GenerateFlashcards = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (subject.split(" ").length <= 4 && subject.length <= 30) {
+            setIsLoading(true)
             try {
                 const url = 'https://rbrain.onrender.com/generate-flashcards';
                 const body = JSON.stringify({ theme: subject });
@@ -58,6 +61,9 @@ export const GenerateFlashcards = () => {
             } catch (error) {
                 console.error(error);
             }
+            finally {
+                setIsLoading(false)
+            }
         }
     };
 
@@ -67,11 +73,14 @@ export const GenerateFlashcards = () => {
 
     const handleCategoryChange = (e) => {
         setCategory(e.target.value);
+
     };
 
     const handleSave = async (e) => {
         e.preventDefault();
         try {
+            setResponse("")
+            setSubject("")
             if (category) {
                 const url = 'https://rbrain.onrender.com/save-flashcards';
                 const body = JSON.stringify({ lista_flashcards: response.lista_flashcards, 'theme': subject, 'category': category });
@@ -95,30 +104,46 @@ export const GenerateFlashcards = () => {
             content={
                 <>
                     <form onSubmit={handleSubmit} className="theme">
-                        <p>Theme:</p><input type="text" value={subject} onChange={handleChange} placeholder="Ej: Descubrimientos de Einstein" /><button className="btn-generate">Generate</button>
+                        <><p>Theme:</p><input type="text" value={subject} onChange={handleChange} placeholder="Ej: Descubrimientos de Einstein" />
+                            <button className="btn-generate">Generate</button></>
                     </form>
-                    {response && (
+                    {response || isLoading ?
                         <>
                             <div className="generate-flashcards-container">
-                                <div className="generate-flashcards">
-                                    {response.lista_flashcards.map((card) => (
-                                        <EditableCard
-                                            key={card.title}
-                                            title={card.title}
-                                            info={card.info}
-                                            theme={response.theme}
-                                        />
-                                    ))}
+
+                                <div id={isLoading ? "generate-flashcards-loading" : null} className={"generate-flashcards"}>
+                                    {isLoading ?
+                                        <LoadingGenerateFlashcards />
+                                        :
+                                        response.lista_flashcards.map((card) => (
+                                            <EditableCard
+                                                key={card.title}
+                                                title={card.title}
+                                                info={card.info}
+                                                theme={response.theme}
+                                            />
+                                        ))
+
+                                    }
                                 </div>
-                                <form onSubmit={handleSave}>
-                                    <select defaultValue='DEFAULT' onChange={handleCategoryChange}>
-                                        <option value="DEFAULT" disabled hidden>Categories</option>
-                                        {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
-                                    <button className="btn-save" type="submit">Save</button>
-                                </form>
+
+                                {!isLoading ?
+                                    <form onSubmit={handleSave}>
+                                        <>
+                                            <select defaultValue='DEFAULT' onChange={handleCategoryChange}>
+                                                <option value="DEFAULT" disabled hidden>Categories</option>
+                                                {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
+                                            <button className="btn-save" type="submit">Save</button>
+                                        </>
+                                    </form>
+                                    :
+                                    null
+                                }
+
                             </div>
                         </>
-                    )
+                        :
+                        null
                     }
                 </>
             }

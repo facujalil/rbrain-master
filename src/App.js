@@ -4,13 +4,13 @@ import { PrivateRoutes } from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import { PublicRoutes } from './utils/PublicRoutes';
-import { Register } from './components/Register';
-import { Login } from './components/Login';
-import { Profile } from './components/Profile';
-import { MyCarpet } from './components/MyCarpet';
-import { GenerateFlashcards } from './components/GenerateFlashcards';
-import MakeResume from './components/MakeResume';
-import { Configuration } from './components/Configuration';
+import { Register } from './pages/Register';
+import { Login } from './pages/Login';
+import { Profile } from './pages/Profile';
+import { Flashcards } from './pages/Flashcards';
+import { GenerateFlashcards } from './pages/GenerateFlashcards';
+import MakeResume from './pages/MakeResume';
+import { Configuration } from './pages/Configuration';
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
 
             <Route element={<PrivateRoutes />}>
               <Route path="/" element={<Profile />} />
-              <Route path="/profile/my-flashcards/:categoryId" element={<MyCarpet />} />
+              <Route path="/profile/my-flashcards/:categoryId" element={<Flashcards />} />
               <Route path="/generate-flashcards" element={<GenerateFlashcards />} />
               <Route path="/make-resume" element={<MakeResume />} />
               <Route path="/configuration" element={<Configuration />} />
