@@ -5,9 +5,9 @@ export default function MakeResume() {
 
     const { authTokens } = useContext(AuthContext);
 
-    useEffect( ()=> {
+    useEffect(() => {
         makeResume()
-    }, [] )
+    }, [])
 
     const makeResume = async (value) => {
         try {

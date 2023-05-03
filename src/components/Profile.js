@@ -98,10 +98,12 @@ export const Profile = () => {
     return (
         <>
             {modal ? <> <div onClick={closeModal} className="modal"></div>
-                <form className="form-modal">
-                    <label>Add new carpet</label>
-                    <input className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
-                </form>
+                <div className="container-form-modal">
+                    <form className="form-modal">
+                        <label>Add new carpet</label>
+                        <input className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
+                    </form>
+                </div>
             </>
                 : null}
 

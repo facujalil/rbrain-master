@@ -98,8 +98,10 @@ export const Configuration = () => {
     return (
 
         <>
-            {requestCode ? <> <div onClick={closeModal} className="modal"></div>
-                <FormChangeEmail changeEmail={changeEmail} />
+            {!requestCode ? <> <div onClick={closeModal} className="modal"></div>
+                <div className="container-form-modal">
+                    <FormChangeEmail changeEmail={changeEmail} />
+                </div>
             </>
                 : null}
             <Content
