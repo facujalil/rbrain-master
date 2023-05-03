@@ -4,7 +4,7 @@ import AuthContext from "../context/AuthContext";
 import EditableCard from "./EditableCard";
 
 export const GenerateFlashcards = () => {
-    let { authTokens } = useContext(AuthContext);
+    const { authTokens } = useContext(AuthContext);
     const [subject, setSubject] = useState('');
     const [response, setResponse] = useState(null);
     const [category, setCategory] = useState('');
@@ -14,20 +14,24 @@ export const GenerateFlashcards = () => {
         getCategories()
     }, [])
 
-    let getCategories = async () => {
-        let response = await fetch('https://rbrain.onrender.com/get-categories', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authTokens.access_token
+    const getCategories = async () => {
+        try {
+            const response = await fetch('https://rbrain.onrender.com/get-categories', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authTokens.access_token
+                }
+            })
+            const data = await response.json()
+            if (response.status === 200) {
+                setNameCategories(data.categories.map(category => category.name))
             }
-        })
-
-        let data = await response.json()
-
-
-        if (response.status === 200) {
-            setNameCategories(data.categories.map(category => category.name))
+            else {
+                console.log("error:", data.detail);
+            }
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -51,7 +55,6 @@ export const GenerateFlashcards = () => {
 
                 const data = await response.json();
                 setResponse(data);
-                console.log(data)
             } catch (error) {
                 console.error(error);
             }
@@ -70,10 +73,8 @@ export const GenerateFlashcards = () => {
         e.preventDefault();
         try {
             if (category) {
-
                 const url = 'https://rbrain.onrender.com/save-flashcards';
                 const body = JSON.stringify({ lista_flashcards: response.lista_flashcards, 'theme': subject, 'category': category });
-
                 const headers = {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authTokens.access_token}`
@@ -111,7 +112,7 @@ export const GenerateFlashcards = () => {
                                 </div>
                                 <form onSubmit={handleSave}>
                                     <select defaultValue='DEFAULT' onChange={handleCategoryChange}>
-                                        <option value="DEFAULT" disabled hidden>Select an option</option>
+                                        <option value="DEFAULT" disabled hidden>Categories</option>
                                         {nameCategories.map(category => <option key={category}>{category}</option>)} </select>
                                     <button className="btn-save" type="submit">Save</button>
                                 </form>

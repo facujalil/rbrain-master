@@ -22,7 +22,7 @@ function Content(props) {
                         {props.register ? <p className="opc-log-in" onClick={() => navigate("/login")}>Iniciar Sesión</p> : null}
                         {props.add ? (<button onClick={props.addCategory} className="btn-add">+</button>) : null}
                     </div>
-                    <div className={props.flashcards ? "flashcards-container" : props.categories ? "categories-container" : "login-container"}>
+                    <div className={props.flashcards ? "flashcards-container" : props.categories ? "categories-container" : props.configuration ? "configuration-container" : "login-container"}>
                         {props.isLoading ? (
                             <p>Cargando...</p>
                         ) : props.errorMsg ? (
@@ -37,7 +37,7 @@ function Content(props) {
                 )
                     : null}
                 {
-                    props.configuracion ?
+                    props.btnConfiguration ?
                         <button className="btn-premium">¡Hazte Premium!</button>
                         :
                         null

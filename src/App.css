@@ -16,7 +16,6 @@ textarea {
     font-size: 15px;
     min-height: 100vh;
     display: flex;
-    justify-content: center;
     align-items: center;
     overflow: hidden;
     background-image: url(img/patron.png);
@@ -73,10 +72,9 @@ button,
     align-items: center;
     flex-direction: column;
     padding: 1.4rem 1.8rem;
-    box-shadow: 0 0 0 2px black, 10px 10px 0 black;
-    border-radius: 5px;
+    border-right: 2px solid black;
     background-color: white;
-    height: 90vh;
+    height: 100vh;
     margin-right: 5rem;
 }
 

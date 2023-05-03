@@ -1,16 +1,22 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Content from "./Content";
 import AuthContext from "../context/AuthContext";
 import EditableCard from "./EditableCard";
 import { useParams } from "react-router-dom";
 
-export const Category = () => {
+export const MyCarpet = () => {
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
     const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("")
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
+
+    const refContent = useRef()
+
+    useEffect(() => {
+        refContent.current.parentNode.id = "my-carpet"
+    }, [refContent])
 
     useEffect(() => {
         getFlashcards();
@@ -82,6 +88,7 @@ export const Category = () => {
     return (
         <>
             <Content
+                refContent={refContent}
                 title={showTitle()}
                 flashcards={true}
                 isLoading={isLoading}

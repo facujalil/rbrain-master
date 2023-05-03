@@ -14,29 +14,33 @@ export const Profile = () => {
         refContent.current.parentNode.id = "profile"
     }, [refContent])
 
-    let [categories, setCategories] = useState([])
+    const [categories, setCategories] = useState([])
 
-    let { authTokens, logoutUser } = useContext(AuthContext)
+    const { authTokens, logoutUser } = useContext(AuthContext)
 
     useEffect(() => {
         getCategories()
     }, [])
 
-    let getCategories = async () => {
-        let response = await fetch('https://rbrain.onrender.com/get-categories', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authTokens.access_token
+    const getCategories = async () => {
+        try {
+            const response = await fetch('https://rbrain.onrender.com/get-categories', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authTokens.access_token
+                }
+            })
+
+            const data = await response.json()
+
+            if (response.status === 200) {
+                setCategories(data.categories)
+            } else if (response.statusText === 'Unauthorized') {
+                logoutUser()
             }
-        })
-
-        let data = await response.json()
-
-        if (response.status === 200) {
-            setCategories(data.categories)
-        } else if (response.statusText === 'Unauthorized') {
-            logoutUser()
+        } catch (error) {
+            console.error(error);
         }
     }
 
@@ -92,18 +96,19 @@ export const Profile = () => {
     }
 
     return (
-
         <>
             {modal ? <> <div onClick={closeModal} className="modal"></div>
-                <div className="container-modal-input">
-                    <input className="modal-input" onChange={getInputModal} /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
-                </div>
+                <form className="form-modal">
+                    <label>Add new carpet</label>
+                    <input className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
+                </form>
             </>
                 : null}
 
             <Content
                 refContent={refContent}
                 title="My carpets"
+                categories={true}
                 add={true}
                 addCategory={addCategory}
                 content={

@@ -53,7 +53,7 @@ h1 {
 
 #register .content-principal,
 #login .content-principal {
-    width: 55%;
+    width: 30rem;
 }
 
 #register form,
@@ -77,12 +77,10 @@ h1 {
     justify-content: flex-start;
 }
 
-#configuration form {
-    display: flex;
+#configuration .form-send-code-validation {
     flex-direction: column;
-    justify-content: flex-start;
     align-items: flex-start;
-    width: 55%;
+    width: 100%;
     height: 100%;
 }
 
@@ -102,7 +100,7 @@ select {
 
 #register form label,
 #login form label,
-#configuration label {
+.configuration-container-form label {
     width: 100%;
     font-size: 1.15em;
     font-weight: 600;
@@ -115,7 +113,7 @@ select {
     margin-bottom: 1rem;
 }
 
-#configuration form input {
+#configuration .form-send-code-validation input {
     width: 100%;
     margin-top: 0.75rem;
     margin-bottom: 1.5rem;
@@ -123,7 +121,7 @@ select {
 
 #register form input,
 #login form input,
-#configuration form input,
+#configuration .form-send-code-validation input,
 .theme input {
     font-family: 'Poppins';
     border: none;
@@ -169,7 +167,7 @@ select {
     display: flex;
     width: 100%;
     justify-content: space-between;
-    margin-top: 0.75rem;
+    padding-bottom: 2.5rem;
 }
 
 #configuration .info-pay {
@@ -178,6 +176,10 @@ select {
 
 #configuration .logout {
     background-color: #FA7D62;
+}
+
+#configuration .form-send-code-validation .submit {
+    color: black;
 }
 
 .opc-fotgotten-password,
@@ -196,6 +198,7 @@ select {
 
 .status {
     color: black;
+    margin: 1.25rem 2.5rem;
 }
 
 .opc-fotgotten-password {
@@ -218,21 +221,33 @@ select {
     z-index: 9;
     width: 100%;
     height: 100%;
-    background-color: rgb(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.container-modal-input {
+.form-modal {
     position: absolute;
     z-index: 99;
+    width: 35%;
+    padding: 1.5rem 0;
     border: none;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
     border-radius: 5px;
     color: black;
-    height: 3rem;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    gap: 1rem;
+}
+
+.form-modal label {
+    font-family: 'Poppins';
+    font-size: 1.35em;
+    font-weight: 600;
 }
 
 .modal-input,
@@ -243,12 +258,18 @@ select {
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
     border-radius: 5px;
     color: black;
-    height: 100%;
-    padding: 0 0.5rem;
+    outline: 0 none;
+    padding: 0.25rem;
 }
 
 .modal-input {
-    outline: 0 none;
+    width: 70%;
+}
+
+.btn-modal-input {
+    width: 30%;
+    color: white;
+    background-color: #62B5FA;
 }
 
 .content-principal-container {
@@ -303,12 +324,18 @@ select {
 /*Flashcards*/
 
 .flashcards-container,
+.configuration-container,
 .categories-container,
 .login-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 80%;
+}
+
+#configuration .configuration-container-forms {
+    width: 55%;
+    height: 100%;
 }
 
 #register .login-container {
@@ -323,10 +350,12 @@ select {
     overflow: hidden;
 }
 
-#configuration .flashcards-container {
+#configuration .configuration-container {
+    width: 80%;
     justify-content: space-between;
     align-items: flex-end;
-    padding: 1.25rem 2.5rem;
+    overflow-y: scroll;
+    padding: 2.5rem 0 0 2.5rem;
 }
 
 .flashcards,
@@ -359,6 +388,7 @@ select {
 .flashcards::-webkit-scrollbar,
 .categories::-webkit-scrollbar,
 .generate-flashcards::-webkit-scrollbar,
+#configuration .configuration-container::-webkit-scrollbar,
 .info::-webkit-scrollbar {
     width: 10px;
 }
@@ -366,6 +396,7 @@ select {
 .flashcards::-webkit-scrollbar-thumb,
 .categories::-webkit-scrollbar-thumb,
 .generate-flashcards::-webkit-scrollbar-thumb,
+#configuration .configuration-container::-webkit-scrollbar-thumb,
 .info::-webkit-scrollbar-thumb {
     background-color: #62B5FA;
     border-radius: 24px;
@@ -374,6 +405,7 @@ select {
 
 .flashcards::-webkit-scrollbar-track,
 .categories::-webkit-scrollbar-track,
+#configuration .configuration-container::-webkit-scrollbar-track,
 .generate-flashcards::-webkit-scrollbar-track {
     margin: 25px 50px;
 }
@@ -381,13 +413,22 @@ select {
 /**/
 
 .category {
-    font-size: 1.4em;
+    position: relative;
     margin: 1.3rem;
     background-color: #62B5FA;
     width: 8rem;
     height: 10rem;
     box-shadow: 0 0 0 2px black, 8px 8px 0 0 white, 8px 8px 0 2px black;
     color: white;
+}
+
+.category-link {
+    color: white;
+    width: 100%;
+    height: 100%;
+    box-shadow: none;
+    border-radius: 0%;
+    padding: 0;
 }
 
 /*Sección Generate Flashcards*/
@@ -493,14 +534,18 @@ select {
     padding: 0 0.5rem;
 }
 
-#configuration .container-buttons button {
+#configuration .configuration-container button {
     font-family: 'Poppins';
     border: none;
+    color: black;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
     border-radius: 5px;
-    color: white;
     height: 3rem;
     padding: 0 0.5rem;
     font-size: 1.1em;
     outline: 0 none;
+}
+
+#configuration .container-buttons button {
+    color: white;
 }

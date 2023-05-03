@@ -9,15 +9,8 @@
     text-align: initial;
 }
 
-.flashcard-container {
-    position: relative;
-    height: fit-content;
-    margin: 1.3rem;
-    position: relative;
-}
-
-.flashcard-container form {
-    display: flex;
+#my-carpet .flashcard {
+    padding: 0;
 }
 
 #generate-flashcards .flashcard {
@@ -27,16 +20,67 @@
     white-space: normal;
 }
 
+.flashcard-container {
+    position: relative;
+    height: fit-content;
+    margin: 1.3rem;
+    position: relative;
+}
+
+.flashcard-container form {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 0.25rem;
+}
+
+.flashcard-container form textarea,
+.category-container form textarea {
+    overflow: hidden;
+    outline: none;
+    padding: 0.1rem;
+}
+
+.category-container form textarea {
+    font-size: 1.4em;
+}
+
+.flashcard-container form textarea {
+    font-size: 1em;
+}
+
+.category-container form button,
+.flashcard-container form button {
+    box-shadow: none;
+    border: 1px solid black;
+    border-radius: 0;
+    background-color: white;
+    padding: 0.05rem;
+    width: 100%;
+}
+
+#my-carpet form {
+    padding: 0.5rem 1.25rem 0 1.25rem;
+}
+
 #generate-flashcards .info,
 .flashcard-title,
 .category-title {
     height: auto;
 }
 
+#my-carpet .flashcard-title {
+    padding: 0.5rem 1.25rem 0 1.25rem;
+}
+
 .flashcard-info,
 .category-info {
     height: auto;
     width: 100%;
+}
+
+#my-carpet .flashcard-info {
+    padding: 0.5rem 1.25rem 0 1.25rem;
 }
 
 .flashcard-theme {
@@ -49,6 +93,16 @@
     padding-right: 0.15rem;
 }
 
+#my-carpet .flashcard-theme {
+    font-size: 0.85em;
+    text-align: right;
+    width: 100%;
+    font-style: italic;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 0.5rem 0.5rem 0;
+}
+
 .info {
     height: auto;
     gap: 0.8rem;
@@ -58,6 +112,7 @@
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
+    font-size: 1.4em;
 }
 
 .flashcard-textarea-title,
@@ -72,15 +127,35 @@
     width: 100%;
 }
 
+.menu {
+    position: absolute;
+    width: 100%;
+    background-color: #2271b3;
+    color: white;
+    font-style: italic;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 0 1rem;
+}
+
+.menu p {
+    text-decoration: underline;
+}
+
 /*Buttons*/
 
-.btn-change-flashcard,
-.btn-change-category {
-    background-color: #62B5FA;
+.btn-menu {
+    cursor: pointer;
     height: 1rem;
-    color: white;
     position: absolute;
-    bottom: 0;
+    top: 0.5rem;
+    left: 0.5rem;
 }
 
 .btn-delete-flashcard,

@@ -10,51 +10,52 @@ export const AuthProvider = ({ children }) => {
 
     const [errorLoginApi, setErrorLoginApi] = useState(false)
 
-    let [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null);
-    let [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null);
-    let [loading, setLoading] = useState(true)
+    const [authTokens, setAuthTokens] = useState(() => localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null);
+    const [user, setUser] = useState(() => localStorage.getItem('authTokens') ? jwt_decode(localStorage.getItem('authTokens')) : null);
+    const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
 
-    let loginUser = async (valor) => {
+    const loginUser = async (valor) => {
 
         console.log('Form submited')
 
-        let response = await fetch('https://rbrain.onrender.com/login', {
+        const response = await fetch('https://rbrain.onrender.com/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ 'email': valor.loginEmail, 'password': valor.loginPassword })
         })
-        let data = await response.json()
+        const data = await response.json()
         if (response.status === 200) {
             setAuthTokens(data)
             setUser(jwt_decode(data.access_token))
             localStorage.setItem('authTokens', JSON.stringify(data))
             navigate('/profile')
+            setErrorLoginApi(false)
 
         } else {
             setErrorLoginApi(true)
         }
     }
 
-    let logoutUser = () => {
+    const logoutUser = () => {
         setAuthTokens(null)
         setUser(null)
         localStorage.removeItem('authTokens')
     }
 
-    let updateToken = async () => {
+    const updateToken = async () => {
         console.log('update token called!')
-        let response = await fetch('https://rbrain.onrender.com/refresh', {
+        const response = await fetch('https://rbrain.onrender.com/refresh', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + authTokens?.refresh_token
             }
         })
-        let data = await response.json()
+        const data = await response.json()
 
         if (response.status === 200) {
             setAuthTokens(data)
@@ -75,8 +76,8 @@ export const AuthProvider = ({ children }) => {
             updateToken()
         }
 
-        let fourMinutes = 1000 * 600 * 4
-        let interval = setInterval(() => {
+        const fourMinutes = 1000 * 600 * 4
+        const interval = setInterval(() => {
             if (authTokens) {
                 updateToken()
             }

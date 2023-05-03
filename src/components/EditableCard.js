@@ -13,6 +13,7 @@ function EditableCard(props) {
 
     const { authTokens } = useContext(AuthContext);
     const [newText, setNewText] = useState()
+    const [menu, setMenu] = useState(false)
 
     const refTextarea = useRef()
 
@@ -114,8 +115,6 @@ function EditableCard(props) {
                 if (response.status === 201) {
                     setInfoFlashcard(newText)
                 }
-
-                console.log(data)
             } catch (error) {
                 console.error(error);
             }
@@ -128,45 +127,64 @@ function EditableCard(props) {
             {
                 props.showFlashcards ?
                     <div className="flashcard-container">
-                        <button className="btn-delete-flashcard" onClick={() => props.deleteFlashcard(props.flashcardId)}>X</button>
-                        <div onClick={!isEditable ? showInfo : null} className={state ? "flashcard" : "flashcard info"}>
+                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setMenu(!menu)}></i>
+                        {
+                            menu ?
+                                <div className="menu">
+                                    <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                    <p onClick={() => props.deleteFlashcard(props.flashcardId)}>Eliminar</p>
+                                </div>
+                                :
+                                null
+                        }
+                        <div onClick={!isEditable && !menu ? showInfo : null} className={state ? "flashcard" : "flashcard info"}>
 
                             {
                                 state ?
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeTitleFlashcard() }}>
-                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>OK</button>
+                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
                                     </form>
                                         :
                                         <p className="flashcard-title">{titleFlashcard}</p>
                                     :
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeInfo() }}>
-                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>OK</button>
+                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
                                     </form>
                                         :
                                         <p className="flashcard-info">{infoFlashcard}</p>
                             }
-
                             <p className="flashcard-theme">{props.theme}</p>
                         </div >
-                        <button className="btn-change-flashcard" onClick={() => setIsEditable(!isEditable)}></button>
+
                     </div>
                     :
                     props.showCategories ?
                         <>
-                            <button className="btn-delete-category" onClick={() => props.deleteCategory(props.categoryId)}>X</button>
                             {
                                 !isEditable ?
-                                    <Link className="category" to={`/profile/my-flashcards/${props.categoryId}`}>
-                                        <p className="category-title">{titleCategory}</p>
-                                    </Link>
+                                    <div className="category">
+                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setMenu(!menu)}></i>
+                                        {
+                                            menu ?
+                                                <div className="menu">
+                                                    <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                                    <p onClick={() => props.deleteCategory(props.categoryId)}>Eliminar</p>
+                                                </div>
+                                                :
+                                                null
+                                        }
+                                        <Link className="category-link" to={!menu ? `/profile/my-flashcards/${props.categoryId}` : null}>
+                                            <p className="category-title">{titleCategory}</p>
+                                        </Link>
+                                    </div>
                                     :
                                     <div className="category" >
+                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setIsEditable(!isEditable)}></i>
                                         <form onSubmit={(e) => { e.preventDefault(); changeTitleCategory() }}>
-                                            <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>OK</button>
+                                            <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>Change</button>
                                         </form>
                                     </div>
                             }
-                            <button className="btn-change-category" onClick={() => setIsEditable(!isEditable)}></button>
                         </>
                         :
                         <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
