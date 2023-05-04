@@ -13,6 +13,7 @@
 
 #category-loading p {
     overflow: hidden;
+    user-select: none;
 }
 
 #category-loading .category-title {

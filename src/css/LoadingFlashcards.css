@@ -13,6 +13,7 @@
 
 #flashcard-container-loading .flashcard p {
     overflow: hidden;
+    user-select: none;
 }
 
 #flashcard-container-loading .flashcard-title,
