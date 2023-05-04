@@ -3,7 +3,7 @@ import "../css/EditableCard.css";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
-function EditableCard(props) {
+export default function EditableCard(props) {
 
     const [state, setState] = useState(true)
     const [isEditable, setIsEditable] = useState(false)
@@ -76,7 +76,7 @@ function EditableCard(props) {
     };
 
     const changeTitleCategory = async (e) => {
-        if (newText && newText.split(" ").length <= 4 && newText.length <= 20) {
+        if (newText) {
             try {
                 const url = 'https://rbrain.onrender.com/edit-category-name';
                 const body = JSON.stringify({ 'current_category_id': props.categoryId, 'new_name': newText })
@@ -100,6 +100,7 @@ function EditableCard(props) {
     };
 
     const changeInfo = async (e) => {
+        console.log(newText)
         if (newText) {
             try {
                 const url = 'https://rbrain.onrender.com/edit-flashcard-info';
@@ -127,7 +128,7 @@ function EditableCard(props) {
             {
                 props.showFlashcards ?
                     <div className="flashcard-container">
-                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setMenu(!menu)}></i>
+                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                         {
                             menu ?
                                 <div className="menu">
@@ -142,13 +143,13 @@ function EditableCard(props) {
                             {
                                 state ?
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeTitleFlashcard() }}>
-                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
+                                        <textarea value={newText} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
                                     </form>
                                         :
                                         <div className="flashcard-title"><p>{titleFlashcard}</p></div>
                                     :
                                     isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeInfo() }}>
-                                        <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
+                                        <textarea value={newText} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.infoFlashcard)} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
                                     </form>
                                         :
                                         <div className="flashcard-info"><p>{infoFlashcard}</p></div>
@@ -163,7 +164,7 @@ function EditableCard(props) {
                             {
                                 !isEditable ?
                                     <div className="category">
-                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setMenu(!menu)}></i>
+                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                                         {
                                             menu ?
                                                 <div className="menu">
@@ -179,9 +180,9 @@ function EditableCard(props) {
                                     </div>
                                     :
                                     <div className="category" >
-                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => setIsEditable(!isEditable)}></i>
+                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                                         <form onSubmit={(e) => { e.preventDefault(); changeTitleCategory() }}>
-                                            <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : null} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>Change</button>
+                                            <textarea value={newText} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 && e.target.value.length <= 30 ? setNewText(e.target.value) : null : setNewText(props.titleCategory)} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>Change</button>
                                         </form>
                                     </div>
                             }
@@ -202,5 +203,3 @@ function EditableCard(props) {
     )
 
 }
-
-export default EditableCard;

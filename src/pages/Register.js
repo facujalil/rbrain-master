@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Content from "../components/Content";
 import { useNavigate } from "react-router-dom";
 
-export const Register = () => {
+export default function Register() {
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 

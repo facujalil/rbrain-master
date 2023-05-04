@@ -3,9 +3,10 @@ import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 import EditableCard from "../components/EditableCard";
 import { useParams } from "react-router-dom";
-import LoadingFlashcards from "../skeletonsLoading/LoadingFlashcards";
+import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
 
-export const Flashcards = () => {
+export default function Flashcards() {
+    
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
     const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("")
@@ -13,6 +14,7 @@ export const Flashcards = () => {
     const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
     const [gridColumns, setGridColumns] = useState(localStorage.gridColumns)
+    const loading = []
 
     const refContent = useRef()
 
@@ -86,6 +88,10 @@ export const Flashcards = () => {
         }
     }
 
+    for (let i = 0; i < 8; i++) {
+        loading.push(<LoadingFlashcard />)
+    }
+
     return (
         <>
             <Content
@@ -98,7 +104,9 @@ export const Flashcards = () => {
                 content={
                     <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards grid-columns-default"}>
                         {isLoading ?
-                            <LoadingFlashcards />
+                            <>
+                                {loading}
+                            </>
                             :
                             flashcards.map((flashcard) => (
                                 <EditableCard

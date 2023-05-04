@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 
-export const Login = () => {
+export default function Login() {
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 

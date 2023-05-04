@@ -2,15 +2,17 @@ import { useContext, useEffect, useRef, useState } from "react";
 import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 import EditableCard from "../components/EditableCard";
-import LoadingCategories from "../skeletonsLoading/LoadingCategories";
+import LoadingCategory from "../skeletonsLoading/LoadingCategory";
 
-export const Profile = () => {
+export default function Profile() {
 
     const refContent = useRef()
 
     const [modal, setModal] = useState(false)
     const [inputModal, setInputModal] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [isNewCategoryLoading, setIsNewCategoryLoading] = useState(false)
+    const loading = []
 
     useEffect(() => {
         refContent.current.parentNode.id = "profile"
@@ -46,24 +48,30 @@ export const Profile = () => {
         }
         finally {
             setIsLoading(false)
+            setIsNewCategoryLoading(false)
         }
     }
 
     const addCategory = () => {
+        setInputModal("")
         setModal(true)
     }
 
     const getInputModal = (e) => {
-        setInputModal(e.target.value)
+        if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 30) {
+            setInputModal(e.target.value)
+        }
     }
 
     const closeModal = () => {
         setModal(false)
     }
 
-    const addNewCategory = async () => {
-        if (inputModal.split(" ").length <= 4 && inputModal.length <= 30) {
+    const addNewCategory = async (e) => {
+        e.preventDefault()
+        if (inputModal) {
             setModal(false)
+            setIsNewCategoryLoading(true)
             try {
                 const url = 'https://rbrain.onrender.com/create-category';
                 const body = inputModal
@@ -100,13 +108,17 @@ export const Profile = () => {
         }
     }
 
+    for (let i = 0; i < 8; i++) {
+        loading.push(<LoadingCategory />)
+    }
+
     return (
         <>
             {modal ? <> <div onClick={closeModal} className="modal"></div>
                 <div className="container-form-modal">
                     <form className="form-modal">
                         <label>Add new carpet</label>
-                        <input className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
+                        <input value={inputModal} className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal-input" onClick={addNewCategory}>Add</button>
                     </form>
                 </div>
             </>
@@ -120,7 +132,9 @@ export const Profile = () => {
                 content={
                     <div id={isLoading ? "categories-loading" : null} className="categories">
                         {isLoading ?
-                            <LoadingCategories />
+                            <>
+                                {loading}
+                            </>
                             :
                             categories.map(category => (
                                 <div key={category.id} className="category-container">
@@ -131,7 +145,14 @@ export const Profile = () => {
                                         deleteCategory={deleteCategory}
                                     />
                                 </div>
-                            ))}
+                            ))
+                        }
+                        {
+                            isNewCategoryLoading ?
+                                <LoadingCategory />
+                                :
+                                null
+                        }
                     </div>
                 }
             />

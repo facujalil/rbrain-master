@@ -5,7 +5,7 @@ import FormSendCodeValidation from "../components/FormSendCodeValidation";
 import FormChangeEmail from "../components/FormChangeEmail";
 import FormChangePassword from "../components/FormChangePassword";
 
-export const Configuration = () => {
+export default function Configuration() {
 
     const { logoutUser, authTokens } = useContext(AuthContext)
 

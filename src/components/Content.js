@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../css/Content.css";
 import { useNavigate } from "react-router-dom";
 
-function Content(props) {
+export default function Content(props) {
 
     const navigate = useNavigate()
 
@@ -54,5 +54,3 @@ function Content(props) {
         </section>
     )
 }
-
-export default Content;

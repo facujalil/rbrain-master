@@ -1,5 +1,6 @@
-import React from 'react'
-import "../css/LoadingGenerateFlashcards.css"
+import React from 'react';
+import "../css/LoadingGenerateFlashcards.css";
+
 export default function LoadingGenerateFlashcards() {
     return (
         <>

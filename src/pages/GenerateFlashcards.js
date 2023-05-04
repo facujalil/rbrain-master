@@ -3,8 +3,10 @@ import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 import EditableCard from "../components/EditableCard";
 import LoadingGenerateFlashcards from "../skeletonsLoading/LoadingGenerateFlashcards";
+import LoadingForm from "../skeletonsLoading/LoadingForm";
 
-export const GenerateFlashcards = () => {
+export default function GenerateFlashcards() {
+    
     const { authTokens } = useContext(AuthContext);
     const [subject, setSubject] = useState('');
     const [response, setResponse] = useState(null);
@@ -45,30 +47,30 @@ export const GenerateFlashcards = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (subject.split(" ").length <= 4 && subject.length <= 30) {
-            setIsLoading(true)
-            try {
-                const url = 'https://rbrain.onrender.com/generate-flashcards';
-                const body = JSON.stringify({ theme: subject });
-                const headers = {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
-                };
-                const response = await fetch(url, { method: 'POST', headers, body });
+        setIsLoading(true)
+        try {
+            const url = 'https://rbrain.onrender.com/generate-flashcards';
+            const body = JSON.stringify({ theme: subject });
+            const headers = {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
+            };
+            const response = await fetch(url, { method: 'POST', headers, body });
 
-                const data = await response.json();
-                setResponse(data);
-            } catch (error) {
-                console.error(error);
-            }
-            finally {
-                setIsLoading(false)
-            }
+            const data = await response.json();
+            setResponse(data);
+        } catch (error) {
+            console.error(error);
+        }
+        finally {
+            setIsLoading(false)
         }
     };
 
     const handleChange = (e) => {
-        setSubject(e.target.value);
+        if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 30) {
+            setSubject(e.target.value)
+        }
     };
 
     const handleCategoryChange = (e) => {
@@ -127,7 +129,9 @@ export const GenerateFlashcards = () => {
                                     }
                                 </div>
 
-                                {!isLoading ?
+                                {isLoading ?
+                                    <LoadingForm />
+                                    :
                                     <form onSubmit={handleSave}>
                                         <>
                                             <select defaultValue='DEFAULT' onChange={handleCategoryChange}>
@@ -136,8 +140,6 @@ export const GenerateFlashcards = () => {
                                             <button className="btn-save" type="submit">Save</button>
                                         </>
                                     </form>
-                                    :
-                                    null
                                 }
 
                             </div>

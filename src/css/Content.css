@@ -462,7 +462,7 @@ select {
     margin: 1.3rem;
     background-color: #62B5FA;
     width: 8rem;
-    height: 10rem;
+    min-height: 10rem;
     box-shadow: 0 0 0 2px black, 8px 8px 0 0 white, 8px 8px 0 2px black;
     color: white;
 }
