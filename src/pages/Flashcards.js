@@ -12,7 +12,7 @@ export const Flashcards = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
-    const [gridColumns, setGridColumns] = useState('default')
+    const [gridColumns, setGridColumns] = useState(localStorage.gridColumns)
 
     const refContent = useRef()
 
@@ -94,8 +94,9 @@ export const Flashcards = () => {
                 flashcards={true}
                 selectGridColumns={true}
                 setGridColumns={setGridColumns}
+                gridColumns={gridColumns}
                 content={
-                    <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards"}>
+                    <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards grid-columns-default"}>
                         {isLoading ?
                             <LoadingFlashcards />
                             :

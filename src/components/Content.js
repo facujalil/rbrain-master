@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../css/Content.css";
 import { useNavigate } from "react-router-dom";
 
@@ -21,12 +21,12 @@ function Content(props) {
                         </div>
                         {
                             props.selectGridColumns ?
-                                <select className="select-grid-columns" onChange={(e) => props.setGridColumns(e.target.value)}>
-                                    <option>default</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
+                                <select defaultValue='DEFAULT' className="select-grid-columns" onChange={(e) => { localStorage.setItem('gridColumns', e.target.value !== 'default' ? Number(e.target.value) : e.target.value); props.setGridColumns(e.target.value) }}>
+                                    <option value={localStorage.gridColumns === "default" ? "DEFAULT" : null}>default</option>
+                                    <option value={Number(localStorage.gridColumns) === 1 ? "DEFAULT" : null}>1</option>
+                                    <option value={Number(localStorage.gridColumns) === 2 ? "DEFAULT" : null}>2</option>
+                                    <option value={Number(localStorage.gridColumns) === 3 ? "DEFAULT" : null}>3</option>
+                                    <option value={Number(localStorage.gridColumns) === 4 ? "DEFAULT" : null}>4</option>
                                 </select>
                                 :
                                 null

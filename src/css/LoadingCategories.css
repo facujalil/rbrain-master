@@ -11,6 +11,10 @@
     cursor: default;
 }
 
+#category-loading p {
+    overflow: hidden;
+}
+
 #category-loading .category-title {
     background-color: #e3e3e3;
     border-radius: 24px;
