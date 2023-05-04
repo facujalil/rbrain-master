@@ -534,6 +534,7 @@ select {
 
 .btn-add {
     font-size: 2.8em;
+    user-select: none;
     display: flex;
     justify-content: center;
     align-items: center;

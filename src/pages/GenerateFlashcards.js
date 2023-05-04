@@ -6,7 +6,7 @@ import LoadingGenerateFlashcards from "../skeletonsLoading/LoadingGenerateFlashc
 import LoadingForm from "../skeletonsLoading/LoadingForm";
 
 export default function GenerateFlashcards() {
-    
+
     const { authTokens } = useContext(AuthContext);
     const [subject, setSubject] = useState('');
     const [response, setResponse] = useState(null);
@@ -32,7 +32,7 @@ export default function GenerateFlashcards() {
                 setNameCategories(data.categories.map(category => category.name))
             }
             else {
-                console.log("error:", data.detail);
+                console.log("error:", data.detail)
             }
         } catch (error) {
             console.error(error);

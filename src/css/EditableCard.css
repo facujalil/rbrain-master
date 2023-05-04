@@ -9,6 +9,11 @@
     margin: 0;
 }
 
+.category-container p,
+.flashcard-container p {
+    user-select: none;
+}
+
 .flashcard {
     flex-direction: column;
     justify-content: space-between;

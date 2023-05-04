@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
 
 export default function Flashcards() {
-    
+
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
     const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("")
@@ -47,12 +47,8 @@ export default function Flashcards() {
                     setFlashcards(data.flashcards);
                 }
                 else {
-                    const errorMsg = 'No se encontraron flashcards';
-                    setErrorMsg(errorMsg);
+                    setErrorMsg('No se encontraron flashcards');
                 }
-            } else {
-                const errorMsg = 'No hay categorías existentes';
-                setErrorMsg(errorMsg);
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -89,7 +85,7 @@ export default function Flashcards() {
     }
 
     for (let i = 0; i < 8; i++) {
-        loading.push(<LoadingFlashcard />)
+        loading.push(<LoadingFlashcard key={i} />)
     }
 
     return (
@@ -102,24 +98,27 @@ export default function Flashcards() {
                 setGridColumns={setGridColumns}
                 gridColumns={gridColumns}
                 content={
-                    <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards grid-columns-default"}>
-                        {isLoading ?
-                            <>
-                                {loading}
-                            </>
-                            :
-                            flashcards.map((flashcard) => (
-                                <EditableCard
-                                    showFlashcards={true}
-                                    deleteFlashcard={deleteFlashcard}
-                                    key={flashcard.id}
-                                    flashcardId={flashcard.id}
-                                    title={flashcard.title}
-                                    info={flashcard.info}
-                                    theme={flashcard.theme}
-                                />
-                            ))}
-                    </div>
+                    errorMsg ?
+                        errorMsg
+                        :
+                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `flashcards grid-columns-${gridColumns}` : "flashcards grid-columns-default"}>
+                            {isLoading ?
+                                <>
+                                    {loading}
+                                </>
+                                :
+                                flashcards.map((flashcard) => (
+                                    <EditableCard
+                                        showFlashcards={true}
+                                        deleteFlashcard={deleteFlashcard}
+                                        key={flashcard.id}
+                                        flashcardId={flashcard.id}
+                                        title={flashcard.title}
+                                        info={flashcard.info}
+                                        theme={flashcard.theme}
+                                    />
+                                ))}
+                        </div>
                 }
             />
         </>
