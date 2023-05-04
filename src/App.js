@@ -1,16 +1,16 @@
 import './App.css';
 import { Routes, Route, BrowserRouter, Link, Navigate } from 'react-router-dom';
-import { PrivateRoutes } from './utils/PrivateRoutes';
+import PublicRoutes from './utils/PublicRoutes';
+import PrivateRoutes from './utils/PrivateRoutes';
 import { useContext } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
-import { PublicRoutes } from './utils/PublicRoutes';
-import { Register } from './pages/Register';
-import { Login } from './pages/Login';
-import { Profile } from './pages/Profile';
-import { Flashcards } from './pages/Flashcards';
-import { GenerateFlashcards } from './pages/GenerateFlashcards';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import Profile from './pages/Profile';
+import Flashcards from './pages/Flashcards';
+import GenerateFlashcards from './pages/GenerateFlashcards';
 import MakeResume from './pages/MakeResume';
-import { Configuration } from './pages/Configuration';
+import Configuration from './pages/Configuration';
 
 
 function App() {
