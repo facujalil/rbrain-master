@@ -84,7 +84,8 @@ h1 {
     height: 100%;
 }
 
-.generate-flashcards-container form {
+.generate-flashcards-container form,
+.generate-resume-container form {
     height: 100%;
     max-width: 25%;
     padding: 1rem;
@@ -336,7 +337,8 @@ select {
 
 /*Flashcards*/
 
-.select-grid-columns {
+.select-grid-columns,
+.select-generate {
     outline: none;
     width: 20%;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
@@ -346,14 +348,11 @@ select {
     padding: 0.25rem 0;
 }
 
-.select-grid-columns option {
-    border-radius: 24px;
-}
-
 .register-container,
 .login-container,
 .categories-container,
 .flashcards-container,
+.generate-container,
 .make-resume-container,
 .configuration-container {
     display: flex;
@@ -371,7 +370,7 @@ select {
     height: 85%;
 }
 
-#generate-flashcards .flashcards-container {
+#generate .generate-container {
     flex-direction: column;
     justify-content: flex-start;
     padding: 0 2.5rem 0 2.5rem;
@@ -433,6 +432,7 @@ select {
 .flashcards::-webkit-scrollbar,
 .categories::-webkit-scrollbar,
 .generate-flashcards::-webkit-scrollbar,
+.generate-resume::-webkit-scrollbar,
 #configuration .configuration-container::-webkit-scrollbar,
 .info::-webkit-scrollbar {
     width: 10px;
@@ -441,6 +441,7 @@ select {
 .flashcards::-webkit-scrollbar-thumb,
 .categories::-webkit-scrollbar-thumb,
 .generate-flashcards::-webkit-scrollbar-thumb,
+.generate-resume::-webkit-scrollbar-thumb,
 #configuration .configuration-container::-webkit-scrollbar-thumb,
 .info::-webkit-scrollbar-thumb {
     background-color: #62B5FA;
@@ -451,7 +452,8 @@ select {
 .flashcards::-webkit-scrollbar-track,
 .categories::-webkit-scrollbar-track,
 #configuration .configuration-container::-webkit-scrollbar-track,
-.generate-flashcards::-webkit-scrollbar-track {
+.generate-flashcards::-webkit-scrollbar-track,
+.generate-resume::-webkit-scrollbar-track {
     margin: 25px 50px;
 }
 
@@ -476,7 +478,7 @@ select {
     padding: 0;
 }
 
-/*Sección Generate Flashcards*/
+/*Sección Generate*/
 
 .theme {
     display: flex;
@@ -495,7 +497,8 @@ select {
     margin: 0 2rem;
 }
 
-.generate-flashcards-container {
+.generate-flashcards-container,
+.generate-resume-container {
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -506,7 +509,8 @@ select {
     margin-top: 1rem;
 }
 
-.generate-flashcards-container select {
+.generate-flashcards-container select,
+.generate-resume-container select {
     font-family: 'Poppins';
     border: none;
     box-shadow: 0 0 0 2px black, 6px 6px 0 black;
@@ -518,16 +522,26 @@ select {
     outline: 0 none;
 }
 
-.generate-flashcards {
+.generate-flashcards,
+.generate-resume {
     display: grid;
     gap: 2rem;
     grid-template-columns: 35% 35%;
     width: 70%;
     height: 100%;
-    align-items: flex-start;
     justify-content: center;
     padding: 2rem 0;
     overflow-y: scroll;
+}
+
+.generate-flashcards {
+    grid-template-columns: 35% 35%;
+    align-items: flex-start;
+}
+
+.generate-resume {
+    grid-template-columns: 75%;
+    align-items: center;
 }
 
 /*Buttons*/

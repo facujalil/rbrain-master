@@ -1,15 +1,16 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
-import "../css/EditableCard.css";
+import "../css/Card.css";
 import AuthContext from "../context/AuthContext";
 import { Link } from "react-router-dom";
 
-export default function EditableCard(props) {
+export default function Card(props) {
 
     const [state, setState] = useState(true)
     const [isEditable, setIsEditable] = useState(false)
     const [titleFlashcard, setTitleFlashcard] = useState(props.title)
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
+    const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
     const [newText, setNewText] = useState()
@@ -188,16 +189,24 @@ export default function EditableCard(props) {
                             }
                         </>
                         :
-                        <div className="flashcard-container">
-                            <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
-                                {state ?
-                                    <div className="flashcard-title"><p>{props.title}</p></div>
-                                    :
-                                    <div className="flashcard-info"><p>{props.info}</p></div>
-                                }
-                                <div className="flashcard-theme"><p>{props.theme}</p></div>
+                        props.generateResume ?
+                            <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
+                                <div className="resume">
+                                    <div className={fullResume ? "full-resume-title" : "resume-title"}><p>{props.response}</p></div>
+                                    <div className="resume-theme"><p>{props.response.theme}</p></div>
+                                </div>
                             </div>
-                        </div>
+                            :
+                            <div className="flashcard-container">
+                                <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                                    {state ?
+                                        <div className="flashcard-title"><p>{props.title}</p></div>
+                                        :
+                                        <div className="flashcard-info"><p>{props.info}</p></div>
+                                    }
+                                    <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                </div>
+                            </div>
             }
         </>
     )

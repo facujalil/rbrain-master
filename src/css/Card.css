@@ -1,20 +1,24 @@
-.flashcard-container {
+.flashcard-container,
+.resume-container {
     position: relative;
     height: fit-content;
     margin: 1.3rem;
     position: relative;
 }
 
-#generate-flashcards .flashcard-container {
+#generate .flashcard-container,
+#generate .resume-container {
     margin: 0;
 }
 
 .category-container p,
-.flashcard-container p {
+.flashcard-container p,
+.resume-container p {
     user-select: none;
 }
 
-.flashcard {
+.flashcard,
+.resume {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
@@ -29,7 +33,8 @@
     padding: 0;
 }
 
-#generate-flashcards .flashcard {
+#generate .flashcard,
+#generate .resume {
     justify-content: space-between;
     margin: 0;
     white-space: normal;
@@ -85,17 +90,35 @@
 
 .category-title,
 .flashcard-title,
+.resume-title,
 .info {
     height: auto;
 }
 
 .flashcard-title {
-    max-width: 70%;
+    max-width: 80%;
+}
+
+.flashcard-title p,
+.resume-title p,
+.full-resume-title p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    word-wrap: break-word;
 }
 
 .flashcard-title p {
-    overflow: hidden;
-    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+}
+
+.resume-title p {
+    -webkit-line-clamp: 6;
+}
+
+.full-resume-title p {
+    -webkit-line-clamp: auto;
 }
 
 #flashcards .flashcard-title p {
@@ -118,13 +141,15 @@
     margin: 0.5rem 1.25rem 0 1.25rem;
 }
 
-.flashcard-theme {
+.flashcard-theme,
+.resume-theme {
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
 
-.flashcard-theme p {
+.flashcard-theme p,
+.resume-theme p {
     font-size: 0.85em;
     font-style: italic;
 }

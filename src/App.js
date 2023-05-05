@@ -8,7 +8,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Flashcards from './pages/Flashcards';
-import GenerateFlashcards from './pages/GenerateFlashcards';
+import Generate from './pages/Generate';
 import MakeResume from './pages/MakeResume';
 import Configuration from './pages/Configuration';
 
@@ -30,7 +30,7 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/" element={<Profile />} />
               <Route path="/profile/my-flashcards/:categoryId" element={<Flashcards />} />
-              <Route path="/generate-flashcards" element={<GenerateFlashcards />} />
+              <Route path="/generate-flashcards" element={<Generate />} />
               <Route path="/make-resume" element={<MakeResume />} />
               <Route path="/configuration" element={<Configuration />} />
               <Route path='*' element={<Navigate to="/" />} />

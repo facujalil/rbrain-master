@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import EditableCard from "../components/EditableCard";
+import EditableCard from "../components/Card";
 import { useParams } from "react-router-dom";
 import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
 

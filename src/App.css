@@ -25,7 +25,7 @@ textarea {
 
 #profile,
 #make-resume,
-#generate-flashcards {
+#generate {
     background-color: white;
 }
 
@@ -53,6 +53,7 @@ a,
 button,
 .card,
 .flashcard,
+.resume,
 .category {
     display: flex;
     align-items: center;
