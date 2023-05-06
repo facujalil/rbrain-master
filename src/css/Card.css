@@ -29,7 +29,8 @@
     text-align: initial;
 }
 
-#flashcards .flashcard {
+#carpet .flashcard,
+#carpet .resume {
     padding: 0;
 }
 
@@ -40,7 +41,8 @@
     white-space: normal;
 }
 
-.flashcard-container form {
+.flashcard-container form,
+.resume-container form {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -48,7 +50,8 @@
 }
 
 .category-container form textarea,
-.flashcard-container form textarea {
+.flashcard-container form textarea,
+.resume-container form textarea {
     overflow: hidden;
     outline: none;
     padding: 0.1rem;
@@ -58,12 +61,14 @@
     font-size: 1.4em;
 }
 
-.flashcard-container form textarea {
+.flashcard-container form textarea,
+.resume-container form textarea {
     font-size: 1em;
 }
 
+.category-textarea-title,
 .flashcard-textarea-title,
-.category-textarea-title {
+.resume-textarea-info {
     resize: none;
     overflow: hidden;
     width: 100%;
@@ -75,7 +80,8 @@
 }
 
 .category-container form button,
-.flashcard-container form button {
+.flashcard-container form button,
+.resume-container form button {
     box-shadow: none;
     border: 1px solid black;
     border-radius: 0;
@@ -84,24 +90,38 @@
     width: 100%;
 }
 
-#flashcards form {
-    padding: 0.5rem 1.25rem 0 1.25rem;
+.category-container form {
+    padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+}
+
+#carpet form {
+    padding: 0.5rem 1.25rem 0.5rem 1.25rem;
 }
 
 .category-title,
 .flashcard-title,
-.resume-title,
-.info {
+.info,
+.resume-info,
+.full-resume-info {
     height: auto;
 }
 
-.flashcard-title {
+.category-title {
+    width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1.4em;
+}
+
+.flashcard-title,
+.resume-info,
+.full-resume-info {
     max-width: 80%;
 }
 
 .flashcard-title p,
-.resume-title p,
-.full-resume-title p {
+.resume-info p,
+.full-resume-info p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -113,15 +133,17 @@
     -webkit-line-clamp: 3;
 }
 
-.resume-title p {
+.resume-info p {
     -webkit-line-clamp: 6;
 }
 
-.full-resume-title p {
+.full-resume-info p {
     -webkit-line-clamp: auto;
 }
 
-#flashcards .flashcard-title p {
+#carpet .flashcard-title p,
+#carpet .resume-info p,
+#carpet .full-resume-info p {
     margin: 0.5rem 0 0 1.25rem;
 }
 
@@ -137,7 +159,7 @@
     text-overflow: ellipsis;
 }
 
-#flashcards .flashcard-info p {
+#carpet .flashcard-info p {
     margin: 0.5rem 1.25rem 0 1.25rem;
 }
 
@@ -154,7 +176,8 @@
     font-style: italic;
 }
 
-#flashcards .flashcard-theme p {
+#carpet .flashcard-theme p,
+#carpet .resume-theme p {
     font-size: 0.85em;
     text-align: right;
     font-style: italic;
@@ -166,12 +189,7 @@
     gap: 0.8rem;
 }
 
-.category-title {
-    width: 100%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    font-size: 1.4em;
-}
+/*Menú*/
 
 .menu {
     position: absolute;
@@ -193,8 +211,6 @@
 .menu p {
     text-decoration: underline;
 }
-
-/*Buttons*/
 
 .btn-menu {
     cursor: pointer;

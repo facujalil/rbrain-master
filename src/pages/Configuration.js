@@ -15,12 +15,6 @@ export default function Configuration() {
 
     const refContent = useRef()
 
-    // 1. llamar endpoint send-code-email al input de "email" pasando en el body el nuevo e-mail y la contraseña del usuario
-
-    // 2. recibe el codigo -> lo pega en el modal
-    // boton "OK" del modal -> llamar api /change-email method: PUT status_code=202
-    // body: new_email, validation_code
-
     useEffect(() => {
         refContent.current.parentNode.id = "configuration"
     }, [refContent])
@@ -34,7 +28,9 @@ export default function Configuration() {
                 },
                 body: JSON.stringify({ 'email': value.configurationNewEmail, 'password': value.configurationPassword })
             })
+
             const data = await response.json()
+
             if (response.status === 200) {
                 setRequestCode(true)
                 setNewEmail(value.configurationNewEmail)
@@ -48,7 +44,6 @@ export default function Configuration() {
     }
 
     const changeEmail = async (value) => {
-        console.log(newEmail, password)
         try {
             const response = await fetch('https://rbrain.onrender.com/change-mail', {
                 method: 'PUT',
@@ -58,7 +53,9 @@ export default function Configuration() {
                 },
                 body: JSON.stringify({ 'new_email': newEmail, 'password': password, 'verification_code': value.validateCode })
             })
+
             const data = await response.json()
+
             if (response.status === 202) {
                 logoutUser()
             } else {
@@ -70,7 +67,6 @@ export default function Configuration() {
     }
 
     const changePassword = async (value) => {
-        console.log(value.configurationActualPassword, value.configurationNewPassword)
         try {
             const response = await fetch('https://rbrain.onrender.com/change-password', {
                 method: 'PUT',
@@ -80,7 +76,9 @@ export default function Configuration() {
                 },
                 body: JSON.stringify({ 'password': value.configurationActualPassword, 'new_password': value.configurationNewPassword })
             })
+
             const data = await response.json()
+
             if (response.status === 202) {
                 logoutUser()
             } else {

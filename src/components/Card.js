@@ -55,15 +55,14 @@ export default function Card(props) {
     const changeTitleFlashcard = async (e) => {
         if (newText) {
             try {
-                const url = 'https://rbrain.onrender.com/edit-flashcard-title';
-                const body = JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
-                const headers = {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
-                };
-                const response = await fetch(url, { method: 'POST', headers, body });
-
-                const data = await response.json();
+                const response = await fetch('https://rbrain.onrender.com/edit-flashcard-title', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
+                })
 
                 if (response.status === 201) {
                     setTitleFlashcard(newText)
@@ -79,15 +78,15 @@ export default function Card(props) {
     const changeTitleCategory = async (e) => {
         if (newText) {
             try {
-                const url = 'https://rbrain.onrender.com/edit-category-name';
-                const body = JSON.stringify({ 'current_category_id': props.categoryId, 'new_name': newText })
-                const headers = {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
-                };
-                const response = await fetch(url, { method: 'PUT', headers, body });
+                const response = await fetch('https://rbrain.onrender.com/edit-category-name', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ 'current_category_id': props.categoryId, 'new_name': newText })
 
-                const data = await response.json();
+                })
 
                 if (response.status === 200) {
                     setTitleCategory(newText)
@@ -101,18 +100,17 @@ export default function Card(props) {
     };
 
     const changeInfo = async (e) => {
-        console.log(newText)
         if (newText) {
             try {
-                const url = 'https://rbrain.onrender.com/edit-flashcard-info';
-                const body = JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
-                const headers = {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authTokens.access_token}`, // Aquí va el token de ejemplo
-                };
-                const response = await fetch(url, { method: 'POST', headers, body });
+                const response = await fetch('https://rbrain.onrender.com/edit-flashcard-info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ 'id': props.flashcardId, 'new_text': newText })
 
-                const data = await response.json();
+                })
 
                 if (response.status === 201) {
                     setInfoFlashcard(newText)
@@ -127,86 +125,122 @@ export default function Card(props) {
     return (
         <>
             {
-                props.showFlashcards ?
-                    <div className="flashcard-container">
-                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                props.showCategories ?
+                    <>
                         {
-                            menu ?
-                                <div className="menu">
-                                    <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
-                                    <p onClick={() => props.deleteFlashcard(props.flashcardId)}>Eliminar</p>
+                            !isEditable ?
+                                <div className="category">
+                                    <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                                    {
+                                        menu ?
+                                            <div className="menu">
+                                                <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                                <p onClick={() => props.deleteCategory(props.categoryId)}>Eliminar</p>
+                                            </div>
+                                            :
+                                            null
+                                    }
+                                    <Link className="category-link" to={!menu ? `/profile/my-carpet/${props.categoryId}` : null}>
+                                        <p className="category-title">{titleCategory}</p>
+                                    </Link>
                                 </div>
                                 :
-                                null
+                                <div className="category" >
+                                    <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                                    <form onSubmit={(e) => { e.preventDefault(); changeTitleCategory() }}>
+                                        <textarea maxLength={30} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 ? setNewText(e.target.value) : null : setNewText(props.titleCategory)} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>Change</button>
+                                    </form>
+                                </div>
                         }
-                        <div onClick={!isEditable && !menu ? showInfo : null} className={state ? "flashcard" : "flashcard info"}>
+                    </>
 
-                            {
-                                state ?
-                                    isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeTitleFlashcard() }}>
-                                        <textarea value={newText} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
-                                    </form>
-                                        :
-                                        <div className="flashcard-title"><p>{titleFlashcard}</p></div>
-                                    :
-                                    isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeInfo() }}>
-                                        <textarea value={newText} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.infoFlashcard)} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
-                                    </form>
-                                        :
-                                        <div className="flashcard-info"><p>{infoFlashcard}</p></div>
-                            }
-                            <div className="flashcard-theme"><p>{props.theme}</p></div>
-                        </div >
-
-                    </div>
                     :
-                    props.showCategories ?
-                        <>
+
+                    props.showFlashcards ?
+
+                        <div className="flashcard-container">
+                            <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                             {
-                                !isEditable ?
-                                    <div className="category">
-                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
-                                        {
-                                            menu ?
-                                                <div className="menu">
-                                                    <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
-                                                    <p onClick={() => props.deleteCategory(props.categoryId)}>Eliminar</p>
-                                                </div>
-                                                :
-                                                null
-                                        }
-                                        <Link className="category-link" to={!menu ? `/profile/my-flashcards/${props.categoryId}` : null}>
-                                            <p className="category-title">{titleCategory}</p>
-                                        </Link>
+                                menu ?
+                                    <div className="menu">
+                                        <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                        <p onClick={() => props.deleteFlashcard(props.flashcardId)}>Eliminar</p>
                                     </div>
                                     :
-                                    <div className="category" >
-                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
-                                        <form onSubmit={(e) => { e.preventDefault(); changeTitleCategory() }}>
-                                            <textarea value={newText} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 && e.target.value.length <= 30 ? setNewText(e.target.value) : null : setNewText(props.titleCategory)} ref={refTextarea} className="category-textarea-title" defaultValue={titleCategory} /> <button>Change</button>
-                                        </form>
-                                    </div>
+                                    null
                             }
-                        </>
-                        :
-                        props.generateResume ?
-                            <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
-                                <div className="resume">
-                                    <div className={fullResume ? "full-resume-title" : "resume-title"}><p>{props.response}</p></div>
-                                    <div className="resume-theme"><p>{props.response.theme}</p></div>
-                                </div>
-                            </div>
-                            :
-                            <div className="flashcard-container">
-                                <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
-                                    {state ?
-                                        <div className="flashcard-title"><p>{props.title}</p></div>
+                            <div onClick={!isEditable && !menu ? showInfo : null} className={state ? "flashcard" : "flashcard info"}>
+
+                                {
+                                    state ?
+                                        isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeTitleFlashcard() }}>
+                                            <textarea maxLength={60} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="flashcard-textarea-title" defaultValue={titleFlashcard} /> <button>Change</button>
+                                        </form>
+                                            :
+                                            <div className="flashcard-title"><p>{titleFlashcard}</p></div>
                                         :
-                                        <div className="flashcard-info"><p>{props.info}</p></div>
+                                        isEditable ? <form onSubmit={(e) => { e.preventDefault(); changeInfo() }}>
+                                            <textarea maxLength={120} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.infoFlashcard)} ref={refTextarea} className="flashcard-textarea-info" defaultValue={infoFlashcard} /> <button>Change</button>
+                                        </form>
+                                            :
+                                            <div className="flashcard-info"><p>{infoFlashcard}</p></div>
+                                }
+                                <div className="flashcard-theme"><p>{props.theme}</p></div>
+                            </div >
+
+                        </div>
+
+                        :
+
+                        props.showResume ?
+                            <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
+                                <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                                {
+                                    menu ?
+                                        <div className="menu">
+                                            <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                            <p onClick={() => props.deleteFlashcard(props.flashcardId)}>Eliminar</p>
+                                        </div>
+                                        :
+                                        null
+                                }
+                                <div className="resume">
+                                    {
+                                        isEditable ?
+                                            <form onSubmit={(e) => { e.preventDefault(); setIsEditable(!isEditable) }}>
+                                                <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="resume-textarea-info" defaultValue={props.resume} /> <button>Change</button>
+                                            </form>
+                                            :
+                                            <>
+                                                <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
+                                            </>
                                     }
-                                    <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                    <div className="resume-theme"><p>{props.theme}</p></div>
                                 </div>
                             </div>
+
+                            :
+
+                            props.generateResume ?
+                                <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
+                                    <div className="resume">
+                                        <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
+                                        <div className="resume-theme"><p>{props.resume.theme}</p></div>
+                                    </div>
+                                </div>
+
+                                :
+
+                                <div className="flashcard-container">
+                                    <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                                        {state ?
+                                            <div className="flashcard-title"><p>{props.title}</p></div>
+                                            :
+                                            <div className="flashcard-info"><p>{props.info}</p></div>
+                                        }
+                                        <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                    </div>
+                                </div>
             }
         </>
     )

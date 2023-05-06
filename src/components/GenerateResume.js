@@ -9,7 +9,7 @@ export default function GenerateResume(props) {
                 <><p>Theme:</p><input type="text" value={props.subject} onChange={props.handleChange} placeholder="Ej: Fútbol" />
                     <button className="btn-generate">Generate</button></>
             </form>
-            {props.response || props.isLoading ?
+            {props.resume || props.isLoading ?
                 <>
                     <div className="generate-resume-container">
 
@@ -17,7 +17,7 @@ export default function GenerateResume(props) {
                             {props.isLoading ?
                                 <p>Loading...</p>
                                 :
-                                <Card generateResume={true} response={props.response} />
+                                <Card generateResume={true} resume={props.resume} />
                             }
                         </div>
 

@@ -7,9 +7,8 @@ import AuthContext, { AuthProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import Flashcards from './pages/Flashcards';
+import Carpet from './pages/Carpet';
 import Generate from './pages/Generate';
-import MakeResume from './pages/MakeResume';
 import Configuration from './pages/Configuration';
 
 
@@ -29,9 +28,8 @@ function App() {
 
             <Route element={<PrivateRoutes />}>
               <Route path="/" element={<Profile />} />
-              <Route path="/profile/my-flashcards/:categoryId" element={<Flashcards />} />
-              <Route path="/generate-flashcards" element={<Generate />} />
-              <Route path="/make-resume" element={<MakeResume />} />
+              <Route path="/profile/my-carpet/:categoryId" element={<Carpet />} />
+              <Route path="/generate" element={<Generate />} />
               <Route path="/configuration" element={<Configuration />} />
               <Route path='*' element={<Navigate to="/" />} />
 
@@ -59,7 +57,7 @@ function Navigation() {
           <section className='nav'>
 
             <Link className='nav-link' to="/">Profile</Link>
-            <Link className='nav-link' to="/generate-flashcards">Generate flashcards</Link>
+            <Link className='nav-link' to="/generate">Generate</Link>
             <Link className='nav-link' to="/configuration">Configuration</Link>
 
           </section>

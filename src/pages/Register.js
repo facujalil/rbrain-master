@@ -18,7 +18,6 @@ export default function Register() {
     const [errorValidateCode, setErrorValidateCode] = useState(false)
 
     const sendCodeValidation = async (email, password) => {
-        console.log(email, password)
         try {
             const response = await fetch('https://rbrain.onrender.com/send-code-validation', {
                 method: 'POST',
@@ -27,7 +26,9 @@ export default function Register() {
                 },
                 body: JSON.stringify({ 'email': email, 'password': password })
             })
+
             const data = await response.json()
+
             if (response.status === 200) {
                 setRequestCode(true)
                 setErrorRegisterPassword(false)
@@ -67,7 +68,9 @@ export default function Register() {
                 },
                 body: JSON.stringify({ 'email': email, 'password': password, 'verification_code': value.code })
             })
+
             const data = await response.json()
+
             if (response.status === 201) {
                 navigate('/login')
                 setRequestCode(true)

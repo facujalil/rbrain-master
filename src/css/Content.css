@@ -337,6 +337,7 @@ select {
 
 /*Flashcards*/
 
+.select-type-carpet,
 .select-grid-columns,
 .select-generate {
     outline: none;
@@ -348,10 +349,14 @@ select {
     padding: 0.25rem 0;
 }
 
+.select-type-carpet {
+    margin-right: 2.5rem;
+}
+
 .register-container,
 .login-container,
 .categories-container,
-.flashcards-container,
+.carpet-container,
 .generate-container,
 .make-resume-container,
 .configuration-container {
@@ -386,7 +391,7 @@ select {
     padding: 2.5rem 0 0 2.5rem;
 }
 
-.flashcards,
+.carpet,
 .categories {
     display: grid;
     grid-auto-rows: max-content;
@@ -429,7 +434,7 @@ select {
 
 /*Scroll*/
 
-.flashcards::-webkit-scrollbar,
+.carpet::-webkit-scrollbar,
 .categories::-webkit-scrollbar,
 .generate-flashcards::-webkit-scrollbar,
 .generate-resume::-webkit-scrollbar,
@@ -438,7 +443,7 @@ select {
     width: 10px;
 }
 
-.flashcards::-webkit-scrollbar-thumb,
+.carpet::-webkit-scrollbar-thumb,
 .categories::-webkit-scrollbar-thumb,
 .generate-flashcards::-webkit-scrollbar-thumb,
 .generate-resume::-webkit-scrollbar-thumb,
@@ -449,7 +454,7 @@ select {
     box-shadow: inset 0 0 0 2px black;
 }
 
-.flashcards::-webkit-scrollbar-track,
+.carpet::-webkit-scrollbar-track,
 .categories::-webkit-scrollbar-track,
 #configuration .configuration-container::-webkit-scrollbar-track,
 .generate-flashcards::-webkit-scrollbar-track,

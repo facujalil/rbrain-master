@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
-import EditableCard from "../components/Card";
+import Card from "../components/Card";
 import LoadingCategory from "../skeletonsLoading/LoadingCategory";
 
 export default function Profile() {
@@ -73,13 +73,14 @@ export default function Profile() {
             setModal(false)
             setIsNewCategoryLoading(true)
             try {
-                const url = 'https://rbrain.onrender.com/create-category';
-                const body = inputModal
-                const headers = {
-                    'Content-Type': 'text/plain',
-                    Authorization: `Bearer ${authTokens.access_token}`
-                };
-                const response = await fetch(url, { method: 'POST', headers, body });
+                const response = await fetch('https://rbrain.onrender.com/create-category', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: inputModal
+                })
 
                 if (response.status === 201) {
                     getCategories()
@@ -92,13 +93,15 @@ export default function Profile() {
 
     const deleteCategory = async (categoryId) => {
         try {
-            const url = 'https://rbrain.onrender.com/delete-category';
-            const body = JSON.stringify(categoryId);
-            const headers = {
-                'Content-Type': 'text/plain',
-                Authorization: `Bearer ${authTokens.access_token}`
-            };
-            const response = await fetch(url, { method: 'DELETE', headers, body });
+
+            const response = await fetch('https://rbrain.onrender.com/delete-category', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authTokens.access_token}`
+                },
+                body: JSON.stringify(categoryId)
+            })
 
             if (response.status === 200) {
                 getCategories()
@@ -138,7 +141,7 @@ export default function Profile() {
                             :
                             categories.map(category => (
                                 <div key={category.id} className="category-container">
-                                    <EditableCard
+                                    <Card
                                         showCategories={true}
                                         categoryId={category.id}
                                         categoryName={category.name}

@@ -18,8 +18,6 @@ export const AuthProvider = ({ children }) => {
 
     const loginUser = async (valor) => {
 
-        console.log('Form submited')
-
         const response = await fetch('https://rbrain.onrender.com/login', {
             method: 'POST',
             headers: {
@@ -27,7 +25,9 @@ export const AuthProvider = ({ children }) => {
             },
             body: JSON.stringify({ 'email': valor.loginEmail, 'password': valor.loginPassword })
         })
+
         const data = await response.json()
+
         if (response.status === 200) {
             setAuthTokens(data)
             setUser(jwt_decode(data.access_token))
@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }) => {
     }
 
     const updateToken = async () => {
-        console.log('update token called!')
         const response = await fetch('https://rbrain.onrender.com/refresh', {
             method: 'POST',
             headers: {
@@ -55,6 +54,7 @@ export const AuthProvider = ({ children }) => {
                 'Authorization': 'Bearer ' + authTokens?.refresh_token
             }
         })
+
         const data = await response.json()
 
         if (response.status === 200) {

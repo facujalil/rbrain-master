@@ -21,6 +21,16 @@ export default function Content(props) {
                         </div>
                         {props.generateFlashcards ? <select className="select-generate" onChange={props.generateSelect}> <option>flashcards</option> <option>resume</option> </select> : null}
                         {
+                            props.selectTypeCarpet ?
+                                <select className="select-type-carpet" onChange={props.getTypeCarpet}>
+                                    <option>flashcards</option>
+                                    <option>resume</option>
+                                </select>
+                                :
+                                null
+                        }
+
+                        {
                             props.selectGridColumns ?
                                 <select defaultValue='DEFAULT' className="select-grid-columns" onChange={(e) => { localStorage.setItem('gridColumns', e.target.value !== 'default' ? Number(e.target.value) : e.target.value); props.setGridColumns(e.target.value) }}>
                                     <option value={localStorage.gridColumns === "default" ? "DEFAULT" : null}>default</option>
@@ -35,7 +45,7 @@ export default function Content(props) {
                         {props.register ? <p className="opc-log-in" onClick={() => navigate("/login")}>Iniciar Sesión</p> : null}
                         {props.add ? (<button onClick={props.addCategory} className="btn-add">+</button>) : null}
                     </div>
-                    <div className={props.register ? "register-container" : props.login ? "login-container" : props.categories ? "categories-container" : props.flashcards ? "flashcards-container" : props.generate ? "generate-container" : props.makeResume ? "make-resume-container" : props.configuration ? "configuration-container" : null}>
+                    <div className={props.register ? "register-container" : props.login ? "login-container" : props.categories ? "categories-container" : props.carpet ? "carpet-container" : props.generate ? "generate-container" : props.makeResume ? "make-resume-container" : props.configuration ? "configuration-container" : null}>
                         {
                             props.content
                         }
