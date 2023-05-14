@@ -6,8 +6,8 @@ export default function LoadingFlashcard() {
         <>
             <div id='flashcard-container-loading' className="flashcard-container">
                 <div className='flashcard'>
-                    <p className="flashcard-title">Title flashcard</p>
-                    <div className='flashcard-theme'><p>Theme</p></div>
+                    <p className="flashcard-title">Lorem ipsum</p>
+                    <div className='flashcard-theme'><p>Lorem</p></div>
                 </div >
             </div>
         </>

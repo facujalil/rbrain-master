@@ -98,7 +98,7 @@ button,
     width: 100%;
 }
 
-.selected {
+.active {
     background-color: #62B5FA;
     color: white;
 }

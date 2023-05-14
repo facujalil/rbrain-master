@@ -5,6 +5,6 @@ import AuthContext from '../context/AuthContext';
 export default function PublicRoutes() {
     let { authTokens } = useContext(AuthContext)
     return (
-        authTokens === null ? <Outlet /> : <Navigate to="/" />
+        authTokens === null ? <Outlet /> : <Navigate to="/profile" />
     )
 }

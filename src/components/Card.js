@@ -10,6 +10,7 @@ export default function Card(props) {
     const [titleFlashcard, setTitleFlashcard] = useState(props.title)
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
+    const [resume, setResume] = useState(props.resume)
     const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
@@ -122,6 +123,30 @@ export default function Card(props) {
         setIsEditable(false)
     };
 
+    const changeResume = async (e) => {
+        if (newText) {
+            try {
+                const response = await fetch('https://rbrain.onrender.com/resume', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ 'id': props.resumeId, 'new_resume': newText })
+
+                })
+
+                if (response.status === 202) {
+                    setResume(newText)
+                    setFullResume(false)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        setIsEditable(false)
+    };
+
     return (
         <>
             {
@@ -193,26 +218,26 @@ export default function Card(props) {
                         :
 
                         props.showResume ?
-                            <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
+                            <div className="resume-container">
                                 <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                                 {
                                     menu ?
                                         <div className="menu">
                                             <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
-                                            <p onClick={() => props.deleteFlashcard(props.flashcardId)}>Eliminar</p>
+                                            <p onClick={() => props.deleteResume(props.resumeId)}>Eliminar</p>
                                         </div>
                                         :
                                         null
                                 }
-                                <div className="resume">
+                                <div className="resume" onClick={() => setFullResume(!fullResume)}>
                                     {
                                         isEditable ?
-                                            <form onSubmit={(e) => { e.preventDefault(); setIsEditable(!isEditable) }}>
-                                                <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="resume-textarea-info" defaultValue={props.resume} /> <button>Change</button>
+                                            <form onSubmit={(e) => { e.preventDefault(); changeResume() }}>
+                                                <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="resume-textarea-info" defaultValue={resume} /> <button>Change</button>
                                             </form>
                                             :
                                             <>
-                                                <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
+                                                <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{resume}</p></div>
                                             </>
                                     }
                                     <div className="resume-theme"><p>{props.theme}</p></div>
@@ -225,7 +250,7 @@ export default function Card(props) {
                                 <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
                                     <div className="resume">
                                         <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
-                                        <div className="resume-theme"><p>{props.resume.theme}</p></div>
+                                        <div className="resume-theme"><p>{props.theme}</p></div>
                                     </div>
                                 </div>
 

@@ -7,7 +7,7 @@ export default function FormChangePassword(props) {
 
 return (
         <form className="form-send-code-validation" onSubmit={handleSubmit(props.changePassword)}>
-            <label htmlFor="email">Cambiar contraseña</label>
+            <label htmlFor="email">Change password</label>
             <input className={errors.configurationNewEmail ? "error" : null} type="password" name="password" placeholder="Ingresa su contraseña actual" {...register('configurationActualPassword', {
                 required: true, value: ""
             })} />
@@ -18,7 +18,7 @@ return (
             {
                 errors.configurationPassword ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
             }
-            <button className="submit" type="submit">Submit</button>
+            <button className="change" type="submit">Change</button>
         </form>
     )
 }

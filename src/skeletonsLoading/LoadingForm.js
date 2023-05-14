@@ -6,7 +6,7 @@ export default function LoadingForm() {
         <form id="form-loading" onSubmit={(e) => e.preventDefault()}>
             <>
                 <select disabled>
-                    <option value="DEFAULT" disabled hidden>Categories</option>
+                    <option value="DEFAULT" disabled hidden>Lorem ipsum</option>
                 </select>
                 <button className="btn-save"></button>
             </>

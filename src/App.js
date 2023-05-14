@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, BrowserRouter, Link, Navigate } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Link, Navigate, NavLink } from 'react-router-dom';
 import PublicRoutes from './utils/PublicRoutes';
 import PrivateRoutes from './utils/PrivateRoutes';
 import { useContext } from 'react';
@@ -27,11 +27,11 @@ function App() {
             </Route>
 
             <Route element={<PrivateRoutes />}>
-              <Route path="/" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/profile/my-carpet/:categoryId" element={<Carpet />} />
               <Route path="/generate" element={<Generate />} />
               <Route path="/configuration" element={<Configuration />} />
-              <Route path='*' element={<Navigate to="/" />} />
+              <Route path='*' element={<Navigate to="/profile" />} />
 
             </Route>
 
@@ -56,9 +56,9 @@ function Navigation() {
 
           <section className='nav'>
 
-            <Link className='nav-link' to="/">Profile</Link>
-            <Link className='nav-link' to="/generate">Generate</Link>
-            <Link className='nav-link' to="/configuration">Configuration</Link>
+            <NavLink className='nav-link' to="/profile">Profile</NavLink>
+            <NavLink className='nav-link' to="/generate">Generate</NavLink>
+            <NavLink className='nav-link' to="/configuration">Configuration</NavLink>
 
           </section>
         </div>

@@ -9,7 +9,7 @@ export default function Generate() {
     const { authTokens } = useContext(AuthContext);
     const [subject, setSubject] = useState('');
     const [response, setResponse] = useState(null);
-    const [resume, setResume] = useState(null);
+    const [resume, setResume] = useState([]);
     const [category, setCategory] = useState('');
     const [generate, setGenerate] = useState('flashcards')
     const [nameCategories, setNameCategories] = useState("")
@@ -50,7 +50,7 @@ export default function Generate() {
 
     const testHandleSubmitFlashcards = (e) => {
         e.preventDefault();
-        setResponse({ lista_flashcards: [{ title: 1, info: 1 }, { title: 2, info: 2 }, { title: 3, info: 3 }, { title: 4, info: 4 }], theme: subject })
+        setResponse({ lista_flashcards: [{ title: 'title', info: 'info' }, { title: 'title', info: 'info' }, { title: 'title', info: 'info' }, { title: 'title', info: 'info' }], theme: subject })
     }
 
     const handleSubmitFlashcards = async (e) => {
@@ -68,7 +68,7 @@ export default function Generate() {
                 })
 
                 const data = await response.json();
-                setResponse(data);
+                setResponse({ info: data, theme: subject });
             } catch (error) {
                 console.error(error);
             }
@@ -80,7 +80,7 @@ export default function Generate() {
 
     const testHandleSubmitResume = (e) => {
         e.preventDefault();
-        setResume("Lorem ipsum dolor sit amet, consectetur adipiscing elit")
+        setResume({ info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", theme: subject })
     }
 
     const handleSubmitResume = async (e) => {
@@ -100,7 +100,7 @@ export default function Generate() {
                 const data = await response.json()
 
                 if (response.status === 200) {
-                    setResume(data)
+                    setResume({ info: data, theme: subject })
                 } else {
                     console.log("Error")
                 }
@@ -152,7 +152,7 @@ export default function Generate() {
         try {
             const saveResponse = await fetch('https://rbrain.onrender.com/save-resume', {
                 method: 'POST',
-                body: JSON.stringify({ resume: resume, theme: subject, category_name: category }),
+                body: JSON.stringify({ resume: resume.info, theme: subject, category_name: category }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + authTokens.access_token
@@ -160,12 +160,6 @@ export default function Generate() {
             })
 
             const data = await saveResponse.json()
-
-            if (saveResponse.status === 201) {
-                console.log(data)
-            } else {
-                console.log("Error")
-            }
         }
         catch (error) {
             console.error(error)
@@ -203,16 +197,20 @@ export default function Generate() {
                             nameCategories={nameCategories}
                         />
                         :
+                        generate === 'resume' ?
                         <GenerateResume
                             handleSubmitResume={testHandleSubmitResume}
                             subject={subject}
                             handleChange={handleChange}
-                            resume={resume}
+                            resume={resume.info}
+                            theme={resume.theme}
                             isLoading={isLoading}
                             handleSaveResume={handleSaveResume}
                             handleCategoryChange={handleCategoryChange}
                             nameCategories={nameCategories}
                         />
+                        :
+                        null
                     }
                 </>
             }

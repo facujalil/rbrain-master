@@ -97,9 +97,12 @@ export default function Register() {
                 requestCode ?
                     <form className="form-validate" onSubmit={handleSubmit(registerUser)}>
                         <label htmlFor="validate">Te hemos enviado un código de verificación al email</label>
-                        <input defaultValue={inputValue} className={errorValidateCode ? "error" : null} autoComplete="off" id="validate" placeholder="Ingrese el código" {...register('code', {
-                            required: true, value: ""
-                        })} />
+                        <div className="container-input-validate">
+                            <input defaultValue={inputValue} className={errorValidateCode ? "error" : null} autoComplete="off" id="validate" placeholder="Ingrese el código" {...register('code', {
+                                required: true, value: ""
+                            })} />
+                            <button>OK</button>
+                        </div>
                         {errorValidateCode ? <div className="container-error"><p>El código ingresado no es correcto</p></div> : null}
                     </form>
                     :

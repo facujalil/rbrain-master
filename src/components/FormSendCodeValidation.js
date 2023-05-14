@@ -7,7 +7,7 @@ export default function FormSendCodeValidation(props) {
 
     return (
         <form className="form-send-code-validation" onSubmit={handleSubmit(props.sendCodeValidation)}>
-            <label htmlFor="email">Cambiar email</label>
+            <label htmlFor="email">Change email</label>
             <input className={errors.configurationNewEmail ? "error" : null} type="text" name="email" placeholder="Ingresa su nuevo email" {...register('configurationNewEmail', {
                 required: true, value: "", pattern: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
             })} />
@@ -18,7 +18,7 @@ export default function FormSendCodeValidation(props) {
             {
                 errors.configurationPassword ? <div className="container-error"><p>Ingresa una contraseña</p></div> : null
             }
-            <button className="submit" type="submit">Submit</button>
+            <button className="change" type="submit">Change</button>
         </form>
     )
 }

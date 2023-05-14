@@ -4,6 +4,7 @@ import AuthContext from "../context/AuthContext";
 import Card from "../components/Card";
 import { useParams } from "react-router-dom";
 import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
+import { mentalMaps } from "../mentalMaps";
 
 export default function Carpet() {
 
@@ -72,7 +73,9 @@ export default function Carpet() {
 
             const data = await response.json();
 
-            setResume(data.resumes)
+            if (response.status === 200) {
+                setResume(data.resumes)
+            }
 
 
         } catch (error) {
@@ -107,12 +110,58 @@ export default function Carpet() {
         }
     }
 
+    const deleteResume = async (resumeId) => {
+        try {
+
+            const response = await fetch('https://rbrain.onrender.com/resume', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authTokens.access_token}`
+                },
+                body: JSON.stringify(resumeId)
+            })
+
+            if (response.status === 202) {
+                getResumes()
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const getTypeCarpet = (e) => {
         setTypeCarpet(e.target.value)
     }
 
     for (let i = 0; i < 8; i++) {
         loading.push(<LoadingFlashcard key={i} />)
+    }
+
+    function renderMentalMap(node, depth = 0) {
+        return (
+            <div className="mental-map">
+                <div
+                    className="container-mental-map"
+                    style={{ "--depth": depth }}
+                >
+                    <div className="mental-map-name"> {node.name}</div>
+                    {node.children && (
+                        <div className="mental-map-children">
+                            {node.children.map((child, index) => (
+                                <div
+                                    className="mental-map-children_children"
+                                    key={index}
+                                >
+                                    {renderMentalMap(child, depth + 1)}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -130,7 +179,7 @@ export default function Carpet() {
                     errorMsg && typeCarpet === 'flashcards' ?
                         errorMsg
                         :
-                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `carpet grid-columns-${gridColumns}` : "carpet grid-columns-default"}>
+                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns && typeCarpet !== 'mental maps' ? `carpet grid-columns-${gridColumns}` : typeCarpet === 'mental maps' ? "total-mental-maps" : "carpet grid-columns-default"}>
                             {isLoading ?
                                 <>
                                     {loading}
@@ -149,16 +198,21 @@ export default function Carpet() {
                                         />
                                     ))
                                     :
-                                    resume.map((resume) =>
-                                        <Card
-                                            showResume={true}
-                                            key={resume.text}
-                                            resume={resume.text}
-                                            theme={resume.theme}
-                                        />
-                                    )
+                                    typeCarpet === 'resume' ?
+                                        resume.map((resume) =>
+                                            <Card
+                                                showResume={true}
+                                                key={resume.id}
+                                                resumeId={resume.id}
+                                                deleteResume={deleteResume}
+                                                resume={resume.text}
+                                                theme={resume.theme}
+                                            />
+                                        )
+                                        :
+                                        renderMentalMap(mentalMaps[0])
                             }
-                        </div>
+                        </div >
                 }
             />
         </>

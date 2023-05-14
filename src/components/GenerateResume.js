@@ -1,5 +1,7 @@
 import React from 'react';
 import Card from './Card';
+import LoadingForm from '../skeletonsLoading/LoadingForm';
+import LoadingGenerateResume from '../skeletonsLoading/LoadingGenerateResume';
 
 export default function GenerateResume(props) {
 
@@ -15,14 +17,14 @@ export default function GenerateResume(props) {
 
                         <div id={props.isLoading ? "generate-resume-loading" : null} className="generate-resume">
                             {props.isLoading ?
-                                <p>Loading...</p>
+                                <LoadingGenerateResume />
                                 :
-                                <Card generateResume={true} resume={props.resume} />
+                                <Card generateResume={true} resume={props.resume} theme={props.theme} />
                             }
                         </div>
 
                         {props.isLoading ?
-                            <p>Loading...</p>
+                            <LoadingForm />
                             :
                             <form onSubmit={props.handleSaveResume}>
                                 <>
