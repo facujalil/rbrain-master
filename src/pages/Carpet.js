@@ -158,6 +158,7 @@ export default function Carpet() {
 
             if (response.status === 200) {
                 console.log(data)
+                setMentalMap(data)
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -240,11 +241,18 @@ export default function Carpet() {
                                             />
                                         )
                                         :
-                                        <Card
-                                            showMentalMap={true}
-                                            mentalMap={mentalMap}
-                                            refMentalMap={refMentalMap}
-                                        />
+                                        <>
+                                          {mentalMap.map((map) => (
+                                            <Card
+                                              showMentalMap={true}
+                                              mentalMap={map}
+                                              refMentalMap={refMentalMap}
+                                              key={map.id}
+                                            >
+                                              {map.name} {/* Agrega esta línea para mostrar el nombre del mental map */}
+                                            </Card>
+                                          ))}
+                                        </>
                             }
                         </div >
                 }
