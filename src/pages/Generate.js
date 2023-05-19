@@ -3,6 +3,7 @@ import Content from "../components/Content";
 import AuthContext from "../context/AuthContext";
 import GenerateFlashcards from "../components/GenerateFlashcards";
 import GenerateResume from "../components/GenerateResume";
+import GenerateMentalMap from "../components/GenerateMentalMap";
 
 export default function Generate() {
 
@@ -11,6 +12,7 @@ export default function Generate() {
     const [response, setResponse] = useState(null);
     const [resume, setResume] = useState([]);
     const [category, setCategory] = useState('');
+    const [mentalMap, setMentalMap] = useState([]);
     const [generate, setGenerate] = useState('flashcards')
     const [nameCategories, setNameCategories] = useState("")
     const [isLoading, setIsLoading] = useState(false)
@@ -66,9 +68,8 @@ export default function Generate() {
                     },
                     body: JSON.stringify({ theme: subject })
                 })
-
                 const data = await response.json();
-                setResponse({ info: data, theme: subject });
+                setResponse({ lista_flashcards: data.lista_flashcards, theme: subject });
             } catch (error) {
                 console.error(error);
             }
@@ -104,6 +105,33 @@ export default function Generate() {
                 } else {
                     console.log("Error")
                 }
+            } catch (error) {
+                console.error(error);
+            }
+            finally {
+                setIsLoading(false)
+            }
+        }
+    }
+
+    const handleSubmitMentalMap = async (e) => {
+        e.preventDefault();
+        if (subject) {
+            setIsLoading(true)
+            try {
+                const response = await fetch('https://rbrain.onrender.com/generate-mental-map', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ theme: subject })
+                })
+
+                const data = await response.json();
+
+                setMentalMap(data.mental_map)
+
             } catch (error) {
                 console.error(error);
             }
@@ -170,6 +198,38 @@ export default function Generate() {
         }
     }
 
+    const handleSaveMentalMap = async (e) => {
+        e.preventDefault();
+        const content = {
+            key1: "valor1",
+            key2: "valor2",
+            // Otros datos en formato JSON
+          };
+        try {
+            const saveResponse = await fetch('https://rbrain.onrender.com/mental-map', {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_theme: subject,
+                    user_category: category,
+                    user_content: content
+                  }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authTokens.access_token
+                }
+            })
+
+            const data = await saveResponse.json()
+        }
+        catch (error) {
+            console.error(error)
+        }
+        finally {
+            setSubject("")
+            setResume("")
+        }
+    }
+
     const generateSelect = (e) => {
         setSubject("")
         setIsLoading(false)
@@ -187,7 +247,7 @@ export default function Generate() {
                 <>
                     {generate === 'flashcards' ?
                         <GenerateFlashcards
-                            handleSubmitFlashcards={testHandleSubmitFlashcards}
+                            handleSubmitFlashcards={handleSubmitFlashcards}
                             subject={subject}
                             handleChange={handleChange}
                             response={response}
@@ -198,19 +258,28 @@ export default function Generate() {
                         />
                         :
                         generate === 'resume' ?
-                        <GenerateResume
-                            handleSubmitResume={testHandleSubmitResume}
-                            subject={subject}
-                            handleChange={handleChange}
-                            resume={resume.info}
-                            theme={resume.theme}
-                            isLoading={isLoading}
-                            handleSaveResume={handleSaveResume}
-                            handleCategoryChange={handleCategoryChange}
-                            nameCategories={nameCategories}
-                        />
-                        :
-                        null
+                            <GenerateResume
+                                handleSubmitResume={handleSubmitResume}
+                                subject={subject}
+                                handleChange={handleChange}
+                                resume={resume.info}
+                                theme={resume.theme}
+                                isLoading={isLoading}
+                                handleSaveResume={handleSaveResume}
+                                handleCategoryChange={handleCategoryChange}
+                                nameCategories={nameCategories}
+                            />
+                            :
+                            <GenerateMentalMap
+                                handleSubmitMentalMap={handleSubmitMentalMap}
+                                subject={subject}
+                                handleChange={handleChange}
+                                mentalMap={mentalMap}
+                                isLoading={isLoading}
+                                handleSaveMentalMap={handleSaveMentalMap}
+                                handleCategoryChange={handleCategoryChange}
+                                nameCategories={nameCategories}
+                            />
                     }
                 </>
             }

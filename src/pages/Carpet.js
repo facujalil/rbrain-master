@@ -4,22 +4,33 @@ import AuthContext from "../context/AuthContext";
 import Card from "../components/Card";
 import { useParams } from "react-router-dom";
 import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
-import { mentalMaps } from "../mentalMaps";
 
 export default function Carpet() {
 
+    const refMentalMap = useRef();
+
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
-    const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("")
-    const [resume, setResume] = useState("")
+    const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("");
+    const [resume, setResume] = useState("");
+    const [mentalMap, setMentalMap] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
-    const [typeCarpet, setTypeCarpet] = useState("flashcards")
-    const [gridColumns, setGridColumns] = useState(localStorage.gridColumns)
-    const loading = []
+    const [typeCarpet, setTypeCarpet] = useState("flashcards");
+    const [gridColumns, setGridColumns] = useState(localStorage.gridColumns);
+    const loading = [];
 
-    const refContent = useRef()
+    const refContent = useRef();
+
+    useEffect(() => {
+        if (typeCarpet === 'mental map') {
+            refContent.current.lastChild.firstChild.lastChild.className = "carpet-container-mental-map"
+        }
+        else {
+            refContent.current.lastChild.firstChild.lastChild.className = "carpet-container"
+        }
+    }, [typeCarpet])
 
     useEffect(() => {
         refContent.current.parentNode.id = "carpet"
@@ -27,7 +38,8 @@ export default function Carpet() {
 
     useEffect(() => {
         getFlashcards();
-        getResumes()
+        getResumes();
+        getMentalMaps()
     }, [categoryId, authTokens, logoutUser]);
 
     const getFlashcards = async () => {
@@ -131,6 +143,31 @@ export default function Carpet() {
         }
     }
 
+    const getMentalMaps = async () => {
+        try {
+            const response = await fetch(`https://rbrain.onrender.com/get-mental-maps-by-category`, {
+                method: 'POST',
+                body: JSON.stringify({ category: categoryId }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authTokens.access_token}`
+                }
+            })
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                console.log(data)
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                logoutUser();
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const getTypeCarpet = (e) => {
         setTypeCarpet(e.target.value)
     }
@@ -139,29 +176,22 @@ export default function Carpet() {
         loading.push(<LoadingFlashcard key={i} />)
     }
 
-    function renderMentalMap(node, depth = 0) {
-        return (
-            <div className="mental-map">
-                <div
-                    className="container-mental-map"
-                    style={{ "--depth": depth }}
-                >
-                    <div className="mental-map-name"> {node.name}</div>
-                    {node.children && (
-                        <div className="mental-map-children">
-                            {node.children.map((child, index) => (
-                                <div
-                                    className="mental-map-children_children"
-                                    key={index}
-                                >
-                                    {renderMentalMap(child, depth + 1)}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
-        );
+    let scale = 1;
+
+    const zoom = (event) => {
+
+        const scrollDelta = Math.sign(event.deltaY);
+        const zoomStep = 0.1; // Ajusta el valor para controlar el nivel de zoom
+
+        if (scrollDelta > 0) {
+            scale -= zoomStep; // Zoom out
+        } else {
+            scale += zoomStep; // Zoom in
+        }
+
+        scale = Math.min(Math.max(0.5, scale), 3); // Limita el nivel de zoom entre 0.5 y 3
+
+        refMentalMap.current.style.transform = `scale(${scale})`;
     }
 
     return (
@@ -179,7 +209,7 @@ export default function Carpet() {
                     errorMsg && typeCarpet === 'flashcards' ?
                         errorMsg
                         :
-                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns && typeCarpet !== 'mental maps' ? `carpet grid-columns-${gridColumns}` : typeCarpet === 'mental maps' ? "total-mental-maps" : "carpet grid-columns-default"}>
+                        <div ref={typeCarpet === 'mental map' ? refMentalMap : null} onWheel={typeCarpet === 'mental map' ? (event) => zoom(event) : null} id={isLoading ? "flashcards-loading" : null} className={gridColumns && typeCarpet !== 'mental map' ? `carpet grid-columns-${gridColumns}` : typeCarpet === 'mental map' ? "container-zoom-mental-map" : "carpet grid-columns-default"}>
                             {isLoading ?
                                 <>
                                     {loading}
@@ -210,7 +240,11 @@ export default function Carpet() {
                                             />
                                         )
                                         :
-                                        renderMentalMap(mentalMaps[0])
+                                        <Card
+                                            showMentalMap={true}
+                                            mentalMap={mentalMap}
+                                            refMentalMap={refMentalMap}
+                                        />
                             }
                         </div >
                 }

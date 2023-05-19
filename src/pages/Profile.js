@@ -79,7 +79,7 @@ export default function Profile() {
                         'Content-Type': 'text/plain',
                         Authorization: `Bearer ${authTokens.access_token}`
                     },
-                    body: inputModal
+                    body: JSON.stringify({ category: inputModal })
                 })
 
                 if (response.status === 201) {

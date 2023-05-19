@@ -147,6 +147,31 @@ export default function Card(props) {
         setIsEditable(false)
     };
 
+    function renderMentalMap(node, depth = 0) {
+        return (
+            <div ref={props.refMentalMap} className="container-mental-map">
+                <div
+                    className="mental-map"
+                    style={{ "--depth": depth }}
+                >
+                    <div className="mental-map-name"> {node.name}</div>
+                    {node.children && (
+                        <div className="mental-map-children">
+                            {node.children.map((child, index) => (
+                                <div
+                                    className="mental-map-children_children"
+                                    key={index}
+                                >
+                                    {renderMentalMap(child, depth + 1)}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             {
@@ -256,16 +281,20 @@ export default function Card(props) {
 
                                 :
 
-                                <div className="flashcard-container">
-                                    <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
-                                        {state ?
-                                            <div className="flashcard-title"><p>{props.title}</p></div>
-                                            :
-                                            <div className="flashcard-info"><p>{props.info}</p></div>
-                                        }
-                                        <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                props.showMentalMap ?
+                                    renderMentalMap(props.mentalMap)
+                                    :
+
+                                    <div className="flashcard-container">
+                                        <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                                            {state ?
+                                                <div className="flashcard-title"><p>{props.title}</p></div>
+                                                :
+                                                <div className="flashcard-info"><p>{props.info}</p></div>
+                                            }
+                                            <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                        </div>
                                     </div>
-                                </div>
             }
         </>
     )

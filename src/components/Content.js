@@ -19,13 +19,13 @@ export default function Content(props) {
                             <div className="circle"></div>
                             <h4>{props.title}</h4>
                         </div>
-                        {props.generateFlashcards ? <select className="select-generate" onChange={props.generateSelect}> <option>flashcards</option> <option>resume</option> <option>mental maps</option> </select> : null}
+                        {props.generateFlashcards ? <select className="select-generate" onChange={props.generateSelect}> <option>flashcards</option> <option>resume</option> <option>mental map</option> </select> : null}
                         {
                             props.selectTypeCarpet ?
                                 <select className="select-type-carpet" onChange={props.getTypeCarpet}>
                                     <option>flashcards</option>
                                     <option>resume</option>
-                                    <option>mental maps</option>
+                                    <option>mental map</option>
                                 </select>
                                 :
                                 null
