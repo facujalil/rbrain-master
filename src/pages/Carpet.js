@@ -131,7 +131,7 @@ export default function Carpet() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authTokens.access_token}`
                 },
-                body: JSON.stringify(resume_id: resumeId)
+                body: JSON.stringify({resume_id: resumeId})
             })
 
             if (response.status === 202) {
