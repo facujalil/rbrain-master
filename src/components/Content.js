@@ -18,6 +18,7 @@ export default function Content(props) {
                         <div className="circle-and-title">
                             <div className="circle"></div>
                             <h4>{props.title}</h4>
+                            <button>ADD</button>
                         </div>
                         {props.generateFlashcards ? <select className="select-generate" onChange={props.generateSelect}> <option>flashcards</option> <option>resume</option> <option>mental map</option> </select> : null}
                         {
