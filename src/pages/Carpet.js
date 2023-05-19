@@ -158,7 +158,7 @@ export default function Carpet() {
 
             if (response.status === 200) {
                 console.log(data)
-                setMentalMap(data)
+                setMentalMap(data.mental_maps)
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
