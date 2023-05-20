@@ -1,5 +1,5 @@
 import './App.css';
-import { Routes, Route, BrowserRouter, Link, Navigate, NavLink } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Navigate, NavLink } from 'react-router-dom';
 import PublicRoutes from './utils/PublicRoutes';
 import PrivateRoutes from './utils/PrivateRoutes';
 import { useContext } from 'react';
@@ -10,6 +10,7 @@ import Profile from './pages/Profile';
 import Carpet from './pages/Carpet';
 import Generate from './pages/Generate';
 import Configuration from './pages/Configuration';
+import MentalMap from './pages/MentalMap';
 
 
 function App() {
@@ -29,9 +30,11 @@ function App() {
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/my-carpet/:categoryId" element={<Carpet />} />
+              <Route path="/profile/my-carpet/:categoryId/:categoryCardMentalMapId" element={<MentalMap />} />
               <Route path="/generate" element={<Generate />} />
               <Route path="/configuration" element={<Configuration />} />
               <Route path='*' element={<Navigate to="/profile" />} />
+
 
             </Route>
 

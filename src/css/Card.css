@@ -1,43 +1,6 @@
-/*Mental Map*/
-
-.mental-map {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    padding: 1rem 0.5rem;
-}
-
-.mental-map-name {
-    border: 2px solid black;
-    height: calc(100% / 2);
-    padding: 0.5rem;
-    background-color: #62B5FA;
-    border-radius: 8px;
-    margin: 0.25rem;
-    color: white;
-    max-width: 10rem;
-    text-align: center;
-    word-wrap: break-word;
-    cursor: pointer;
-}
-
-.mental-map-children {
-    display: flex;
-    gap: 1rem;
-}
-
-.mental-map-children_children {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    height: calc(100% / (2 * var(--depth)));
-}
-
 .flashcard-container,
-.resume-container {
+.resume-container,
+.card-mental-map-container {
     position: relative;
     height: fit-content;
     margin: 1.3rem;
@@ -51,12 +14,14 @@
 
 .category-container p,
 .flashcard-container p,
-.resume-container p {
+.resume-container p,
+.card-mental-map-container p {
     user-select: none;
 }
 
 .flashcard,
-.resume {
+.resume,
+.card-mental-map {
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
@@ -68,7 +33,8 @@
 }
 
 #carpet .flashcard,
-#carpet .resume {
+#carpet .resume,
+#carpet .card-mental-map {
     padding: 0;
 }
 
@@ -80,7 +46,8 @@
 }
 
 .flashcard-container form,
-.resume-container form {
+.resume-container form,
+.card-mental-map-container form {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
@@ -89,7 +56,8 @@
 
 .category-container form textarea,
 .flashcard-container form textarea,
-.resume-container form textarea {
+.resume-container form textarea,
+.card-mental-map-container textarea {
     overflow: hidden;
     outline: none;
     padding: 0.1rem;
@@ -100,13 +68,15 @@
 }
 
 .flashcard-container form textarea,
-.resume-container form textarea {
+.resume-container form textarea,
+.card-mental-map-container form textarea {
     font-size: 1em;
 }
 
 .category-textarea-title,
 .flashcard-textarea-title,
-.resume-textarea-info {
+.resume-textarea-info,
+.name-card-mental-map-textarea {
     resize: none;
     overflow: hidden;
     width: 100%;
@@ -119,7 +89,8 @@
 
 .category-container form button,
 .flashcard-container form button,
-.resume-container form button {
+.resume-container form button,
+.card-mental-map-container form button {
     box-shadow: none;
     border: 1px solid black;
     border-radius: 0;
@@ -140,7 +111,8 @@
 .flashcard-title,
 .info,
 .resume-info,
-.full-resume-info {
+.full-resume-info,
+.name-card-mental-map {
     height: auto;
 }
 
@@ -153,13 +125,15 @@
 
 .flashcard-title,
 .resume-info,
-.full-resume-info {
+.full-resume-info,
+.name-card-mental-map {
     max-width: 80%;
 }
 
 .flashcard-title p,
 .resume-info p,
-.full-resume-info p {
+.full-resume-info p,
+.name-card-mental-map p {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -167,7 +141,8 @@
     word-wrap: break-word;
 }
 
-.flashcard-title p {
+.flashcard-title p,
+.name-card-mental-map p {
     -webkit-line-clamp: 3;
 }
 
@@ -181,7 +156,8 @@
 
 #carpet .flashcard-title p,
 #carpet .resume-info p,
-#carpet .full-resume-info p {
+#carpet .full-resume-info p,
+#carpet .name-card-mental-map p {
     margin: 0.5rem 0 0 1.25rem;
 }
 

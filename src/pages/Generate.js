@@ -204,7 +204,7 @@ export default function Generate() {
             key1: "valor1",
             key2: "valor2",
             // Otros datos en formato JSON
-          };
+        };
         try {
             const saveResponse = await fetch('https://rbrain.onrender.com/mental-map', {
                 method: 'POST',
@@ -212,7 +212,7 @@ export default function Generate() {
                     user_theme: subject,
                     user_category: category,
                     user_content: content
-                  }),
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + authTokens.access_token

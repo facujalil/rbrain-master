@@ -54,7 +54,8 @@ button,
 .card,
 .flashcard,
 .resume,
-.category {
+.category,
+.card-mental-map {
     display: flex;
     align-items: center;
     justify-content: center;

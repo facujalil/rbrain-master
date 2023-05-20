@@ -24,22 +24,13 @@ export default function Carpet() {
     const refContent = useRef();
 
     useEffect(() => {
-        if (typeCarpet === 'mental map') {
-            refContent.current.lastChild.firstChild.lastChild.className = "carpet-container-mental-map"
-        }
-        else {
-            refContent.current.lastChild.firstChild.lastChild.className = "carpet-container"
-        }
-    }, [typeCarpet])
-
-    useEffect(() => {
         refContent.current.parentNode.id = "carpet"
     }, [refContent])
 
     useEffect(() => {
         getFlashcards();
         getResumes();
-        getMentalMaps()
+        getCardMentalMaps()
     }, [categoryId, authTokens, logoutUser]);
 
     const getFlashcards = async () => {
@@ -74,7 +65,6 @@ export default function Carpet() {
 
     const getResumes = async () => {
         try {
-
             const response = await fetch(`https://rbrain.onrender.com/resumes-by-category?category_id=${parseInt(categoryId)}`, {
                 method: 'GET',
                 headers: {
@@ -88,8 +78,6 @@ export default function Carpet() {
             if (response.status === 200) {
                 setResume(data.resumes)
             }
-
-
         } catch (error) {
             console.error(error);
         }
@@ -131,7 +119,7 @@ export default function Carpet() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${authTokens.access_token}`
                 },
-                body: JSON.stringify({resume_id: resumeId})
+                body: JSON.stringify({ resume_id: resumeId })
             })
 
             if (response.status === 202) {
@@ -143,7 +131,27 @@ export default function Carpet() {
         }
     }
 
-    const getMentalMaps = async () => {
+    const deleteCardMentalMap = async (cardMentalMapId) => {
+        try {
+            const response = await fetch('https://rbrain.onrender.com/mental-map', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authTokens.access_token}`
+                },
+                body: JSON.stringify({ map_id: cardMentalMapId })
+            })
+
+            if (response.status === 200) {
+                getCardMentalMaps()
+            }
+
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getCardMentalMaps = async () => {
         try {
             const response = await fetch(`https://rbrain.onrender.com/get-mental-maps-by-category`, {
                 method: 'POST',
@@ -157,7 +165,6 @@ export default function Carpet() {
             const data = await response.json();
 
             if (response.status === 200) {
-                console.log(data)
                 setMentalMap(data.mental_maps)
             }
         } catch (error) {
@@ -177,24 +184,6 @@ export default function Carpet() {
         loading.push(<LoadingFlashcard key={i} />)
     }
 
-    let scale = 1;
-
-    const zoom = (event) => {
-
-        const scrollDelta = Math.sign(event.deltaY);
-        const zoomStep = 0.1; // Ajusta el valor para controlar el nivel de zoom
-
-        if (scrollDelta > 0) {
-            scale -= zoomStep; // Zoom out
-        } else {
-            scale += zoomStep; // Zoom in
-        }
-
-        scale = Math.min(Math.max(0.5, scale), 3); // Limita el nivel de zoom entre 0.5 y 3
-
-        refMentalMap.current.style.transform = `scale(${scale})`;
-    }
-
     return (
         <>
             <Content
@@ -210,7 +199,7 @@ export default function Carpet() {
                     errorMsg && typeCarpet === 'flashcards' ?
                         errorMsg
                         :
-                        <div ref={typeCarpet === 'mental map' ? refMentalMap : null} onWheel={typeCarpet === 'mental map' ? (event) => zoom(event) : null} id={isLoading ? "flashcards-loading" : null} className={gridColumns && typeCarpet !== 'mental map' ? `carpet grid-columns-${gridColumns}` : typeCarpet === 'mental map' ? "container-zoom-mental-map" : "carpet grid-columns-default"}>
+                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `carpet grid-columns-${gridColumns}` : "carpet grid-columns-default"}>
                             {isLoading ?
                                 <>
                                     {loading}
@@ -242,16 +231,16 @@ export default function Carpet() {
                                         )
                                         :
                                         <>
-                                          {mentalMap.map((map) => (
-                                            <Card
-                                              showMentalMap={true}
-                                              mentalMap={map}
-                                              refMentalMap={refMentalMap}
-                                              key={map.id}
-                                            >
-                                              {map.name} {/* Agrega esta línea para mostrar el nombre del mental map */}
-                                            </Card>
-                                          ))}
+                                            {mentalMap.map((mentalMap) => (
+                                                <Card
+                                                    showCardMentalMap={true}
+                                                    name={mentalMap.name}
+                                                    cardMentalMapId={mentalMap.id}
+                                                    categoryId={categoryId}
+                                                    key={mentalMap.id}
+                                                    deleteCardMentalMap={deleteCardMentalMap}
+                                                />
+                                            ))}
                                         </>
                             }
                         </div >

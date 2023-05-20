@@ -1,0 +1,35 @@
+.mental-map {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 0.5rem;
+}
+
+.mental-map-name {
+    border: 2px solid black;
+    height: calc(100% / 2);
+    padding: 0.5rem;
+    background-color: #62B5FA;
+    border-radius: 8px;
+    margin: 0.25rem;
+    color: white;
+    max-width: 10rem;
+    text-align: center;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+
+.mental-map-children {
+    display: flex;
+    gap: 1rem;
+}
+
+.mental-map-children_children {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: calc(100% / (2 * var(--depth)));
+}

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 import "../css/Card.css";
 import AuthContext from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Card(props) {
 
@@ -11,6 +11,7 @@ export default function Card(props) {
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
     const [resume, setResume] = useState(props.resume)
+    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.name)
     const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
@@ -147,6 +148,31 @@ export default function Card(props) {
         setIsEditable(false)
     };
 
+    const changeCardMentalMap = async (e) => {
+        if (newText) {
+            console.log(parseInt(props.cardMentalMapId))
+            try {
+                const response = await fetch(`https://rbrain.onrender.com/mental-map/${parseInt(props.cardMentalMapId)}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ 'new_mental_map_name': newText })
+
+                })
+
+                if (response.status === 200) {
+                    console.log("OK")
+                    setNameCardMentalMap(newText)
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        setIsEditable(false)
+    };
+
     function renderMentalMap(node, depth = 0) {
         return (
             <div ref={props.refMentalMap} className="container-mental-map">
@@ -171,6 +197,8 @@ export default function Card(props) {
             </div>
         );
     }
+
+    const navigate = useNavigate()
 
     return (
         <>
@@ -271,30 +299,61 @@ export default function Card(props) {
 
                             :
 
-                            props.generateResume ?
-                                <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
-                                    <div className="resume">
-                                        <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
-                                        <div className="resume-theme"><p>{props.theme}</p></div>
+                            props.showCardMentalMap ?
+
+                                !isEditable ?
+                                    <div className="card-mental-map-container">
+                                        <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                                        {
+                                            menu ?
+                                                <div className="menu">
+                                                    <p onClick={() => { setMenu(false); setIsEditable(!isEditable) }}>Editar</p>
+                                                    <p onClick={() => props.deleteCardMentalMap(props.cardMentalMapId)}>Eliminar</p>
+                                                </div>
+                                                :
+                                                null
+                                        }
+                                        <div className="card-mental-map" onClick={() => !menu ? navigate(`/profile/my-carpet/${props.categoryId}/${props.cardMentalMapId}`) : null}>
+                                            <div className={"name-card-mental-map"}><p>{nameCardMentalMap}</p></div>
+                                        </div>
                                     </div>
-                                </div>
+                                    :
+                                    <div className="card-mental-map-container" >
+                                        <div className="card-mental-map">
+                                            <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
+                                            <form onSubmit={(e) => { e.preventDefault(); changeCardMentalMap() }}>
+                                                <textarea maxLength={30} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 ? setNewText(e.target.value) : null : setNewText(props.name)} ref={refTextarea} className="name-card-mental-map-textarea" defaultValue={nameCardMentalMap} /> <button>Change</button>
+                                            </form>
+                                        </div>
+                                    </div>
 
                                 :
 
-                                props.showMentalMap ?
-                                    renderMentalMap(props.mentalMap)
-                                    :
-
-                                    <div className="flashcard-container">
-                                        <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
-                                            {state ?
-                                                <div className="flashcard-title"><p>{props.title}</p></div>
-                                                :
-                                                <div className="flashcard-info"><p>{props.info}</p></div>
-                                            }
-                                            <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                props.generateResume ?
+                                    <div className="resume-container" onClick={() => setFullResume(!fullResume)}>
+                                        <div className="resume">
+                                            <div className={fullResume ? "full-resume-info" : "resume-info"}><p>{props.resume}</p></div>
+                                            <div className="resume-theme"><p>{props.theme}</p></div>
                                         </div>
                                     </div>
+
+                                    :
+
+                                    props.showMentalMap ?
+                                        renderMentalMap(props.mentalMap)
+
+                                        :
+
+                                        <div className="flashcard-container">
+                                            <div onClick={showInfo} className={state ? "flashcard" : "flashcard info"}>
+                                                {state ?
+                                                    <div className="flashcard-title"><p>{props.title}</p></div>
+                                                    :
+                                                    <div className="flashcard-info"><p>{props.info}</p></div>
+                                                }
+                                                <div className="flashcard-theme"><p>{props.theme}</p></div>
+                                            </div>
+                                        </div>
             }
         </>
     )
