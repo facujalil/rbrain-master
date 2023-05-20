@@ -76,7 +76,7 @@ export default function Profile() {
                 const response = await fetch('https://rbrain.onrender.com/create-category', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'text/plain',
+                        'Content-Type': 'application/json',
                         Authorization: `Bearer ${authTokens.access_token}`
                     },
                     body: JSON.stringify({ category: inputModal })
