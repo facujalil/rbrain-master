@@ -10,7 +10,7 @@ export default function GenerateMentalMap(props) {
                 <><p>Theme:</p><input type="text" value={props.subject} onChange={props.handleChange} placeholder="Ej: Básket" />
                     <button className="btn-generate">Generate</button></>
             </form>
-            {props.mentalMap.info || props.isLoading ?
+            {props.mentalMap.name || props.isLoading ?
                 <>
                     <div className="generate-mental-map-container">
 
