@@ -11,7 +11,7 @@ export default function Card(props) {
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
     const [resume, setResume] = useState(props.resume)
-    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.subject)
+    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.name)
     const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
