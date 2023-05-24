@@ -180,7 +180,7 @@ export default function Card(props) {
                     className="mental-map"
                     style={{ "--depth": depth }}
                 >
-                    <div className="mental-map-name"> {node.info}</div>
+                    <div className="mental-map-name"> {node.name}</div>
                     {node.children && (
                         <div className="mental-map-children">
                             {node.children.map((child, index) => (
