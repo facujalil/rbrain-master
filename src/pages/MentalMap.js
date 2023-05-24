@@ -64,6 +64,7 @@ export default function MentalMap() {
             refContent={refContent}
             title={mentalMap.name}
             carpet={true}
+            mentalMap={true}
             selectTypeCarpet={false}
             content={
                 <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>

@@ -393,19 +393,6 @@ select {
     height: 80%;
 }
 
-.carpet-container-mental-map {
-    height: 80%;
-    overflow: scroll;
-}
-
-.container-zoom-mental-map {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 100%;
-    transform-origin: 0 0;
-}
-
 .register-container,
 .login-container {
     display: flex;

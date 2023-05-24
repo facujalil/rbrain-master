@@ -105,6 +105,7 @@ export default function Configuration() {
             <Content
                 refContent={refContent}
                 title="Configuration"
+                upgrade={true}
                 configuration={true}
                 add={false}
                 content={

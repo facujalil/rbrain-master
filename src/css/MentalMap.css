@@ -1,3 +1,17 @@
+.carpet-container-mental-map {
+    height: 80%;
+    overflow: hidden;
+    cursor: grab;
+}
+
+.container-zoom-mental-map {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    height: 100%;
+    transform-origin: 0 0;
+}
+
 .mental-map {
     display: flex;
     justify-content: center;

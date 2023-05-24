@@ -7,8 +7,6 @@ import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
 
 export default function Carpet() {
 
-    const refMentalMap = useRef();
-
     const { categoryId } = useParams();
     const [flashcards, setFlashcards] = useState([]);
     const [currentCategoryFlashcards, setCurrentCategoryFlashcards] = useState("");
