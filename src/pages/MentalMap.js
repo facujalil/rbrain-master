@@ -62,7 +62,7 @@ export default function MentalMap() {
     return (
         <Content
             refContent={refContent}
-            title={mentalMap.name}
+            title={mentalMap.info}
             carpet={true}
             mentalMap={true}
             selectTypeCarpet={false}

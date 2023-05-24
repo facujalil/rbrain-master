@@ -11,7 +11,7 @@ export default function Card(props) {
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
     const [resume, setResume] = useState(props.resume)
-    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.name)
+    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.info)
     const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
@@ -180,7 +180,7 @@ export default function Card(props) {
                     className="mental-map"
                     style={{ "--depth": depth }}
                 >
-                    <div className="mental-map-name"> {node.name}</div>
+                    <div className="mental-map-name"> {node.info}</div>
                     {node.children && (
                         <div className="mental-map-children">
                             {node.children.map((child, index) => (
@@ -322,7 +322,7 @@ export default function Card(props) {
                                         <div className="card-mental-map">
                                             <i className="btn-menu fa-solid fa-ellipsis-vertical" onClick={() => !isEditable ? setMenu(!menu) : null}></i>
                                             <form onSubmit={(e) => { e.preventDefault(); changeCardMentalMap() }}>
-                                                <textarea maxLength={30} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 ? setNewText(e.target.value) : null : setNewText(props.name)} ref={refTextarea} className="name-card-mental-map-textarea" defaultValue={nameCardMentalMap} /> <button>Change</button>
+                                                <textarea maxLength={30} onChange={(e) => e.target.value ? e.target.value.split(" ").length <= 4 ? setNewText(e.target.value) : null : setNewText(props.info)} ref={refTextarea} className="name-card-mental-map-textarea" defaultValue={nameCardMentalMap} /> <button>Change</button>
                                             </form>
                                         </div>
                                     </div>
