@@ -116,6 +116,10 @@
     height: auto;
 }
 
+.info {
+    font-style: italic;
+}
+
 .category-title {
     width: 100%;
     text-overflow: ellipsis;
