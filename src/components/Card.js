@@ -11,7 +11,7 @@ export default function Card(props) {
     const [infoFlashcard, setInfoFlashcard] = useState(props.info)
     const [titleCategory, setTitleCategory] = useState(props.categoryName)
     const [resume, setResume] = useState(props.resume)
-    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.name)
+    const [nameCardMentalMap, setNameCardMentalMap] = useState(props.subject)
     const [fullResume, setFullResume] = useState(false)
 
     const { authTokens } = useContext(AuthContext);
@@ -180,7 +180,7 @@ export default function Card(props) {
                     className="mental-map"
                     style={{ "--depth": depth }}
                 >
-                    <div className="mental-map-name"> {node.name}</div>
+                    <div className="mental-map-name"> {node.info}</div>
                     {node.children && (
                         <div className="mental-map-children">
                             {node.children.map((child, index) => (
