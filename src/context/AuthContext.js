@@ -47,6 +47,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateToken = async () => {
+    console.log("refrescando token...")
     if (authTokens && authTokens.refresh_token) {
       const response = await fetch('https://rbrain.onrender.com/refresh', {
         method: 'POST',
