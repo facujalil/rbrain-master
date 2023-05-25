@@ -141,8 +141,6 @@ export default function Generate() {
         }
     }
 
-
-
     const handleChange = (e) => {
         if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 30) {
             setSubject(e.target.value)
