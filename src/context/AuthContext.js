@@ -90,11 +90,8 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
 
-    timeout = setTimeout(updateTokenWithTimeout, fourMinutes);
-
     return () => {
       clearTimeout(timeout);
-
     };
   }, [authTokens, loading]);
 
