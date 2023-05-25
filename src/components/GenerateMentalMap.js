@@ -109,7 +109,7 @@ export default function GenerateMentalMap(props) {
                                 <>
                                     <select defaultValue='DEFAULT' onChange={props.handleCategoryChange}>
                                         <option value="DEFAULT" disabled hidden>Categories</option>
-                                        {props.nameCategories.map(category => <option key={category}>{category}</option>)} </select>
+                                        {props.nameCategories?.map(category => <option key={category}>{category}</option>)} </select>
                                     <button className="btn-save" type="submit">Save</button>
                                 </>
                             </form>

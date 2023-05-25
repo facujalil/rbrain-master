@@ -163,7 +163,6 @@ export default function Carpet() {
             const data = await response.json();
 
             if (response.status === 200) {
-                console.log(data.mental_maps.map(e => e.name))
                 setMentalMap(data.mental_maps)
             }
         } catch (error) {

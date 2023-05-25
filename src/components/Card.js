@@ -150,7 +150,6 @@ export default function Card(props) {
 
     const changeCardMentalMap = async (e) => {
         if (newText) {
-            console.log(parseInt(props.cardMentalMapId))
             try {
                 const response = await fetch(`https://rbrain.onrender.com/mental-map/${parseInt(props.cardMentalMapId)}`, {
                     method: 'PUT',
@@ -163,7 +162,6 @@ export default function Card(props) {
                 })
 
                 if (response.status === 200) {
-                    console.log("OK")
                     setNameCardMentalMap(newText)
                 }
             } catch (error) {
