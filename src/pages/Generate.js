@@ -141,7 +141,7 @@ export default function Generate() {
         }
     }
 */
-        const handleSubmitMentalMap = () => {
+        const handleSubmitMentalMap = (e) => {
             e.preventDefault();
             setMentalMap({'info': 'Induismo', 'children': [{'info': 'Deidad Suprema', 'children': [{'info': 'Brahman', 'children': [{'info': 'Principio único e indivisible', 'children': []}, {'info': 'Creador, sustentador y destructor de todos los seres', 'children': []}]}, {'info': 'Ishvara', 'children': [{'info': 'Encarna la gracia divina', 'children': []}, {'info': 'Puede ser cultuado en múltiples formas', 'children': []}]}]}, {'info': 'Dharma', 'children': [{'info': 'Código de conducta moral', 'children': [{'info': 'Guía a los humanos hacia la iluminación', 'children': []}, {'info': 'Es el deber de todos los humanos seguirlo', 'children': []}]}, {'info': 'Karma', 'children': [{'info': 'Cosechas lo que siembras', 'children': []}, {'info': 'Determina tu destino', 'children': []}]}]}]})
         }
