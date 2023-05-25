@@ -80,11 +80,6 @@ export const AuthProvider = ({ children }) => {
       timeout = setTimeout(updateTokenWithTimeout, fourMinutes);
     };
 
-    const startTimeout = () => {
-      clearTimeout(timeout);
-      timeout = setTimeout(updateTokenWithTimeout, fourMinutes);
-    };
-
     if (loading) {
       updateTokenWithTimeout();
       setLoading(false);
