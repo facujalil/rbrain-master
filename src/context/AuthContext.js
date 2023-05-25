@@ -47,41 +47,42 @@ export const AuthProvider = ({ children }) => {
     }
 
     const updateToken = async () => {
-        const response = await fetch('https://rbrain.onrender.com/refresh', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + authTokens?.refresh_token
-            }
-        })
+    if (authTokens && authTokens.refresh_token) {
+      const response = await fetch('https://rbrain.onrender.com/refresh', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${authTokens.refresh_token}`,
+        },
+      });
 
-        const data = await response.json()
-
-        if (response.status === 200) {
-            setAuthTokens(data)
-            setUser(jwt_decode(data.access_token))
-            localStorage.setItem('authTokens', JSON.stringify(data))
-        } else {
-            logoutUser()
-        }
-
-        if (loading) {
-            setLoading(false)
-        }
+      if (response.status === 200) {
+        const data = await response.json();
+        setAuthTokens(data);
+        setUser(jwt_decode(data.access_token));
+        localStorage.setItem('authTokens', JSON.stringify(data));
+      } else {
+        logoutUser();
+      }
+    } else {
+      logoutUser();
     }
+  };
 
     useEffect(() => {
 
         if (loading) {
             updateToken()
+            setLoading(false);
         }
 
         const fourMinutes = 1000 * 600 * 4
         const interval = setInterval(() => {
             if (authTokens) {
-                updateToken()
+                updateToken();
             }
-        }, fourMinutes)
+        }, fourMinutes);
+        
         return () => clearInterval(interval)
     }, [authTokens, loading])
 
