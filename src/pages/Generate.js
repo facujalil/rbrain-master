@@ -200,19 +200,15 @@ export default function Generate() {
 
     const handleSaveMentalMap = async (e) => {
         e.preventDefault();
-        const content = {
-            key1: "valor1",
-            key2: "valor2",
-            // Otros datos en formato JSON
-        };
+
         try {
             const saveResponse = await fetch('https://rbrain.onrender.com/mental-map', {
                 method: 'POST',
-                body: JSON.stringify({
+                body: {
                     user_theme: subject,
                     user_category: category,
-                    user_content: content
-                }),
+                    user_content: mentalMap
+                },
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + authTokens.access_token
