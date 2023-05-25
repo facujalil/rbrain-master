@@ -14,10 +14,6 @@ export default function MentalMap() {
     const [mentalMap, setMentalMap] = useState([])
 
     useEffect(() => {
-        refContent.current.lastChild.firstChild.lastChild.className = "carpet-container-mental-map"
-    }, [])
-
-    useEffect(() => {
         getMentalMap()
     }, [categoryCardMentalMapId, authTokens, logoutUser]);
 

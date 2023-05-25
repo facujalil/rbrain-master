@@ -65,6 +65,11 @@ button,
     color: black;
     cursor: pointer;
     padding: 0 0.5rem;
+    user-select: none;
+}
+
+.mental-map {
+    user-select: none;
 }
 
 .nav-container {
