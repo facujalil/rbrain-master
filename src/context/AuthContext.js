@@ -89,13 +89,11 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
 
-    document.addEventListener('mousemove', startTimeout);
-    document.addEventListener('keypress', startTimeout);
+    timeout = setTimeout(updateTokenWithTimeout, fourMinutes);
 
     return () => {
       clearTimeout(timeout);
-      document.removeEventListener('mousemove', startTimeout);
-      document.removeEventListener('keypress', startTimeout);
+
     };
   }, [authTokens, loading]);
 
