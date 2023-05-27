@@ -9,6 +9,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
+    width: 100%;
     transform-origin: 0 0;
 }
 
@@ -38,7 +39,6 @@
 
 .mental-map-children {
     display: flex;
-    gap: 1rem;
 }
 
 .mental-map-children_children {
