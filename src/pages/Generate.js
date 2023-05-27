@@ -204,11 +204,11 @@ export default function Generate() {
         try {
             const saveResponse = await fetch('https://rbrain.onrender.com/mental-map', {
                 method: 'POST',
-                body: {
+                body: JSON.stringify({
                     user_theme: subject,
                     user_category: category,
                     user_content: mentalMap
-                },
+                }),
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + authTokens.access_token
