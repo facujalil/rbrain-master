@@ -11,6 +11,7 @@ import Carpet from './pages/Carpet';
 import Generate from './pages/Generate';
 import Configuration from './pages/Configuration';
 import MentalMap from './pages/MentalMap';
+import ResetPassword from './pages/ResetPassword';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
 
             <Route element={<PublicRoutes />}>
               <Route path="/login" element={<Login />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/register" element={<Register />} />
             </Route>
 
