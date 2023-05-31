@@ -30,7 +30,6 @@ export default function MentalMap() {
             const data = await response.json();
 
             if (response.status === 200) {
-                console.log(data.mental_map)
                 setMentalMap(JSON.parse(data.mental_map))
             }
         } catch (error) {

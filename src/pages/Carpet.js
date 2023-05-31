@@ -35,6 +35,10 @@ export default function Carpet() {
         getCardMentalMaps()
     }, [categoryId, authTokens, logoutUser]);
 
+    useEffect(() => {
+        autosize()
+    }, [textareaModal]);
+
     const getFlashcards = async () => {
         try {
             const response = await fetch(`https://rbrain.onrender.com/get-flashcards-by-category?category=${parseInt(categoryId)}`, {
@@ -85,11 +89,40 @@ export default function Carpet() {
         }
     }
 
+    const getCardMentalMaps = async () => {
+        try {
+            const response = await fetch(`https://rbrain.onrender.com/get-mental-maps-by-category`, {
+                method: 'POST',
+                body: JSON.stringify({ category: categoryId }),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${authTokens.access_token}`
+                }
+            })
+
+            const data = await response.json();
+
+            if (response.status === 200) {
+                setMentalMap(data.mental_maps)
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                logoutUser();
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const showTitle = () => {
         if (currentCategoryFlashcards.length > 0) {
             const title = currentCategoryFlashcards[0].toUpperCase() + currentCategoryFlashcards.slice(1)
             return `My carpet ${title}`
         }
+    }
+
+    const getTypeCarpet = (e) => {
+        setTypeCarpet(e.target.value)
     }
 
     const deleteFlashcard = async (flashcardId) => {
@@ -153,43 +186,6 @@ export default function Carpet() {
         }
     }
 
-    const getCardMentalMaps = async () => {
-        try {
-            const response = await fetch(`https://rbrain.onrender.com/get-mental-maps-by-category`, {
-                method: 'POST',
-                body: JSON.stringify({ category: categoryId }),
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${authTokens.access_token}`
-                }
-            })
-
-            const data = await response.json();
-
-            if (response.status === 200) {
-                setMentalMap(data.mental_maps)
-            }
-        } catch (error) {
-            if (error.response && error.response.status === 401) {
-                logoutUser();
-            }
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const getTypeCarpet = (e) => {
-        setTypeCarpet(e.target.value)
-    }
-
-    for (let i = 0; i < 8; i++) {
-        loading.push(<LoadingFlashcard key={i} />)
-    }
-
-    useEffect(() => {
-        autosize()
-    }, [textareaModal]);
-
     const autosize = () => {
         const resize = (textarea) => {
             textarea.style.height = `${textarea.scrollHeight}px`;
@@ -240,7 +236,27 @@ export default function Carpet() {
     }
 
     const addNewFlashcard = async (e) => {
-        console.log("")
+        e.preventDefault()
+        if (inputModal && textareaModal) {
+            console.log(inputModal, textareaModal, categoryId)
+            setModal(false)
+            try {
+                const response = await fetch('https://rbrain.onrender.com/create-flashcard', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ theme: inputModal, text: textareaModal, category_id: categoryId })
+                })
+
+                if (response.status === 201) {
+
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
     }
 
     const addNewResume = async (e) => {
@@ -269,6 +285,30 @@ export default function Carpet() {
 
     const addNewMentalMap = async (e) => {
         e.preventDefault()
+        if (inputModal && textareaModal) {
+            console.log(inputModal, textareaModal, categoryId)
+            setModal(false)
+            try {
+                const response = await fetch('https://rbrain.onrender.com/create-mental-map', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${authTokens.access_token}`
+                    },
+                    body: JSON.stringify({ theme: inputModal, text: textareaModal, category_id: categoryId })
+                })
+
+                if (response.status === 201) {
+
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    for (let i = 0; i < 8; i++) {
+        loading.push(<LoadingFlashcard key={i} />)
     }
 
     return (
@@ -279,7 +319,7 @@ export default function Carpet() {
                         <label>{typeCarpet === 'flashcards' ? "Add new flashcard" : typeCarpet === 'resume' ? "Add new resume" : "Add new mental map"}</label>
                         <input value={inputModal} className="modal-input" onChange={getInputModal} placeholder={typeCarpet === 'flashcards' ? "Theme" : typeCarpet === 'resume' ? "Theme" : "Theme"} />
                         <textarea ref={refTextarea} value={textareaModal} className="modal-textarea" onChange={getTextareaModal} placeholder={typeCarpet === 'flashcards' ? "Content" : typeCarpet === 'resume' ? "Content" : "Content"} />
-                        <button className="btn-modal-input" onClick={typeCarpet === 'flashcards' ? addNewFlashcard : typeCarpet === 'resume' ? addNewResume : addNewMentalMap}>Add</button>
+                        <button className="btn-modal" onClick={typeCarpet === 'flashcards' ? addNewFlashcard : typeCarpet === 'resume' ? addNewResume : addNewMentalMap}>Add</button>
                     </form>
                 </div>
             </>
