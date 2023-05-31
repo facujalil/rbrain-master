@@ -2,7 +2,7 @@ import './App.css';
 import { Routes, Route, BrowserRouter, Navigate, NavLink } from 'react-router-dom';
 import PublicRoutes from './utils/PublicRoutes';
 import PrivateRoutes from './utils/PrivateRoutes';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import AuthContext, { AuthProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -16,34 +16,54 @@ import ResetPassword from './pages/ResetPassword';
 
 function App() {
 
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  });
+
   return (
     <div className="App">
-      <BrowserRouter>
-        <AuthProvider>
-          <Navigation />
-          <Routes>
 
-            <Route element={<PublicRoutes />}>
-              <Route path="/login" element={<Login />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/register" element={<Register />} />
-            </Route>
+      {
+        windowWidth >= 900 ?
+          <BrowserRouter>
+            <AuthProvider>
+              <Navigation />
+              <Routes>
 
-            <Route element={<PrivateRoutes />}>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/my-carpet/:categoryId" element={<Carpet />} />
-              <Route path="/profile/my-carpet/:categoryId/:categoryCardMentalMapId" element={<MentalMap />} />
-              <Route path="/generate" element={<Generate />} />
-              <Route path="/configuration" element={<Configuration />} />
-              <Route path='*' element={<Navigate to="/profile" />} />
+                <Route element={<PublicRoutes />}>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/register" element={<Register />} />
+                </Route>
+
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile/my-carpet/:categoryId" element={<Carpet />} />
+                  <Route path="/profile/my-carpet/:categoryId/:categoryCardMentalMapId" element={<MentalMap />} />
+                  <Route path="/generate" element={<Generate />} />
+                  <Route path="/configuration" element={<Configuration />} />
+                  <Route path='*' element={<Navigate to="/profile" />} />
 
 
-            </Route>
+                </Route>
 
 
-          </Routes>
-        </AuthProvider>
-      </BrowserRouter>
+              </Routes>
+            </AuthProvider>
+          </BrowserRouter>
+          :
+          null
+      }
     </div>
   );
 }

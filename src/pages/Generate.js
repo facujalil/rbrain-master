@@ -50,11 +50,6 @@ export default function Generate() {
         refContent.current.parentNode.id = "generate"
     }, [refContent])
 
-    const testHandleSubmitFlashcards = (e) => {
-        e.preventDefault();
-        setResponse({ lista_flashcards: [{ title: 'title', info: 'info' }, { title: 'title', info: 'info' }, { title: 'title', info: 'info' }, { title: 'title', info: 'info' }], theme: subject })
-    }
-
     const handleSubmitFlashcards = async (e) => {
         e.preventDefault();
         if (subject) {
@@ -78,11 +73,6 @@ export default function Generate() {
             }
         }
     };
-
-    const testHandleSubmitResume = (e) => {
-        e.preventDefault();
-        setResume({ info: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.", theme: subject })
-    }
 
     const handleSubmitResume = async (e) => {
         e.preventDefault();
