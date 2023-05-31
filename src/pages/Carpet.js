@@ -33,7 +33,7 @@ export default function Carpet() {
         getFlashcards();
         getResumes();
         getCardMentalMaps()
-    }, [categoryId, authTokens, logoutUser]);
+    }, [categoryId, authTokens, logoutUser, typeCarpet]);
 
     useEffect(() => {
         autosize()
@@ -208,9 +208,7 @@ export default function Carpet() {
     }
 
     const getTextareaModal = (e) => {
-        if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 80) {
-            setTextareaModal(e.target.value)
-        }
+        setTextareaModal(e.target.value)
     }
 
     const closeModal = () => {
@@ -275,7 +273,7 @@ export default function Carpet() {
                 })
 
                 if (response.status === 201) {
-
+                    getResumes();
                 }
             } catch (error) {
                 console.error(error);

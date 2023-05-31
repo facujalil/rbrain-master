@@ -222,7 +222,7 @@ export default function Generate() {
         }
         finally {
             setSubject("")
-            setResume("")
+            setMentalMap("")
         }
     }
 
