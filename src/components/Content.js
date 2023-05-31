@@ -108,7 +108,7 @@ export default function Content(props) {
                                 null
                         }
                         {props.register ? <p className="opc-log-in" onClick={() => navigate("/login")}>Iniciar Sesión</p> : null}
-                        {props.add ? (<button onClick={props.addCategory} className="btn-add">+</button>) : null}
+                        {props.add ? (<button onClick={props.addElement} className="btn-add">+</button>) : null}
                     </div>
                     <div
 

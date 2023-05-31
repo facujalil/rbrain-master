@@ -289,7 +289,8 @@ select {
 }
 
 .modal-input,
-.btn-modal-input {
+.btn-modal-input,
+.modal-textarea {
     font-family: 'Poppins';
     font-size: 1.1em;
     border: none;
@@ -300,8 +301,14 @@ select {
     padding: 0.25rem;
 }
 
-.modal-input {
+.modal-input,
+.modal-textarea {
     width: 70%;
+}
+
+.modal-textarea {
+    height: 8rem;
+    resize: none;
 }
 
 .btn-modal-input {
@@ -378,7 +385,8 @@ select {
     padding: 0.25rem 0;
 }
 
-.select-type-carpet {
+.select-type-carpet,
+.select-grid-columns {
     margin-right: 2.5rem;
 }
 

@@ -131,7 +131,7 @@ export default function Profile() {
                 title="My carpets"
                 categories={true}
                 add={true}
-                addCategory={addCategory}
+                addElement={addCategory}
                 content={
                     <div id={isLoading ? "categories-loading" : null} className="categories">
                         {isLoading ?
