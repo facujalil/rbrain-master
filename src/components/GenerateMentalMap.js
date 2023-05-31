@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
-import LoadingGenerateResume from '../skeletonsLoading/LoadingGenerateResume'
 import Card from './Card'
 import LoadingForm from '../skeletonsLoading/LoadingForm'
+import LoadingMentalMap from '../skeletonsLoading/LoadingMentalMap';
 
 export default function GenerateMentalMap(props) {
 
@@ -91,7 +91,7 @@ export default function GenerateMentalMap(props) {
                             onTouchMove={handleMouseMove}
                         >
                             {props.isLoading ?
-                                console.log("Loading...")
+                                <LoadingMentalMap />
                                 :
                                 <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>
                                     <Card

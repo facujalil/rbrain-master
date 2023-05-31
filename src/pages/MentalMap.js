@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import Card from '../components/Card';
 import Content from '../components/Content';
+import LoadingMentalMap from '../skeletonsLoading/LoadingMentalMap';
 
 export default function MentalMap() {
 
@@ -12,6 +13,7 @@ export default function MentalMap() {
     const { categoryCardMentalMapId } = useParams();
     const { authTokens, logoutUser } = useContext(AuthContext);
     const [mentalMap, setMentalMap] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         getMentalMap()
@@ -34,6 +36,10 @@ export default function MentalMap() {
             }
         } catch (error) {
             console.error(error);
+        }
+        finally {
+            setIsLoading(false)
+            console.log(mentalMap)
         }
     }
 
@@ -63,12 +69,15 @@ export default function MentalMap() {
             mentalMap={true}
             selectTypeCarpet={false}
             content={
-                <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>
-                    <Card
-                        showMentalMap={true}
-                        mentalMap={mentalMap}
-                    />
-                </div >
+                isLoading ?
+                    <LoadingMentalMap />
+                    :
+                    <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>
+                        <Card
+                            showMentalMap={true}
+                            mentalMap={mentalMap}
+                        />
+                    </div >
             }
         />
     )

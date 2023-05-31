@@ -1,16 +1,16 @@
-#generate-resume-loading {
+.generate-resume-loading {
     overflow-y: hidden;
     padding-right: 10px;
 }
 
-#generate-resume-loading .resume {
+#resume-loading .resume {
     background-color: #cccccc;
     color: #e3e3e3;
     box-shadow: 0 0 0 2px #e3e3e3, 6px 6px 0 #e3e3e3;
     cursor: default;
 }
 
-#generate-resume-loading .resume p {
+#resume-loading .resume p {
     overflow: hidden;
     user-select: none;
     background-color: #e3e3e3;

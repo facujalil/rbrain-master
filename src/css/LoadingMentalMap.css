@@ -1,0 +1,13 @@
+#mental-map-loading .mental-map-name {
+    background-color: #cccccc;
+    color: #e3e3e3;
+    cursor: default;
+    border: 2px solid #e3e3e3;
+}
+
+#mental-map-loading .mental-map-name p {
+    overflow: hidden;
+    user-select: none;
+    background-color: #e3e3e3;
+    border-radius: 24px;
+}

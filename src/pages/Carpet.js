@@ -4,6 +4,7 @@ import AuthContext from "../context/AuthContext";
 import Card from "../components/Card";
 import { useParams } from "react-router-dom";
 import LoadingFlashcard from "../skeletonsLoading/LoadingFlashcard";
+import LoadingResume from "../skeletonsLoading/LoadingResume";
 
 export default function Carpet() {
 
@@ -21,6 +22,7 @@ export default function Carpet() {
     const [inputModal, setInputModal] = useState(false)
     const refTextarea = useRef()
     const [textareaModal, setTextareaModal] = useState(false)
+    const [isNewResumeLoading, setIsNewResumeLoading] = useState(false)
     const loading = [];
 
     const refContent = useRef();
@@ -86,6 +88,9 @@ export default function Carpet() {
             }
         } catch (error) {
             console.error(error);
+        }
+        finally {
+            setIsNewResumeLoading(false)
         }
     }
 
@@ -260,7 +265,7 @@ export default function Carpet() {
     const addNewResume = async (e) => {
         e.preventDefault()
         if (inputModal && textareaModal) {
-            console.log(inputModal, textareaModal, categoryId)
+            setIsNewResumeLoading(true)
             setModal(false)
             try {
                 const response = await fetch('https://rbrain.onrender.com/create-resume', {
@@ -358,16 +363,26 @@ export default function Carpet() {
                                         ))
                                         :
                                         typeCarpet === 'resume' ?
-                                            resume.map((resume) =>
-                                                <Card
-                                                    showResume={true}
-                                                    key={resume.id}
-                                                    resumeId={resume.id}
-                                                    deleteResume={deleteResume}
-                                                    resume={resume.text}
-                                                    theme={resume.theme}
-                                                />
-                                            )
+                                            <>
+                                                {
+                                                    resume.map((resume) =>
+                                                        <Card
+                                                            showResume={true}
+                                                            key={resume.id}
+                                                            resumeId={resume.id}
+                                                            deleteResume={deleteResume}
+                                                            resume={resume.text}
+                                                            theme={resume.theme}
+                                                        />
+                                                    )
+                                                }
+                                                {
+                                                    isNewResumeLoading ?
+                                                        <LoadingResume />
+                                                        :
+                                                        null
+                                                }
+                                            </>
                                             :
                                             <>
                                                 {mentalMap.map((mentalMap) => (

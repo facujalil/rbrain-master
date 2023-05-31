@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 import LoadingForm from '../skeletonsLoading/LoadingForm';
-import LoadingGenerateResume from '../skeletonsLoading/LoadingGenerateResume';
+import LoadingResume from '../skeletonsLoading/LoadingResume';
 
 export default function GenerateResume(props) {
 
@@ -15,9 +15,9 @@ export default function GenerateResume(props) {
                 <>
                     <div className="generate-resume-container">
 
-                        <div id={props.isLoading ? "generate-resume-loading" : null} className="generate-resume">
+                        <div className={props.isLoading ? "generate-resume generate-resume-loading" : "generate-resume"}>
                             {props.isLoading ?
-                                <LoadingGenerateResume />
+                                <LoadingResume />
                                 :
                                 <Card generateResume={true} resume={props.resume} theme={props.theme} />
                             }
