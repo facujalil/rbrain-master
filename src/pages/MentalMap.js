@@ -69,15 +69,16 @@ export default function MentalMap() {
             mentalMap={true}
             selectTypeCarpet={false}
             content={
-                isLoading ?
-                    <LoadingMentalMap />
-                    :
-                    <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>
+                <div ref={refMentalMap} onWheel={(event) => zoom(event)} className={"container-zoom-mental-map"}>
+                    {isLoading ?
+                        <LoadingMentalMap />
+                        :
                         <Card
                             showMentalMap={true}
                             mentalMap={mentalMap}
                         />
-                    </div >
+                    }
+                </div >
             }
         />
     )
