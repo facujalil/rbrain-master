@@ -7,7 +7,7 @@ export default function LoginCallback() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const code = urlParams.get("code");
 
-                const response = await fetch("/login/google/callback", {
+                const response = await fetch("https://rbrain.onrender.com/login/google/callback", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
