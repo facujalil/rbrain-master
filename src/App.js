@@ -12,6 +12,7 @@ import Generate from './pages/Generate';
 import Configuration from './pages/Configuration';
 import MentalMap from './pages/MentalMap';
 import ResetPassword from './pages/ResetPassword';
+import LoginCallback from './components/LoginCallback';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
                 <Route element={<PublicRoutes />}>
                   <Route path="/login" element={<Login />} />
                   <Route path="/reset-password" element={<ResetPassword />} />
+                  <Route path="/login/:google/:callback" element={<LoginCallback />} />
                   <Route path="/register" element={<Register />} />
                 </Route>
 

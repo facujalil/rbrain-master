@@ -1,0 +1,36 @@
+import React, { useEffect } from 'react'
+
+export default function LoginCallback() {
+    useEffect(() => {
+        const fetchAccessToken = async () => {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const code = urlParams.get("code");
+
+                const response = await fetch("/login/google/callback", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ code }),
+                });
+
+                if (response.ok) {
+                    console.log(code)
+                } else {
+                    // Error en la autenticación, maneja el error de acuerdo a tus necesidades
+                }
+            } catch (error) {
+                console.error("Error en la autenticación:", error);
+            }
+        };
+
+        fetchAccessToken();
+    }, []);
+
+    return (
+        <div>
+            <p>Procesando la autenticación...</p>
+        </div>
+    );
+}
