@@ -19,10 +19,11 @@ export default function Carpet() {
     const [typeCarpet, setTypeCarpet] = useState("flashcards");
     const [gridColumns, setGridColumns] = useState(localStorage.gridColumns);
     const [modal, setModal] = useState(false)
-    const [inputModal, setInputModal] = useState(false)
+    const [inputModal, setInputModal] = useState("")
+    const [inputModalTitle, setInputModalTitle] = useState("")
     const refTextarea = useRef()
-    const [textareaModal, setTextareaModal] = useState(false)
-    const [isNewResumeLoading, setIsNewResumeLoading] = useState(false)
+    const [textareaModal, setTextareaModal] = useState("")
+    const [isNewCardLoading, setIsNewCardLoading] = useState(false)
     const loading = [];
 
     const refContent = useRef();
@@ -55,12 +56,7 @@ export default function Carpet() {
 
             if (response.status === 200) {
                 setCurrentCategoryFlashcards(data.category)
-                if (data.flashcards.length > 0) {
-                    setFlashcards(data.flashcards);
-                }
-                else {
-                    setErrorMsg('No se encontraron flashcards');
-                }
+                setFlashcards(data.flashcards);
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
@@ -68,6 +64,7 @@ export default function Carpet() {
             }
         } finally {
             setIsLoading(false);
+            setIsNewCardLoading(false)
         }
     };
 
@@ -90,7 +87,7 @@ export default function Carpet() {
             console.error(error);
         }
         finally {
-            setIsNewResumeLoading(false)
+            setIsNewCardLoading(false)
         }
     }
 
@@ -132,7 +129,6 @@ export default function Carpet() {
 
     const deleteFlashcard = async (flashcardId) => {
         try {
-
             const response = await fetch('https://rbrain.onrender.com/delete-flashcard', {
                 method: 'DELETE',
                 headers: {
@@ -212,6 +208,12 @@ export default function Carpet() {
         }
     }
 
+    const getInputModalTitle = (e) => {
+        if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 30) {
+            setInputModalTitle(e.target.value)
+        }
+    }
+
     const getTextareaModal = (e) => {
         setTextareaModal(e.target.value)
     }
@@ -221,6 +223,7 @@ export default function Carpet() {
     }
 
     const addFlashcard = () => {
+        setInputModalTitle("")
         setInputModal("")
         setTextareaModal("")
         setModal(true)
@@ -232,16 +235,10 @@ export default function Carpet() {
         setModal(true)
     }
 
-    const addMentalMap = () => {
-        setInputModal("")
-        setTextareaModal("")
-        setModal(true)
-    }
-
     const addNewFlashcard = async (e) => {
         e.preventDefault()
-        if (inputModal && textareaModal) {
-            console.log(inputModal, textareaModal, categoryId)
+        if (inputModalTitle && inputModal && textareaModal) {
+            setIsNewCardLoading(true)
             setModal(false)
             try {
                 const response = await fetch('https://rbrain.onrender.com/create-flashcard', {
@@ -250,11 +247,11 @@ export default function Carpet() {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${authTokens.access_token}`
                     },
-                    body: JSON.stringify({ theme: inputModal, text: textareaModal, category_id: categoryId })
+                    body: JSON.stringify({ title: inputModalTitle, info: textareaModal, theme: inputModal, category_id: categoryId })
                 })
 
                 if (response.status === 201) {
-
+                    getFlashcards()
                 }
             } catch (error) {
                 console.error(error);
@@ -265,7 +262,7 @@ export default function Carpet() {
     const addNewResume = async (e) => {
         e.preventDefault()
         if (inputModal && textareaModal) {
-            setIsNewResumeLoading(true)
+            setIsNewCardLoading(true)
             setModal(false)
             try {
                 const response = await fetch('https://rbrain.onrender.com/create-resume', {
@@ -286,30 +283,6 @@ export default function Carpet() {
         }
     }
 
-    const addNewMentalMap = async (e) => {
-        e.preventDefault()
-        if (inputModal && textareaModal) {
-            console.log(inputModal, textareaModal, categoryId)
-            setModal(false)
-            try {
-                const response = await fetch('https://rbrain.onrender.com/create-mental-map', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${authTokens.access_token}`
-                    },
-                    body: JSON.stringify({ theme: inputModal, text: textareaModal, category_id: categoryId })
-                })
-
-                if (response.status === 201) {
-
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        }
-    }
-
     for (let i = 0; i < 8; i++) {
         loading.push(<LoadingFlashcard key={i} />)
     }
@@ -319,10 +292,15 @@ export default function Carpet() {
             {modal ? <> <div onClick={closeModal} className="modal"></div>
                 <div className="container-form-modal">
                     <form className="form-modal">
-                        <label>{typeCarpet === 'flashcards' ? "Add new flashcard" : typeCarpet === 'resume' ? "Add new resume" : "Add new mental map"}</label>
-                        <input value={inputModal} className="modal-input" onChange={getInputModal} placeholder={typeCarpet === 'flashcards' ? "Theme" : typeCarpet === 'resume' ? "Theme" : "Theme"} />
-                        <textarea ref={refTextarea} value={textareaModal} className="modal-textarea" onChange={getTextareaModal} placeholder={typeCarpet === 'flashcards' ? "Content" : typeCarpet === 'resume' ? "Content" : "Content"} />
-                        <button className="btn-modal" onClick={typeCarpet === 'flashcards' ? addNewFlashcard : typeCarpet === 'resume' ? addNewResume : addNewMentalMap}>Add</button>
+                        <label>{typeCarpet === 'flashcards' ? "Add new flashcard" : "Add new resume"}</label>
+                        {typeCarpet === 'flashcards' ?
+                            <input value={inputModalTitle} className="modal-input" onChange={getInputModalTitle} placeholder="Title" />
+                            :
+                            null
+                        }
+                        <input value={inputModal} className="modal-input" onChange={getInputModal} placeholder="Theme" />
+                        <textarea ref={refTextarea} value={textareaModal} className="modal-textarea" onChange={getTextareaModal} placeholder="Content" />
+                        <button className="btn-modal" onClick={typeCarpet === 'flashcards' ? addNewFlashcard : addNewResume}>Add</button>
                     </form>
                 </div>
             </>
@@ -337,8 +315,8 @@ export default function Carpet() {
                     selectGridColumns={true}
                     setGridColumns={setGridColumns}
                     gridColumns={gridColumns}
-                    add={true}
-                    addElement={typeCarpet === 'flashcards' ? addFlashcard : typeCarpet === 'resume' ? addResume : addMentalMap}
+                    add={typeCarpet !== 'mental maps' ? true : false}
+                    addElement={typeCarpet === 'flashcards' ? addFlashcard : addResume}
                     content={
                         errorMsg && typeCarpet === 'flashcards' ?
                             errorMsg
@@ -349,53 +327,78 @@ export default function Carpet() {
                                         {loading}
                                     </>
                                     :
-                                    typeCarpet === 'flashcards' ?
-                                        flashcards.map((flashcard) => (
-                                            <Card
-                                                showFlashcards={true}
-                                                deleteFlashcard={deleteFlashcard}
-                                                key={flashcard.id}
-                                                flashcardId={flashcard.id}
-                                                title={flashcard.title}
-                                                info={flashcard.info}
-                                                theme={flashcard.theme}
-                                            />
-                                        ))
-                                        :
-                                        typeCarpet === 'resume' ?
+                                    typeCarpet === 'flashcards' && flashcards ?
+                                        flashcards.length > 0 || isNewCardLoading ?
                                             <>
                                                 {
-                                                    resume.map((resume) =>
+                                                    flashcards.map((flashcard) => (
                                                         <Card
-                                                            showResume={true}
-                                                            key={resume.id}
-                                                            resumeId={resume.id}
-                                                            deleteResume={deleteResume}
-                                                            resume={resume.text}
-                                                            theme={resume.theme}
+                                                            showFlashcards={true}
+                                                            deleteFlashcard={deleteFlashcard}
+                                                            key={flashcard.id}
+                                                            flashcardId={flashcard.id}
+                                                            title={flashcard.title}
+                                                            info={flashcard.info}
+                                                            theme={flashcard.theme}
                                                         />
-                                                    )
+                                                    ))
                                                 }
                                                 {
-                                                    isNewResumeLoading ?
-                                                        <LoadingResume />
+                                                    isNewCardLoading ?
+                                                        <LoadingFlashcard />
                                                         :
                                                         null
                                                 }
                                             </>
                                             :
-                                            <>
-                                                {mentalMap.map((mentalMap) => (
-                                                    <Card
-                                                        showCardMentalMap={true}
-                                                        name={mentalMap.name}
-                                                        cardMentalMapId={mentalMap.id}
-                                                        categoryId={categoryId}
-                                                        key={mentalMap.id}
-                                                        deleteCardMentalMap={deleteCardMentalMap}
-                                                    />
-                                                ))}
-                                            </>
+                                            !isNewCardLoading ?
+                                                <p className="msg-error">No se encontraron flashcards</p>
+                                                :
+                                                null
+                                        :
+                                        typeCarpet === 'resumes' && resume ?
+                                            resume.length > 0 || isNewCardLoading ?
+                                                <>
+                                                    {
+                                                        resume.map((resume) =>
+                                                            <Card
+                                                                showResume={true}
+                                                                key={resume.id}
+                                                                resumeId={resume.id}
+                                                                deleteResume={deleteResume}
+                                                                resume={resume.text}
+                                                                theme={resume.theme}
+                                                            />
+                                                        )
+                                                    }
+                                                    {
+                                                        isNewCardLoading ?
+                                                            <LoadingResume />
+                                                            :
+                                                            null
+                                                    }
+                                                </>
+                                                :
+                                                !isNewCardLoading ?
+                                                    <p className="msg-error">No se encontraron resumes</p>
+                                                    :
+                                                    null
+                                            :
+                                            mentalMap.length > 0 ?
+                                                <>
+                                                    {mentalMap.map((mentalMap) => (
+                                                        <Card
+                                                            showCardMentalMap={true}
+                                                            name={mentalMap.name}
+                                                            cardMentalMapId={mentalMap.id}
+                                                            categoryId={categoryId}
+                                                            key={mentalMap.id}
+                                                            deleteCardMentalMap={deleteCardMentalMap}
+                                                        />
+                                                    ))}
+                                                </>
+                                                :
+                                                <p className="msg-error">No se encontraron mental maps</p>
                                 }
                             </div >
                     }

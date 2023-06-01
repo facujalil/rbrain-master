@@ -227,7 +227,6 @@ export default function Generate() {
             refContent={refContent}
             title={"Generate "}
             generate={true}
-            generateFlashcards={true}
             generateSelect={generateSelect}
             content={
                 <>

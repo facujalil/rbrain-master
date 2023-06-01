@@ -9,7 +9,7 @@ export default function Profile() {
     const refContent = useRef()
 
     const [modal, setModal] = useState(false)
-    const [inputModal, setInputModal] = useState(false)
+    const [inputModal, setInputModal] = useState("")
     const [isLoading, setIsLoading] = useState(true)
     const [isNewCategoryLoading, setIsNewCategoryLoading] = useState(false)
     const loading = []
@@ -139,16 +139,22 @@ export default function Profile() {
                                 {loading}
                             </>
                             :
-                            categories.map(category => (
-                                <div key={category.id} className="category-container">
-                                    <Card
-                                        showCategories={true}
-                                        categoryId={category.id}
-                                        categoryName={category.name}
-                                        deleteCategory={deleteCategory}
-                                    />
-                                </div>
-                            ))
+                            categories.length > 0 ?
+                                categories.map(category => (
+                                    <div key={category.id} className="category-container">
+                                        <Card
+                                            showCategories={true}
+                                            categoryId={category.id}
+                                            categoryName={category.name}
+                                            deleteCategory={deleteCategory}
+                                        />
+                                    </div>
+                                ))
+                                :
+                                !isNewCategoryLoading ?
+                                    <p className="msg-error">No se encontraron categories</p>
+                                    :
+                                    null
                         }
                         {
                             isNewCategoryLoading ?

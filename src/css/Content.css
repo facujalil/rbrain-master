@@ -443,6 +443,7 @@ select {
 
 .carpet,
 .categories {
+    position: relative;
     display: grid;
     grid-auto-rows: max-content;
     justify-content: center;
@@ -485,6 +486,15 @@ select {
     display: flex;
     justify-content: center;
     position: relative;
+}
+
+.msg-error {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
 }
 
 /*Scroll*/
