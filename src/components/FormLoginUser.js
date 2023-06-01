@@ -25,6 +25,7 @@ export default function FormLoginUser(props) {
                 errorLoginApi ? <div className="container-error"><p>El email y/o la contraseña son incorrectos</p></div> : null
             }
             <input id="submit" type="submit" value="Iniciar Sesión" />
+            <input id="submit-google" type="button" value="Ingresar con Google" onClick={() => props.handleLoginWithGoogle()} />
             <p className="opc-fotgotten-password" onClick={() => props.setStateForgotPassword(true)}>Olvidé mi contraseña</p>
         </form>
     )

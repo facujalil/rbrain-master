@@ -16,6 +16,16 @@ export default function Login(props) {
         refContent.current.parentNode.id = "login"
     }, [refContent])
 
+    const handleLoginWithGoogle = async () => {
+        try {
+            const response = await fetch("https://rbrain.onrender.com/login/google");
+            const { authorization_url } = await response.json();
+            window.location.href = authorization_url;
+        } catch (error) {
+            console.error("Error al iniciar sesión con Google:", error);
+        }
+    };
+
     return (
         <Content
             refContent={refContent}
@@ -30,6 +40,7 @@ export default function Login(props) {
 
                         <FormLoginUser
                             setStateForgotPassword={setStateForgotPassword}
+                            handleLoginWithGoogle={handleLoginWithGoogle}
                         />
 
                         :

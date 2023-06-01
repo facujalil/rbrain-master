@@ -14,7 +14,6 @@ export default function Carpet() {
     const [resume, setResume] = useState("");
     const [mentalMap, setMentalMap] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [errorMsg, setErrorMsg] = useState('');
     const { authTokens, logoutUser } = useContext(AuthContext);
     const [typeCarpet, setTypeCarpet] = useState("flashcards");
     const [gridColumns, setGridColumns] = useState(localStorage.gridColumns);
@@ -215,7 +214,14 @@ export default function Carpet() {
     }
 
     const getTextareaModal = (e) => {
-        setTextareaModal(e.target.value)
+        if (typeCarpet === "flashcards") {
+            if (e.target.value.length <= 120) {
+                setTextareaModal(e.target.value)
+            }
+        }
+        else {
+            setTextareaModal(e.target.value)
+        }
     }
 
     const closeModal = () => {
@@ -318,89 +324,86 @@ export default function Carpet() {
                     add={typeCarpet !== 'mental maps' ? true : false}
                     addElement={typeCarpet === 'flashcards' ? addFlashcard : addResume}
                     content={
-                        errorMsg && typeCarpet === 'flashcards' ?
-                            errorMsg
-                            :
-                            <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `carpet grid-columns-${gridColumns}` : "carpet grid-columns-default"}>
-                                {isLoading ?
-                                    <>
-                                        {loading}
-                                    </>
+                        <div id={isLoading ? "flashcards-loading" : null} className={gridColumns ? `carpet grid-columns-${gridColumns}` : "carpet grid-columns-default"}>
+                            {isLoading ?
+                                <>
+                                    {loading}
+                                </>
+                                :
+                                typeCarpet === 'flashcards' && flashcards ?
+                                    flashcards.length > 0 || isNewCardLoading ?
+                                        <>
+                                            {
+                                                flashcards.map((flashcard) => (
+                                                    <Card
+                                                        showFlashcards={true}
+                                                        deleteFlashcard={deleteFlashcard}
+                                                        key={flashcard.id}
+                                                        flashcardId={flashcard.id}
+                                                        title={flashcard.title}
+                                                        info={flashcard.info}
+                                                        theme={flashcard.theme}
+                                                    />
+                                                ))
+                                            }
+                                            {
+                                                isNewCardLoading ?
+                                                    <LoadingFlashcard />
+                                                    :
+                                                    null
+                                            }
+                                        </>
+                                        :
+                                        !isNewCardLoading ?
+                                            <p className="msg-error">No se encontraron flashcards</p>
+                                            :
+                                            null
                                     :
-                                    typeCarpet === 'flashcards' && flashcards ?
-                                        flashcards.length > 0 || isNewCardLoading ?
+                                    typeCarpet === 'resumes' && resume ?
+                                        resume.length > 0 || isNewCardLoading ?
                                             <>
                                                 {
-                                                    flashcards.map((flashcard) => (
+                                                    resume.map((resume) =>
                                                         <Card
-                                                            showFlashcards={true}
-                                                            deleteFlashcard={deleteFlashcard}
-                                                            key={flashcard.id}
-                                                            flashcardId={flashcard.id}
-                                                            title={flashcard.title}
-                                                            info={flashcard.info}
-                                                            theme={flashcard.theme}
+                                                            showResume={true}
+                                                            key={resume.id}
+                                                            resumeId={resume.id}
+                                                            deleteResume={deleteResume}
+                                                            resume={resume.text}
+                                                            theme={resume.theme}
                                                         />
-                                                    ))
+                                                    )
                                                 }
                                                 {
                                                     isNewCardLoading ?
-                                                        <LoadingFlashcard />
+                                                        <LoadingResume />
                                                         :
                                                         null
                                                 }
                                             </>
                                             :
                                             !isNewCardLoading ?
-                                                <p className="msg-error">No se encontraron flashcards</p>
+                                                <p className="msg-error">No se encontraron resumes</p>
                                                 :
                                                 null
                                         :
-                                        typeCarpet === 'resumes' && resume ?
-                                            resume.length > 0 || isNewCardLoading ?
-                                                <>
-                                                    {
-                                                        resume.map((resume) =>
-                                                            <Card
-                                                                showResume={true}
-                                                                key={resume.id}
-                                                                resumeId={resume.id}
-                                                                deleteResume={deleteResume}
-                                                                resume={resume.text}
-                                                                theme={resume.theme}
-                                                            />
-                                                        )
-                                                    }
-                                                    {
-                                                        isNewCardLoading ?
-                                                            <LoadingResume />
-                                                            :
-                                                            null
-                                                    }
-                                                </>
-                                                :
-                                                !isNewCardLoading ?
-                                                    <p className="msg-error">No se encontraron resumes</p>
-                                                    :
-                                                    null
+                                        mentalMap.length > 0 ?
+                                            <>
+                                                {mentalMap.map((mentalMap) => (
+                                                    <Card
+                                                        showCardMentalMap={true}
+                                                        name={mentalMap.name}
+                                                        cardMentalMapId={mentalMap.id}
+                                                        categoryId={categoryId}
+                                                        key={mentalMap.id}
+                                                        deleteCardMentalMap={deleteCardMentalMap}
+                                                    />
+                                                ))}
+                                            </>
                                             :
-                                            mentalMap.length > 0 ?
-                                                <>
-                                                    {mentalMap.map((mentalMap) => (
-                                                        <Card
-                                                            showCardMentalMap={true}
-                                                            name={mentalMap.name}
-                                                            cardMentalMapId={mentalMap.id}
-                                                            categoryId={categoryId}
-                                                            key={mentalMap.id}
-                                                            deleteCardMentalMap={deleteCardMentalMap}
-                                                        />
-                                                    ))}
-                                                </>
-                                                :
-                                                <p className="msg-error">No se encontraron mental maps</p>
-                                }
-                            </div >
+                                            <p className="msg-error">No se encontraron mental maps</p>
+                            }
+                        </div >
                     }
                 />
             </>

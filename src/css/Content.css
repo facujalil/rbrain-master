@@ -177,15 +177,21 @@ select {
 }
 
 #register form #submit,
-#login form #submit {
-    margin: 1.5rem 0 0 0;
-    background-color: #AC9BCE;
+#login form #submit,
+#login form #submit-google {
     color: white;
     cursor: pointer;
 }
 
+#register form #submit,
 #login form #submit {
+    margin: 1.5rem 0 0 0;
+    background-color: #AC9BCE;
+}
+
+#login form #submit-google {
     margin: 1.5rem 0;
+    background-color: #ff8000;
 }
 
 #configuration .container-buttons {
