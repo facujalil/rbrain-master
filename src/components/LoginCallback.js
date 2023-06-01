@@ -7,12 +7,11 @@ export default function LoginCallback() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const code = urlParams.get("code");
 
-                const response = await fetch("https://rbrain.onrender.com/login/google/callback", {
-                    method: "POST",
+                const response = await fetch(`https://rbrain.onrender.com/login/google/callback?code=${code}`, {
+                    method: "GET",
                     headers: {
                         "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ code }),
+                    }
                 });
 
                 if (response.ok) {
