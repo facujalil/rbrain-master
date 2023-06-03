@@ -6,8 +6,9 @@ export default function LoginCallback() {
             try {
                 const urlParams = new URLSearchParams(window.location.search);
                 const code = urlParams.get("code");
+                const encodedCode = encodeURIComponent(code);
 
-                const response = await fetch(`https://rbrain.onrender.com/login/google/callback/${code}`, {
+                const response = await fetch(`https://rbrain.onrender.com/login/google/callback/${encodedCode}`, {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
@@ -15,7 +16,8 @@ export default function LoginCallback() {
                 });
 
                 if (response.ok) {
-                    console.log(code)
+                    console.log(encodedCode)
+                    console.log("BIEN")
                 } else {
                     // Error en la autenticación, maneja el error de acuerdo a tus necesidades
                 }
