@@ -7,6 +7,8 @@ export default function LoginCallback() {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
         const encodedCode = encodeURIComponent(code);
+         
+        console.log(encodedCode)
 
         const response = await fetch(`https://rbrain.onrender.com/login/google/callback`, {
           method: "POST",
