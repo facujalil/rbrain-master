@@ -24,8 +24,7 @@ export default function LoginCallback() {
                    console.log(data)
                    const { accessToken, refreshToken } = data;
                    // Guardar los tokens en el localStorage
-                   localStorage.setItem("accessToken", accessToken);
-                   localStorage.setItem("refreshToken", refreshToken);
+                   localStorage.setItem('authTokens', JSON.stringify(data));
                    
                    window.location.href = 'https://rbrain-master.netlify.app/profile';
                 } else {
