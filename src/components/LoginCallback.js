@@ -5,8 +5,8 @@ export default function LoginCallback() {
     const fetchAccessToken = async () => {
       try {
         const urlParams = new URLSearchParams(window.location.search);
-        const encodedCode = urlParams.get("code");
-        //const encodedCode = encodeURIComponent(code);
+        const code = urlParams.get("code");
+        const encodedCode = encodeURIComponent(code);
          
         console.log(encodedCode)
 
