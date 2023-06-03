@@ -15,7 +15,7 @@ export default function LoginCallback() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: code
+          body: JSON.stringify({ code })
         });
 
                 if (response.ok) {
