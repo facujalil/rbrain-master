@@ -8,11 +8,12 @@ export default function LoginCallback() {
                 const code = urlParams.get("code");
                 const encodedCode = encodeURIComponent(code);
 
-                const response = await fetch(`https://rbrain.onrender.com/login/google/callback/?code=${encodedCode}`, {
-                    method: "GET",
+                const response = await fetch(`https://rbrain.onrender.com/login/google/callback}`, {
+                    method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     }
+                    body: JSON.stringify({ code: 'código aquí' }),
                 });
 
                 if (response.ok) {
