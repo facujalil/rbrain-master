@@ -17,12 +17,20 @@ export default function LoginCallback() {
           },
           body: JSON.stringify({ encodedCode })
         });
-
+         
                 if (response.ok) {
-                    console.log(encodedCode)
                     console.log("BIEN")
+                   const data = await response.json();
+                   console.log(data)
+                   const { accessToken, refreshToken } = data;
+                   // Guardar los tokens en el localStorage
+                   localStorage.setItem("accessToken", accessToken);
+                   localStorage.setItem("refreshToken", refreshToken);
+                   
+                   window.location.href = 'https://rbrain-master.netlify.app/profile';
                 } else {
                     // Error en la autenticación, maneja el error de acuerdo a tus necesidades
+                   console.log("error en la autenticación")
                 }
             } catch (error) {
                 console.error("Error en la autenticación:", error);
