@@ -57,12 +57,6 @@ export default function Profile() {
         setModal(true)
     }
 
-    const getInputModal = (e) => {
-        if (e.target.value.split(" ").length <= 4 && e.target.value.length <= 30) {
-            setInputModal(e.target.value)
-        }
-    }
-
     const closeModal = () => {
         setModal(false)
     }
@@ -121,7 +115,7 @@ export default function Profile() {
                 <div className="container-form-modal">
                     <form className="form-modal">
                         <label>Add new carpet</label>
-                        <input value={inputModal} className="modal-input" onChange={getInputModal} placeholder="Carpet name" /><button className="btn-modal" onClick={addNewCategory}>Add</button>
+                        <input value={inputModal} className="modal-input" onChange={(e) => e.target.value.split(" ").length <= 4 && e.target.value.length <= 30 ? setInputModal(e.target.value) : null} placeholder="Carpet name" /><button className="btn-modal" onClick={addNewCategory}>Add</button>
                     </form>
                 </div>
             </>

@@ -284,7 +284,7 @@ export default function Card(props) {
                                     {
                                         isEditable ?
                                             <form onSubmit={(e) => { e.preventDefault(); changeResume() }}>
-                                                <textarea onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="resume-textarea-info" defaultValue={resume} /> <button>Change</button>
+                                                <textarea maxLength={480} onChange={(e) => e.target.value ? setNewText(e.target.value) : setNewText(props.titleFlashcard)} ref={refTextarea} className="resume-textarea-info" defaultValue={resume} /> <button>Change</button>
                                             </form>
                                             :
                                             <>
